@@ -2,11 +2,11 @@ import * as React from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
 
 const columns: GridColDef[] = [
-  { field: 'username', headerName: 'Pseudo', width: 200 },
+  { field: 'ingameName', headerName: 'Pseudo IG', width: 200 },
   { field: 'discord', headerName: 'Discord', width: 200 },
   {
-    field: 'level',
-    headerName: 'Niveau',
+    field: 'gearscore',
+    headerName: 'Gearscore',
     type: 'number',
     width: 140,
   },
@@ -19,6 +19,21 @@ const columns: GridColDef[] = [
     field: 'secondaryWeapon',
     headerName: 'Arme secondaire',
     width: 200,
+  },
+  {
+    field: 'stuff',
+    headerName: 'Stuff',
+    width: 140,
+  },
+  {
+    field: 'guild',
+    headerName: 'Guilde',
+    width: 200,
+  },
+  {
+    field: 'delete',
+    headerName: 'Supprimer',
+    type: 'actions',
   },
 ];
 
