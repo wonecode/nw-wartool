@@ -26,10 +26,15 @@ const Navbar = () => {
               <ClearAllIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Map intéractive (à venir)'>
-            <IconButton color='inherit' disabled>
-              <MapIcon />
-            </IconButton>
+          <Tooltip title='Map intéractive'>
+            <a
+              href='https://raidplan.io/plan/create?raid=nw.war'
+              target='_blank'
+              rel='noopener noreferrer'>
+              <IconButton color='inherit'>
+                <MapIcon />
+              </IconButton>
+            </a>
           </Tooltip>
         </Toolbar>
       </AppBar>
