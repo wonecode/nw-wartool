@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
-import { Box, ButtonBase, Chip, ChipTypeMap, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Icon } from '@iconify/react';
+import { toast } from 'react-toastify';
+import Chip from './Chip';
 
 const stuff = [
   {
@@ -19,6 +21,24 @@ const stuff = [
     color: 'error',
   },
 ];
+
+const copyDiscord = (username: string) => {
+  toast.success('Copié dans le presse papier', {
+    position: 'top-right',
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+    style: {
+      fontFamily: 'Montserrat',
+      fontSize: '0.8rem',
+    }
+  });
+  navigator.clipboard.writeText(username);
+};
 
 const columns: GridColDef[] = [
   {
@@ -36,9 +56,9 @@ const columns: GridColDef[] = [
     width: 200,
     renderCell: (params) => (
       <Box
-        className='flex items-center'
+        className='flex items-center cursor-pointer'
         onClick={() => {
-          navigator.clipboard.writeText(params.value);
+          copyDiscord(params.value);
         }}>
         <Icon color='#5865F2' icon='ic:baseline-discord' className='mr-2' height={22} width={22} />
         <Typography className='text-sm'>{params.value}</Typography>
@@ -108,13 +128,7 @@ const columns: GridColDef[] = [
     headerName: 'Stuff',
     width: 140,
     renderCell: (params) => (
-      <Chip
-        className='text-xs'
-        size='small'
-        variant='filled'
-        color={stuff.find((item) => item.type === params.value).color}
-        label={params.value}
-      />
+      <Chip status={params.value} label={params.value} />
     ),
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
@@ -163,7 +177,7 @@ const rows = [
     id: 1,
     ingameName: 'Wonezer',
     discord: 'Wone#5234',
-    gearscore: 575,
+    gearscore: 619,
     primaryWeapon: 'Arc',
     secondaryWeapon: 'Épée longue',
     stuff: 'Léger',
