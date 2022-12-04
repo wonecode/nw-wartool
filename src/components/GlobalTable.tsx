@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
 import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
+import GuildModal from './GuildModal';
 
 const stuff = [
   {
@@ -35,7 +36,7 @@ const copyDiscord = (username: string) => {
     style: {
       fontFamily: 'Montserrat',
       fontSize: '0.8rem',
-    }
+    },
   });
   navigator.clipboard.writeText(username);
 };
@@ -127,9 +128,7 @@ const columns: GridColDef[] = [
     field: 'stuff',
     headerName: 'Stuff',
     width: 140,
-    renderCell: (params) => (
-      <Chip status={params.value} label={params.value} />
-    ),
+    renderCell: (params) => <Chip status={params.value} label={params.value} />,
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
     ),
@@ -186,22 +185,36 @@ const rows = [
 ];
 
 export default function DataTable() {
+  const [guildModalOpen, setGuildModalOpen] = useState(false);
+
   return (
-    <div className='m-5' style={{ height: '75vh' }}>
-      <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
-        <Icon height={20} width={20} icon='material-symbols:person-add-rounded' className='mr-3' />
-        Ajouter un joueur
-      </ButtonBase>
-      <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5'>
-        <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
-        Ajouter une guilde
-      </ButtonBase>
-      <DataGrid
-        className='bg-[#212121]'
-        rows={rows}
-        columns={columns}
-        localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+    <>
+      <GuildModal
+        isOpen={guildModalOpen}
+        handleClose={() => setGuildModalOpen(false)}
       />
-    </div>
+
+      <div className='m-5' style={{ height: '75vh' }}>
+        <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
+          <Icon
+            height={20}
+            width={20}
+            icon='material-symbols:person-add-rounded'
+            className='mr-3'
+          />
+          Ajouter un joueur
+        </ButtonBase>
+        <ButtonBase onClick={() => setGuildModalOpen(true)} className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5'>
+          <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
+          Ajouter une guilde
+        </ButtonBase>
+        <DataGrid
+          className='bg-[#212121]'
+          rows={rows}
+          columns={columns}
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+        />
+      </div>
+    </>
   );
 }

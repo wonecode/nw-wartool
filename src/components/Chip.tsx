@@ -10,7 +10,7 @@ const colorStatus = {
 const Chip = ({ label, status }) => {
   return (
     <div className={`h-5 items-center px-3 rounded-xl ${colorStatus[status]}`}>
-      <Typography className='text-[13px] text-black leading-5'>{label}</Typography>
+      <Typography className='text-[13px] font-semibold text-black leading-5'>{label}</Typography>
     </div>
   );
 };
