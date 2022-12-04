@@ -168,7 +168,7 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
             type='submit'
             onClick={() => handleSubmit()}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black'>
-            <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
+            <Icon height={20} width={20} icon='ic:outline-save-alt' className='mr-3' />
             Enregistrer
           </ButtonBase>
         </DialogActions>

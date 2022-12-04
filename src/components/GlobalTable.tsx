@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
 import GuildModal from './GuildModal';
+import Footer from './Footer';
 
 const stuff = [
   {
@@ -61,7 +62,7 @@ const columns: GridColDef[] = [
         onClick={() => {
           copyDiscord(params.value);
         }}>
-        <Icon color='#5865F2' icon='ic:baseline-discord' className='mr-2' height={22} width={22} />
+        <Icon icon='ic:baseline-discord' className='mr-2' height={20} width={20} />
         <Typography className='text-sm'>{params.value}</Typography>
       </Box>
     ),
@@ -194,7 +195,7 @@ export default function DataTable() {
         handleClose={() => setGuildModalOpen(false)}
       />
 
-      <div className='m-5' style={{ height: '75vh' }}>
+      <div className='m-5' style={{ height: '71vh' }}>
         <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
           <Icon
             height={20}
@@ -209,11 +210,13 @@ export default function DataTable() {
           Ajouter une guilde
         </ButtonBase>
         <DataGrid
-          className='bg-[#212121]'
+          className='bg-[#212121] mb-4'
           rows={rows}
           columns={columns}
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />
+
+        <Footer />
       </div>
     </>
   );

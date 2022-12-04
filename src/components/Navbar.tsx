@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import MapIcon from '@mui/icons-material/Map';
 import { Chip, IconButton, Tooltip } from '@mui/material';
+import { Icon } from '@iconify/react';
 
 const Navbar = () => {
   return (
@@ -33,6 +34,13 @@ const Navbar = () => {
               rel='noopener noreferrer'>
               <IconButton color='inherit'>
                 <MapIcon />
+              </IconButton>
+            </a>
+          </Tooltip>
+          <Tooltip title='New World Database'>
+            <a href='https://nwdb.info/' target='_blank' rel='noopener noreferrer'>
+              <IconButton color='inherit'>
+                <Icon icon='mdi:database' width={22} height={22} />
               </IconButton>
             </a>
           </Tooltip>
