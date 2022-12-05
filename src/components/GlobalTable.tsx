@@ -162,7 +162,7 @@ const columns: GridColDef[] = [
         onClick={() => {
           copyDiscord(params.value);
         }}>
-        <Icon icon='ic:baseline-discord' className='mr-2' height={17} width={17} />
+        <Icon icon='ic:baseline-discord' className='mr-1' height={17} width={17} />
         <Typography className='text-[11px]'>{params.value}</Typography>
       </ButtonBase>
     ),

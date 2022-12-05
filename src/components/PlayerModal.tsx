@@ -367,7 +367,7 @@ const PlayerModal = ({
                   options={guilds}
                   size='small'
                   fullWidth
-                  onChange={(event, newValue) => setFieldValue('guild', newValue.guildName)}
+                  onChange={(event, newValue) => setFieldValue('guild', newValue?.guildName)}
                   getOptionLabel={(option) => option.guildName}
                   renderInput={(params) => <TextField className='my-2 bg-[#525252]' {...params} />}
                   renderOption={(props, option) => (
