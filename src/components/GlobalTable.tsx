@@ -56,24 +56,6 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'discord',
-    headerName: 'Discord',
-    width: 200,
-    renderCell: (params) => (
-      <Box
-        className='flex items-center cursor-pointer'
-        onClick={() => {
-          copyDiscord(params.value);
-        }}>
-        <Icon icon='ic:baseline-discord' className='mr-2' height={20} width={20} />
-        <Typography className='text-sm'>{params.value}</Typography>
-      </Box>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
     field: 'gearscore',
     headerName: 'Gearscore PVP',
     type: 'number',
@@ -166,6 +148,24 @@ const columns: GridColDef[] = [
     headerName: 'Faction',
     width: 150,
     renderCell: (params) => <Chip status={params.value} label={params.value} />,
+    renderHeader: (params) => (
+      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+    ),
+  },
+  {
+    field: 'discord',
+    headerName: 'Discord',
+    width: 200,
+    renderCell: (params) => (
+      <ButtonBase
+        className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-md'
+        onClick={() => {
+          copyDiscord(params.value);
+        }}>
+        <Icon icon='ic:baseline-discord' className='mr-2' height={17} width={17} />
+        <Typography className='text-[11px]'>{params.value}</Typography>
+      </ButtonBase>
+    ),
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
     ),

@@ -266,7 +266,7 @@ const PlayerModal = ({
                 size='small'
                 {...getFieldProps('discord')}
                 error={Boolean(touched.discord && errors.discord)}
-                helperText={touched.discord && errors.discord}
+                helperText='Veuillez penser à renseigner le tag Discord (ex: #1234)'
               />
               <FormLabel id='gearscore' className='font-bold text-md'>
                 Gearscore
@@ -318,7 +318,7 @@ const PlayerModal = ({
                 variant='filled'
                 fullWidth
                 size='small'
-                className={`mt-4 ${!showThirdWeaponSelect && 'hidden'}`}>
+                className={`mt-4 ${!showThirdWeaponSelect && 'hidden'} mb-6`}>
                 <InputLabel id='third-weapon-label'>Troisième arme</InputLabel>
                 <Select
                   labelId='third-weapon-label'
