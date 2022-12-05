@@ -60,7 +60,7 @@ const weapons = [
   },
   {
     label: 'Mousquet',
-    value: 'musquet',
+    value: 'musket',
   },
   {
     label: 'Hachette',
