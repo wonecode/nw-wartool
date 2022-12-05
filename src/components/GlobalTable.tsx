@@ -225,7 +225,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <>
         <Tooltip title='Modifier'>
-          <IconButton size='small'>
+          <IconButton size='small' disabled>
             <EditIcon fontSize='small' />
           </IconButton>
         </Tooltip>
