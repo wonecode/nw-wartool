@@ -9,6 +9,7 @@ import Chip from './Chip';
 import GuildModal from './GuildModal';
 import Footer from './Footer';
 import { supabase } from 'supabase';
+import PlayerModal from './PlayerModal';
 
 const copyDiscord = (username: string) => {
   toast.success('Copié dans le presse papier', {
@@ -164,9 +165,7 @@ const columns: GridColDef[] = [
     field: 'faction',
     headerName: 'Faction',
     width: 150,
-    renderCell: (params) => (
-      <Chip status={params.value} label={params.value} />
-    ),
+    renderCell: (params) => <Chip status={params.value} label={params.value} />,
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
     ),
@@ -197,6 +196,7 @@ const columns: GridColDef[] = [
 
 export default function DataTable() {
   const [guildModalOpen, setGuildModalOpen] = useState(false);
+  const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
 
   const fetchPlayers = async () => {
@@ -217,9 +217,17 @@ export default function DataTable() {
   return (
     <>
       <GuildModal isOpen={guildModalOpen} handleClose={() => setGuildModalOpen(false)} />
+      <PlayerModal
+        isOpen={playerModalOpen}
+        handleClose={() => setPlayerModalOpen(false)}
+        rows={rows}
+        handleRows={(values) => setRows(values)}
+      />
 
       <div className='m-5' style={{ height: '71vh' }}>
-        <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
+        <ButtonBase
+          onClick={() => setPlayerModalOpen(true)}
+          className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
           <Icon
             height={20}
             width={20}
