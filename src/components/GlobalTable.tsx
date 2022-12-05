@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
 import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,21 +8,7 @@ import { toast } from 'react-toastify';
 import Chip from './Chip';
 import GuildModal from './GuildModal';
 import Footer from './Footer';
-
-const stuff = [
-  {
-    type: 'Léger',
-    color: 'success',
-  },
-  {
-    type: 'Moyen',
-    color: 'warning',
-  },
-  {
-    type: 'Lourd',
-    color: 'error',
-  },
-];
+import { supabase } from 'supabase';
 
 const copyDiscord = (username: string) => {
   toast.success('Copié dans le presse papier', {
@@ -42,9 +28,25 @@ const copyDiscord = (username: string) => {
   navigator.clipboard.writeText(username);
 };
 
+const weaponsLabels = {
+  greataxe: 'Hache double',
+  greatsword: 'Épée longue',
+  warhammer: "Marteau d'armes",
+  spear: 'Lance',
+  bow: 'Arc',
+  firestaff: 'Bâton de feu',
+  musquet: 'Mousquet',
+  hatchet: 'Hachette',
+  lifestaff: 'Bâton de vie',
+  ice_gauntlet: 'Gantelet de glace',
+  void_gauntlet: 'Gantelet du néant',
+  sword_shield: 'Épée & bouclier',
+  rapier: 'Rapière',
+};
+
 const columns: GridColDef[] = [
   {
-    field: 'ingameName',
+    field: 'ig_username',
     headerName: 'Pseudo IG',
     width: 200,
     renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
@@ -72,7 +74,7 @@ const columns: GridColDef[] = [
   },
   {
     field: 'gearscore',
-    headerName: 'Gearscore',
+    headerName: 'Gearscore PVP',
     type: 'number',
     width: 140,
     renderCell(params) {
@@ -108,19 +110,34 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: 'primaryWeapon',
-    headerName: 'Arme principale',
-    width: 200,
-    renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+    field: 'first_weapon',
+    headerName: 'Première arme',
+    width: 160,
+    renderCell: (params) => (
+      <Typography className='text-sm'>{weaponsLabels[params.value]}</Typography>
+    ),
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
     ),
   },
   {
-    field: 'secondaryWeapon',
-    headerName: 'Arme secondaire',
-    width: 200,
-    renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+    field: 'second_weapon',
+    headerName: 'Deuxième arme',
+    width: 160,
+    renderCell: (params) => (
+      <Typography className='text-sm'>{weaponsLabels[params.value]}</Typography>
+    ),
+    renderHeader: (params) => (
+      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+    ),
+  },
+  {
+    field: 'third_weapon',
+    headerName: 'Troisième arme',
+    width: 160,
+    renderCell: (params) => (
+      <Typography className='text-sm'>{weaponsLabels[params.value]}</Typography>
+    ),
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
     ),
@@ -138,11 +155,17 @@ const columns: GridColDef[] = [
     field: 'guild',
     headerName: 'Guilde',
     width: 200,
+    renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+    renderHeader: (params) => (
+      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+    ),
+  },
+  {
+    field: 'faction',
+    headerName: 'Faction',
+    width: 150,
     renderCell: (params) => (
-      <Box className='items-center flex'>
-        <Box className='w-3 h-3 bg-violet-500 mr-2 rounded-lg' />
-        <Typography className='text-sm'>{params.value}</Typography>
-      </Box>
+      <Chip status={params.value} label={params.value} />
     ),
     renderHeader: (params) => (
       <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
@@ -172,28 +195,28 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    ingameName: 'Wonezer',
-    discord: 'Wone#5234',
-    gearscore: 619,
-    primaryWeapon: 'Arc',
-    secondaryWeapon: 'Épée longue',
-    stuff: 'Léger',
-    guild: 'UFC Chômeur',
-  },
-];
-
 export default function DataTable() {
   const [guildModalOpen, setGuildModalOpen] = useState(false);
+  const [rows, setRows] = useState([]);
+
+  const fetchPlayers = async () => {
+    const { data, error } = await supabase.from('players').select('*');
+
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+      setRows(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchPlayers();
+  }, []);
 
   return (
     <>
-      <GuildModal
-        isOpen={guildModalOpen}
-        handleClose={() => setGuildModalOpen(false)}
-      />
+      <GuildModal isOpen={guildModalOpen} handleClose={() => setGuildModalOpen(false)} />
 
       <div className='m-5' style={{ height: '71vh' }}>
         <ButtonBase className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
@@ -205,7 +228,9 @@ export default function DataTable() {
           />
           Ajouter un joueur
         </ButtonBase>
-        <ButtonBase onClick={() => setGuildModalOpen(true)} className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5'>
+        <ButtonBase
+          onClick={() => setGuildModalOpen(true)}
+          className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5'>
           <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
           Ajouter une guilde
         </ButtonBase>
