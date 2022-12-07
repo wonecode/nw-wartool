@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Box>
       <Head>
-        <title>New World Wartool</title>
+        <title>War Players | New World GuildTool</title>
       </Head>
       <Navbar />
 

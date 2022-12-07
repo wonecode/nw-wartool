@@ -10,6 +10,7 @@ import GuildModal from './GuildModal';
 import Footer from './Footer';
 import { supabase } from 'supabase';
 import PlayerModal from './PlayerModal';
+import AdvertisementModal from './AdvertisementModal';
 
 const copyDiscord = (username: string) => {
   toast.success('Copié dans le presse papier', {
@@ -84,168 +85,181 @@ const weaponsLabels = {
   },
 };
 
-const columns: GridColDef[] = [
-  {
-    field: 'ig_username',
-    headerName: 'Pseudo IG',
-    width: 200,
-    renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'gearscore',
-    headerName: 'Gearscore PVP',
-    type: 'number',
-    width: 140,
-    renderCell(params) {
-      const gs = params.value;
-      let renderGS: JSX.Element;
-
-      if (gs <= 500) {
-        return <Typography className='text-sm font-semibold text-amber-300'>{gs}</Typography>;
-      } else if (gs <= 520) {
-        return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
-      } else if (gs <= 540) {
-        return <Typography className='text-sm font-semibold text-blue-500'>{gs}</Typography>;
-      } else if (gs <= 560) {
-        return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
-      } else if (gs <= 600) {
-        return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
-      } else if (gs <= 610) {
-        return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
-      } else if (gs <= 620) {
-        return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
-      } else if (gs <= 625) {
-        return (
-          <Typography className='text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-200'>
-            {gs}
-          </Typography>
-        );
-      }
-
-      return renderGS;
-    },
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'first_weapon',
-    headerName: 'Première arme',
-    width: 180,
-    renderCell: (params) => (
-      <Box display='flex items-center'>
-        <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
-        <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
-      </Box>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'second_weapon',
-    headerName: 'Deuxième arme',
-    width: 180,
-    renderCell: (params) => (
-      <Box display='flex items-center'>
-        <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
-        <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
-      </Box>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'third_weapon',
-    headerName: 'Troisième arme',
-    width: 180,
-    renderCell: (params) => (
-      <Box display='flex items-center'>
-        <Icon icon={weaponsLabels[params.value]?.icon} width={18} height={18} className='mr-2' />
-        <Typography className='text-sm'>{weaponsLabels[params.value]?.label}</Typography>
-      </Box>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'stuff',
-    headerName: 'Stuff',
-    width: 140,
-    renderCell: (params) => <Chip status={params.value} label={params.value} />,
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'guild',
-    headerName: 'Guilde',
-    width: 200,
-    renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'faction',
-    headerName: 'Faction',
-    width: 150,
-    renderCell: (params) => <Chip status={params.value} label={params.value} />,
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'discord',
-    headerName: 'Discord',
-    width: 200,
-    renderCell: (params) => (
-      <ButtonBase
-        className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-md'
-        onClick={() => {
-          copyDiscord(params.value);
-        }}>
-        <Icon icon='ic:baseline-discord' className='mr-1' height={17} width={17} />
-        <Typography className='text-[11px]'>{params.value}</Typography>
-      </ButtonBase>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    type: 'actions',
-    renderCell: (params) => (
-      <>
-        <Tooltip title='Modifier'>
-          <IconButton size='small' disabled>
-            <EditIcon fontSize='small' />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Supprimer'>
-          <IconButton size='small' color='error' disabled>
-            <DeleteIcon fontSize='small' />
-          </IconButton>
-        </Tooltip>
-      </>
-    ),
-    renderHeader: (params) => (
-      <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-    ),
-  },
-];
-
 export default function DataTable() {
   const [guildModalOpen, setGuildModalOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
+  const [advertisementModalOpen, setAdvertisementModalOpen] = useState(false);
+  const [advertisementStatus, setAdvertisementStatus] = useState('');
   const [rows, setRows] = useState([]);
+
+  const columns: GridColDef[] = [
+    {
+      field: 'ig_username',
+      headerName: 'Pseudo IG',
+      width: 200,
+      renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'gearscore',
+      headerName: 'Gearscore PVP',
+      type: 'number',
+      width: 140,
+      renderCell(params) {
+        const gs = params.value;
+        let renderGS: JSX.Element;
+
+        if (gs <= 500) {
+          return <Typography className='text-sm font-semibold text-amber-300'>{gs}</Typography>;
+        } else if (gs <= 520) {
+          return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
+        } else if (gs <= 540) {
+          return <Typography className='text-sm font-semibold text-blue-500'>{gs}</Typography>;
+        } else if (gs <= 560) {
+          return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
+        } else if (gs <= 600) {
+          return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
+        } else if (gs <= 610) {
+          return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
+        } else if (gs <= 620) {
+          return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
+        } else if (gs <= 625) {
+          return (
+            <Typography className='text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-200'>
+              {gs}
+            </Typography>
+          );
+        }
+
+        return renderGS;
+      },
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'first_weapon',
+      headerName: 'Première arme',
+      width: 180,
+      renderCell: (params) => (
+        <Box display='flex items-center'>
+          <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
+          <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
+        </Box>
+      ),
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'second_weapon',
+      headerName: 'Deuxième arme',
+      width: 180,
+      renderCell: (params) => (
+        <Box display='flex items-center'>
+          <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
+          <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
+        </Box>
+      ),
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'third_weapon',
+      headerName: 'Troisième arme',
+      width: 180,
+      renderCell: (params) => (
+        <Box display='flex items-center'>
+          <Icon icon={weaponsLabels[params.value]?.icon} width={18} height={18} className='mr-2' />
+          <Typography className='text-sm'>{weaponsLabels[params.value]?.label}</Typography>
+        </Box>
+      ),
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'stuff',
+      headerName: 'Stuff',
+      width: 140,
+      renderCell: (params) => <Chip status={params.value} label={params.value} />,
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'guild',
+      headerName: 'Guilde',
+      width: 200,
+      renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'faction',
+      headerName: 'Faction',
+      width: 150,
+      renderCell: (params) => <Chip status={params.value} label={params.value} />,
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'discord',
+      headerName: 'Discord',
+      width: 200,
+      renderCell: (params) => (
+        <ButtonBase
+          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-md'
+          onClick={() => {
+            copyDiscord(params.value);
+          }}>
+          <Icon icon='ic:baseline-discord' className='mr-1' height={17} width={17} />
+          <Typography className='text-[11px]'>{params.value}</Typography>
+        </ButtonBase>
+      ),
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      type: 'actions',
+      renderCell: (params) => (
+        <>
+          <Tooltip title='Modifier'>
+            <IconButton
+              size='small'
+              onClick={() => {
+                setAdvertisementModalOpen(true);
+                setAdvertisementStatus('edit');
+              }}>
+              <EditIcon fontSize='small' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Supprimer'>
+            <IconButton
+              size='small'
+              color='error'
+              onClick={() => {
+                setAdvertisementModalOpen(true);
+                setAdvertisementStatus('delete');
+              }}>
+              <DeleteIcon fontSize='small' />
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+  ];
 
   const fetchPlayers = async () => {
     const { data, error } = await supabase.from('players').select('*');
@@ -271,25 +285,35 @@ export default function DataTable() {
         rows={rows}
         handleRows={(values) => setRows(values)}
       />
+      <AdvertisementModal
+        isOpen={advertisementModalOpen}
+        handleClose={() => setAdvertisementModalOpen(false)}
+        status={advertisementStatus}
+      />
 
       <div className='m-5' style={{ height: '76vh' }}>
-        <ButtonBase
-          onClick={() => setPlayerModalOpen(true)}
-          className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5 mr-2'>
-          <Icon
-            height={20}
-            width={20}
-            icon='material-symbols:person-add-rounded'
-            className='mr-3'
-          />
-          Ajouter un joueur
-        </ButtonBase>
-        <ButtonBase
-          onClick={() => setGuildModalOpen(true)}
-          className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mb-5'>
-          <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
-          Ajouter une guilde
-        </ButtonBase>
+        <div className='flex items-center mb-5 justify-between'>
+          <Typography className='uppercase font-black mr-4 text-xl'>War players</Typography>
+          <div>
+            <ButtonBase
+              onClick={() => setPlayerModalOpen(true)}
+              className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mr-2'>
+              <Icon
+                height={20}
+                width={20}
+                icon='material-symbols:person-add-rounded'
+                className='mr-3'
+              />
+              Ajouter un joueur
+            </ButtonBase>
+            <ButtonBase
+              onClick={() => setGuildModalOpen(true)}
+              className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black'>
+              <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
+              Ajouter une guilde
+            </ButtonBase>
+          </div>
+        </div>
         <DataGrid
           disableSelectionOnClick
           className='bg-[#212121] mb-4'

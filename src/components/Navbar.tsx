@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import MapIcon from '@mui/icons-material/Map';
-import { Chip, IconButton, Tooltip } from '@mui/material';
+import { ButtonBase, Chip, IconButton, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
 
 const Navbar = () => {
@@ -19,14 +19,22 @@ const Navbar = () => {
             <Image src='/NW-logo.svg' alt='logo' width={30} height={30} />
           </Link>
           <Typography className='font-light' component='div' sx={{ flexGrow: 1 }}>
-            New World Wartool
+            New World GuildTool
             <Chip label='BETA' className='text-xs ml-2 font-bold' size='small' />
           </Typography>
-          <Tooltip title='Liste des joueurs'>
-            <IconButton color='inherit'>
-              <ClearAllIcon />
-            </IconButton>
-          </Tooltip>
+          <div className='flex mr-8'>
+            <Link href='/' className='mr-4'>
+              <Typography className='text-[13px] font-bold uppercase'>War players</Typography>
+            </Link>
+            <ButtonBase disabled>
+              <Link href='/crafters'>
+                <Typography className='text-[13px] font-bold uppercase text-[#5b5b5b]'>
+                  Crafters
+                </Typography>
+              </Link>
+            </ButtonBase>
+          </div>
+
           <Tooltip title='Map intéractive'>
             <a
               href='https://raidplan.io/plan/create?raid=nw.war'
