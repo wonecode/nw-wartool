@@ -111,13 +111,7 @@ export default function DataTable() {
         const gs = params.value;
         let renderGS: JSX.Element;
 
-        if (gs <= 500) {
-          return <Typography className='text-sm font-semibold text-amber-300'>{gs}</Typography>;
-        } else if (gs <= 520) {
-          return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
-        } else if (gs <= 540) {
-          return <Typography className='text-sm font-semibold text-blue-500'>{gs}</Typography>;
-        } else if (gs <= 560) {
+        if (gs <= 560) {
           return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
         } else if (gs <= 600) {
           return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
@@ -127,7 +121,9 @@ export default function DataTable() {
           return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
         } else if (gs <= 625) {
           return (
-            <Typography className='text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-200'>
+            <Typography
+              className='text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 
+            from-orange-500 via-amber-300 to-orange-500 animate-text'>
               {gs}
             </Typography>
           );
