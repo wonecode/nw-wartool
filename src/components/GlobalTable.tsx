@@ -114,12 +114,12 @@ export default function DataTable() {
         if (gs <= 560) {
           return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
         } else if (gs <= 600) {
-          return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
+          return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
         } else if (gs <= 610) {
           return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
         } else if (gs <= 620) {
           return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
-        } else if (gs <= 625) {
+        } else if (gs === 625) {
           return (
             <Typography
               className='text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 
@@ -127,7 +127,9 @@ export default function DataTable() {
               {gs}
             </Typography>
           );
-        }
+        } else if (gs <= 625) {
+          return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
+        } 
 
         return renderGS;
       },
