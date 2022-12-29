@@ -3,6 +3,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import React from 'react';
 import Head from 'next/head';
 import MostPlayedWeapons from '@/components/MostPlayedWeapons';
+import Footer from '@/components/Footer';
 
 const Stats = () => {
   return (
@@ -20,6 +21,8 @@ const Stats = () => {
           <MostPlayedWeapons />
         </Paper>
       </Box>
+
+      <Footer />
     </Box>
   );
 };
