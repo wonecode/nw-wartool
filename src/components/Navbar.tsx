@@ -5,12 +5,14 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
 import MapIcon from '@mui/icons-material/Map';
 import { ButtonBase, Chip, IconButton, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
     <Box sx={{ flexGrow: 1 }} className='m-5'>
       <AppBar position='static' className='rounded-md'>
@@ -24,7 +26,20 @@ const Navbar = () => {
           </Typography>
           <div className='flex mr-8'>
             <Link href='/' className='mr-4'>
-              <Typography className='text-[13px] font-bold uppercase'>War players</Typography>
+              <Typography
+                className={`text-[13px] font-bold uppercase ${
+                  router.pathname === '/' && 'text-yellow-400'
+                }`}>
+                War players
+              </Typography>
+            </Link>
+            <Link href='/stats' className='mr-4'>
+              <Typography
+                className={`text-[13px] ${
+                  router.pathname === '/stats' && 'text-yellow-400'
+                } font-bold uppercase`}>
+                Stats
+              </Typography>
             </Link>
             <ButtonBase disabled>
               <Link href='/crafters'>
