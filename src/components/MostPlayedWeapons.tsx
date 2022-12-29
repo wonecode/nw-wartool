@@ -18,22 +18,8 @@ const MostPlayedWeapons = () => {
       {
         label: 'Nombre de joueurs',
         data: Object.values(firstWeapons),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
+        backgroundColor: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].backgroundColor),
+        borderColor: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].borderColor),
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -51,22 +37,8 @@ const MostPlayedWeapons = () => {
       {
         label: 'Nombre de joueurs',
         data: Object.values(secondWeapons),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
+        backgroundColor: Object.keys(secondWeapons).map((weapon) => weaponsLabels[weapon].backgroundColor),
+        borderColor: Object.keys(secondWeapons).map((weapon) => weaponsLabels[weapon].borderColor),
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -142,9 +114,7 @@ const MostPlayedWeapons = () => {
   return (
     <Box className='flex'>
       <Box className='w-full text-center'>
-        <Typography className='uppercase font-bold text-yellow-400 my-2'>
-          Première arme
-        </Typography>
+        <Typography className='uppercase font-bold text-yellow-400 my-2'>Première arme</Typography>
         <Box className='flex items-center justify-center'>
           {top3FirstWeapons.map((weapon) => (
             <Box key={weapon[0]} className='text-center mx-4'>
@@ -167,9 +137,7 @@ const MostPlayedWeapons = () => {
       </Box>
       <Divider orientation='vertical' flexItem />
       <Box className='w-full text-center'>
-        <Typography className='uppercase font-bold text-yellow-400 my-2'>
-          Deuxième arme
-        </Typography>
+        <Typography className='uppercase font-bold text-yellow-400 my-2'>Deuxième arme</Typography>
         <Box className='flex items-center justify-center'>
           {top3SecondWeapons.map((weapon) => (
             <Box key={weapon[0]} className='text-center mx-4'>
