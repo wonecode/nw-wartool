@@ -18,7 +18,9 @@ const MostPlayedWeapons = () => {
       {
         label: 'Nombre de joueurs',
         data: Object.values(firstWeapons),
-        backgroundColor: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].backgroundColor),
+        backgroundColor: Object.keys(firstWeapons).map(
+          (weapon) => weaponsLabels[weapon].backgroundColor
+        ),
         borderColor: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].borderColor),
         borderWidth: 1,
         hoverOffset: 4,
@@ -37,7 +39,9 @@ const MostPlayedWeapons = () => {
       {
         label: 'Nombre de joueurs',
         data: Object.values(secondWeapons),
-        backgroundColor: Object.keys(secondWeapons).map((weapon) => weaponsLabels[weapon].backgroundColor),
+        backgroundColor: Object.keys(secondWeapons).map(
+          (weapon) => weaponsLabels[weapon].backgroundColor
+        ),
         borderColor: Object.keys(secondWeapons).map((weapon) => weaponsLabels[weapon].borderColor),
         borderWidth: 1,
         hoverOffset: 4,
@@ -123,7 +127,7 @@ const MostPlayedWeapons = () => {
                 <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
               </Box>
               <Box>
-                <Typography className='text-sm font-light'>
+                <Typography className='text-sm font-light text-gray-400'>
                   {weaponsLabels[weapon[0]].label}
                 </Typography>
               </Box>
@@ -146,7 +150,7 @@ const MostPlayedWeapons = () => {
                 <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
               </Box>
               <Box>
-                <Typography className='text-sm font-light'>
+                <Typography className='text-sm font-light text-gray-400'>
                   {weaponsLabels[weapon[0]].label}
                 </Typography>
               </Box>

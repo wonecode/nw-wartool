@@ -15,7 +15,9 @@ const Stats = () => {
       <Navbar />
 
       <Box className='m-5'>
-        <Typography className='uppercase font-black mr-4 text-xl'>Stats</Typography>
+        <Typography className='uppercase font-black mr-4 text-xl'>
+          Stats<span className='font-light'> • Armes</span>
+        </Typography>
 
         <Paper className='p-3 mt-5 rounded-md'>
           <MostPlayedWeapons />
