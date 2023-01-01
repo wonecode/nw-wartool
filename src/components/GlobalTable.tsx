@@ -10,7 +10,6 @@ import GuildModal from './GuildModal';
 import Footer from './Footer';
 import { supabase } from 'supabase';
 import PlayerModal from './PlayerModal';
-import AdvertisementModal from './AdvertisementModal';
 import { weaponsLabels } from 'utils/weapons';
 
 const copyDiscord = (username: string) => {
@@ -34,8 +33,6 @@ const copyDiscord = (username: string) => {
 export default function DataTable() {
   const [guildModalOpen, setGuildModalOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
-  const [advertisementModalOpen, setAdvertisementModalOpen] = useState(false);
-  const [advertisementStatus, setAdvertisementStatus] = useState('');
   const [rows, setRows] = useState([]);
 
   const columns: GridColDef[] = [
@@ -170,39 +167,6 @@ export default function DataTable() {
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
     },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      type: 'actions',
-      renderCell: (params) => (
-        <>
-          <Tooltip title='Modifier'>
-            <IconButton
-              size='small'
-              onClick={() => {
-                setAdvertisementModalOpen(true);
-                setAdvertisementStatus('edit');
-              }}>
-              <EditIcon fontSize='small' />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Supprimer'>
-            <IconButton
-              size='small'
-              color='error'
-              onClick={() => {
-                setAdvertisementModalOpen(true);
-                setAdvertisementStatus('delete');
-              }}>
-              <DeleteIcon fontSize='small' />
-            </IconButton>
-          </Tooltip>
-        </>
-      ),
-      renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
-      ),
-    },
   ];
 
   const fetchPlayers = async () => {
@@ -228,11 +192,6 @@ export default function DataTable() {
         handleClose={() => setPlayerModalOpen(false)}
         rows={rows}
         handleRows={(values) => setRows(values)}
-      />
-      <AdvertisementModal
-        isOpen={advertisementModalOpen}
-        handleClose={() => setAdvertisementModalOpen(false)}
-        status={advertisementStatus}
       />
 
       <div className='m-5' style={{ height: '76vh' }}>
