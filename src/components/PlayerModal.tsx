@@ -86,6 +86,10 @@ const weapons = [
     label: 'Rapière',
     value: 'rapier',
   },
+  {
+    label: 'Tromblon',
+    value: 'blunderbuss',
+  },
 ];
 
 const factionColors = {
@@ -110,7 +114,9 @@ const PlayerModal = ({
 
   const PlayerSchema = Yup.object().shape({
     ig_username: Yup.string().required('Veuillez renseigner le pseudo IG'),
-    discord: Yup.string(),
+    discord: Yup.string()
+      .matches(/^.{3,32}#[0-9]{4}$/, 'Veuillez renseigner un pseudo Discord valide (ex: John#1234)')
+      .required('Veuillez renseigner le pseudo Discord'),
     gearscore: Yup.number(),
     first_weapon: Yup.string().required('Veuillez renseigner la première arme'),
     second_weapon: Yup.string().required('Veuillez renseigner la seconde arme'),
@@ -126,12 +132,12 @@ const PlayerModal = ({
       ig_username: '',
       discord: '',
       gearscore: 525,
-      first_weapon: 'none',
-      second_weapon: 'none',
+      first_weapon: '',
+      second_weapon: '',
       third_weapon: 'none',
       stuff: 'light',
       guild: '',
-      faction: 'syndicate',
+      faction: 'marauders',
     },
     validationSchema: PlayerSchema,
     onSubmit: async (values) => {
@@ -161,8 +167,8 @@ const PlayerModal = ({
   const { errors, touched, handleSubmit, getFieldProps, values, setFieldValue, setErrors } = formik;
 
   const addPlayer = async (values) => {
-    values.id = uuidv4(); 
-    
+    values.id = uuidv4();
+
     const { error } = await supabase.from('players').insert(values);
 
     if (!error) {
@@ -266,7 +272,7 @@ const PlayerModal = ({
                 size='small'
                 {...getFieldProps('discord')}
                 error={Boolean(touched.discord && errors.discord)}
-                helperText='Veuillez penser à renseigner le tag Discord (ex: #1234)'
+                helperText={touched.discord && errors.discord}
               />
               <FormLabel id='gearscore' className='font-bold text-md'>
                 Gearscore
@@ -286,8 +292,17 @@ const PlayerModal = ({
               <FormLabel id='radio-buttons-group-label' className='font-bold text-md'>
                 Armes
               </FormLabel>
-              <FormControl variant='filled' fullWidth size='small' className='mt-3'>
-                <InputLabel id='first-weapon-label'>Première arme</InputLabel>
+              <FormControl
+                variant='filled'
+                fullWidth
+                size='small'
+                className='mt-3'
+                error={Boolean(errors.first_weapon && touched.first_weapon)}>
+                <InputLabel id='first-weapon-label'>
+                  {errors.first_weapon && touched.first_weapon
+                    ? errors.first_weapon
+                    : 'Première arme'}
+                </InputLabel>
                 <Select
                   labelId='first-weapon-label'
                   id='first-weapon'
@@ -300,8 +315,17 @@ const PlayerModal = ({
                   ))}
                 </Select>
               </FormControl>
-              <FormControl variant='filled' fullWidth size='small' className='mt-4'>
-                <InputLabel id='second-weapon-label'>Deuxième arme</InputLabel>
+              <FormControl
+                variant='filled'
+                fullWidth
+                size='small'
+                className='mt-4'
+                error={Boolean(errors.second_weapon && touched.second_weapon)}>
+                <InputLabel id='second-weapon-label'>
+                  {errors.second_weapon && touched.second_weapon
+                    ? errors.second_weapon
+                    : 'Deuxième arme'}
+                </InputLabel>
                 <Select
                   labelId='second-weapon-label'
                   id='second-weapon'
@@ -391,14 +415,14 @@ const PlayerModal = ({
                     setFieldValue('faction', event.currentTarget.value);
                   }}>
                   <FormControlLabel
-                    value='syndicate'
-                    control={<Radio size='small' />}
-                    label='Les Ombres'
-                  />
-                  <FormControlLabel
                     value='marauders'
                     control={<Radio size='small' />}
                     label='Les Maraudeurs'
+                  />
+                  <FormControlLabel
+                    value='syndicate'
+                    control={<Radio size='small' />}
+                    label='Les Ombres'
                   />
                   <FormControlLabel
                     value='covenant'

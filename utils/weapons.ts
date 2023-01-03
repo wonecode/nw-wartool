@@ -77,4 +77,10 @@ export const weaponsLabels = {
     backgroundColor: 'rgba(48, 209, 196, 0.2)',
     borderColor: 'rgba(48, 209, 196, 1)',
   },
+  blunderbuss: {
+    label: 'Tromblon',
+    icon: 'game-icons:blunderbuss',
+    backgroundColor: 'rgba(0, 103, 0, 0.2)',
+    borderColor: 'rgba(0, 103, 0, 1)',
+  },
 };
