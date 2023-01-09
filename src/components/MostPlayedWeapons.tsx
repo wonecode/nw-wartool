@@ -1,5 +1,14 @@
 import { Icon } from '@iconify/react';
-import { Box, Divider, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { supabase } from 'supabase';
 import { weaponsLabels } from 'utils/weapons';
@@ -11,6 +20,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
+  const [guilds, setGuilds] = React.useState([]);
+  const [selectedGuild, setSelectedGuild] = React.useState('');
 
   const pieFirstWeaponData = {
     labels: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].label),
@@ -64,9 +75,13 @@ const MostPlayedWeapons = () => {
   };
 
   React.useEffect(() => {
-    const fetchWeapons = async () => {
-      const { data } = await supabase.from('players').select('*');
+    const fetchGuilds = async () => {
+      const { data } = await supabase.from('guilds').select('*');
 
+      setGuilds(data);
+    };
+
+    const fetchWeapons = async (data) => {
       const firstWeapons = data.reduce((acc, player) => {
         const weapon = player.first_weapon;
 
@@ -95,8 +110,23 @@ const MostPlayedWeapons = () => {
       setsecondWeapons(secondWeapons);
     };
 
-    fetchWeapons();
-  }, []);
+    const selectRequest = async () => {
+      if (selectedGuild) {
+        const { data } = await supabase.from('players').select('*').eq('guild', selectedGuild);
+
+        fetchWeapons(data);
+      } else {
+        const { data } = await supabase.from('players').select('*');
+
+        fetchWeapons(data);
+      }
+    };
+
+    console.log('triggered')
+
+    selectRequest();
+    fetchGuilds();
+  }, [selectedGuild]);
 
   let firstWeaponsSortable = [];
   let secondWeaponsSortable = [];
@@ -116,53 +146,83 @@ const MostPlayedWeapons = () => {
   const top3SecondWeapons = secondWeaponsSortable.slice(0, 3);
 
   return (
-    <Box className='flex'>
-      <Box className='w-full text-center'>
-        <Typography className='uppercase font-bold text-yellow-400 my-2'>Première arme</Typography>
-        <Box className='flex items-center justify-center'>
-          {top3FirstWeapons.map((weapon) => (
-            <Box key={weapon[0]} className='text-center mx-4'>
-              <Box className='flex items-center justify-center'>
-                <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
-                <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
-              </Box>
-              <Box>
-                <Typography className='text-sm font-light text-gray-400'>
-                  {weaponsLabels[weapon[0]].label}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
-        </Box>
+    <>
+      <Box className='flex justify-between items-center'>
+        <Typography className='uppercase font-black mr-4 text-xl'>
+          Stats<span className='font-light'> • Armes</span>
+        </Typography>
 
-        <div className='w-1/2 mx-auto'>
-          <Pie data={pieFirstWeaponData} options={pieceOptions} lang='fr' />
-        </div>
+        <FormControl size='small' className={`w-[20%]`}>
+          <InputLabel id='guild-label'>Filtrer par guilde</InputLabel>
+          <Select
+            label='Filtrer par guilde'
+            labelId='guild-label'
+            id='guild'
+            value={selectedGuild}
+            onChange={(e) => setSelectedGuild(e.target.value)}>
+            {guilds.map((guild) => (
+              <MenuItem key={guild.guildName} value={guild.guildName}>
+                {guild.guildName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
-      <Divider orientation='vertical' flexItem />
-      <Box className='w-full text-center'>
-        <Typography className='uppercase font-bold text-yellow-400 my-2'>Deuxième arme</Typography>
-        <Box className='flex items-center justify-center'>
-          {top3SecondWeapons.map((weapon) => (
-            <Box key={weapon[0]} className='text-center mx-4'>
-              <Box className='flex items-center justify-center'>
-                <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
-                <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
-              </Box>
-              <Box>
-                <Typography className='text-sm font-light text-gray-400'>
-                  {weaponsLabels[weapon[0]].label}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
-        </Box>
 
-        <div className='w-1/2 mx-auto'>
-          <Pie data={pieSecondWeaponData} options={pieceOptions} lang='fr' />
-        </div>
-      </Box>
-    </Box>
+      <Paper className='p-3 mt-5 rounded-md'>
+        <Box className='flex'>
+          <Box className='w-full text-center'>
+            <Typography className='uppercase font-bold text-yellow-400 my-2'>
+              Première arme
+            </Typography>
+            <Box className='flex items-center justify-center'>
+              {top3FirstWeapons.map((weapon) => (
+                <Box key={weapon[0]} className='text-center mx-4'>
+                  <Box className='flex items-center justify-center'>
+                    <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
+                    <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
+                  </Box>
+                  <Box>
+                    <Typography className='text-sm font-light text-gray-400'>
+                      {weaponsLabels[weapon[0]].label}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+
+            <div className='w-1/2 mx-auto'>
+              <Pie data={pieFirstWeaponData} options={pieceOptions} lang='fr' />
+            </div>
+          </Box>
+          <Divider orientation='vertical' flexItem />
+          <Box className='w-full text-center'>
+            <Typography className='uppercase font-bold text-yellow-400 my-2'>
+              Deuxième arme
+            </Typography>
+            <Box className='flex items-center justify-center'>
+              {top3SecondWeapons.map((weapon) => (
+                <Box key={weapon[0]} className='text-center mx-4'>
+                  <Box className='flex items-center justify-center'>
+                    <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
+                    <Icon icon={weaponsLabels[weapon[0]].icon} className='text-3xl ml-3' />
+                  </Box>
+                  <Box>
+                    <Typography className='text-sm font-light text-gray-400'>
+                      {weaponsLabels[weapon[0]].label}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+
+            <div className='w-1/2 mx-auto'>
+              <Pie data={pieSecondWeaponData} options={pieceOptions} lang='fr' />
+            </div>
+          </Box>
+        </Box>
+      </Paper>
+    </>
   );
 };
 
