@@ -27,17 +27,17 @@ const Navbar = () => {
           <div className='flex mr-8'>
             <Link href='/' className='mr-4'>
               <Typography
-                className={`text-[13px] font-bold uppercase ${
-                  router.pathname === '/' && 'text-yellow-400'
+                className={`text-[13px] uppercase ${
+                  router.pathname === '/' ? 'text-yellow-400 font-black' : 'font-bold'
                 }`}>
                 War players
               </Typography>
             </Link>
             <Link href='/stats' className='mr-4'>
               <Typography
-                className={`text-[13px] ${
-                  router.pathname === '/stats' && 'text-yellow-400'
-                } font-bold uppercase`}>
+                className={`text-[13px] uppercase ${
+                  router.pathname === '/stats' ? 'text-yellow-400 font-black' : 'font-bold'
+                }`}>
                 Stats
               </Typography>
             </Link>

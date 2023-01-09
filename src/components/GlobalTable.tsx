@@ -155,7 +155,7 @@ export default function DataTable() {
       width: 200,
       renderCell: (params) => (
         <ButtonBase
-          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-md'
+          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm'
           onClick={() => {
             copyDiscord(params.value);
           }}>
