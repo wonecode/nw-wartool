@@ -14,6 +14,7 @@ import { supabase } from 'supabase';
 import { weaponsLabels } from 'utils/weapons';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, LayoutPosition } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { factionColors } from 'utils/factions';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,7 +22,7 @@ const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
-  const [selectedGuild, setSelectedGuild] = React.useState('');
+  const [selectedGuild, setSelectedGuild] = React.useState('Toutes les guildes');
 
   const pieFirstWeaponData = {
     labels: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].label),
@@ -111,7 +112,7 @@ const MostPlayedWeapons = () => {
     };
 
     const selectRequest = async () => {
-      if (selectedGuild) {
+      if (selectedGuild !== 'Toutes les guildes') {
         const { data } = await supabase.from('players').select('*').eq('guild', selectedGuild);
 
         fetchWeapons(data);
@@ -121,8 +122,6 @@ const MostPlayedWeapons = () => {
         fetchWeapons(data);
       }
     };
-
-    console.log('triggered')
 
     selectRequest();
     fetchGuilds();
@@ -160,8 +159,12 @@ const MostPlayedWeapons = () => {
             id='guild'
             value={selectedGuild}
             onChange={(e) => setSelectedGuild(e.target.value)}>
+            <MenuItem value='Toutes les guildes' className='italic'>
+              Toutes les guildes
+            </MenuItem>
             {guilds.map((guild) => (
-              <MenuItem key={guild.guildName} value={guild.guildName}>
+              <MenuItem key={guild.guildName} value={guild.guildName} color={`${factionColors[guild.faction]}`}>
+                <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild.faction]}`} />
                 {guild.guildName}
               </MenuItem>
             ))}

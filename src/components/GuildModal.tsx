@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -20,12 +19,7 @@ import {
 } from '@mui/material';
 import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
-
-const factions = {
-  syndicate: 'Les Ombres',
-  marauders: 'Les Maraudeurs',
-  covenant: 'Les Engagés',
-};
+import { factions } from 'utils/factions';
 
 interface Guild {
   guildName: string;
