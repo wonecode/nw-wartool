@@ -112,6 +112,7 @@ const PlayerModal = ({
     discord: Yup.string()
       .matches(/^.{3,32}#[0-9]{4}$/, 'Veuillez renseigner un pseudo Discord valide (ex: John#1234)')
       .required('Veuillez renseigner le pseudo Discord'),
+    main_bis_class: Yup.string(),
     gearscore: Yup.number(),
     first_weapon: Yup.string().required('Veuillez renseigner la première arme'),
     second_weapon: Yup.string().required('Veuillez renseigner la seconde arme'),
@@ -126,6 +127,7 @@ const PlayerModal = ({
       id: '',
       ig_username: '',
       discord: '',
+      main_bis_class: 'main',
       gearscore: 525,
       first_weapon: '',
       second_weapon: '',
@@ -269,6 +271,26 @@ const PlayerModal = ({
                 error={Boolean(touched.discord && errors.discord)}
                 helperText={touched.discord && errors.discord}
               />
+              <div className='mb-4'>
+                <FormLabel id='main-bis-class-label' className='font-bold text-md'>
+                  Main/Bis classe
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby='main-bis-class-label'
+                  name='main-bis-class'
+                  value={values.main_bis_class}
+                  onChange={(event) => {
+                    setFieldValue('main_bis_class', event.currentTarget.value);
+                  }}>
+                  <FormControlLabel value='main' control={<Radio size='small' />} label='Main' />
+                  <FormControlLabel value='bis' control={<Radio size='small' />} label='Bis' />
+                </RadioGroup>
+                <Typography className='text-xs text-gray-400 flex items-center mt-1'>
+                  <Icon icon='material-symbols:info-rounded' height={15} width={15} className='mr-1' />
+                  Indiquez si il s'agit de votre classe principale ou secondaire
+                </Typography>
+              </div>
               <FormLabel id='gearscore' className='font-bold text-md'>
                 Gearscore
               </FormLabel>

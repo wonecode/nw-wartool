@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
 import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
@@ -49,6 +47,7 @@ export default function DataTable() {
       field: 'gearscore',
       headerName: 'Gearscore PVP',
       type: 'number',
+      align: 'left',
       width: 140,
       renderCell(params) {
         const gs = params.value;
@@ -72,10 +71,19 @@ export default function DataTable() {
           );
         } else if (gs <= 625) {
           return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
-        } 
+        }
 
         return renderGS;
       },
+      renderHeader: (params) => (
+        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+      ),
+    },
+    {
+      field: 'main_bis_class',
+      headerName: 'Main/Bis classe',
+      width: 140,
+      renderCell: (params) => <Chip label={params.value} status={params.value} />,
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
@@ -155,7 +163,7 @@ export default function DataTable() {
       width: 200,
       renderCell: (params) => (
         <ButtonBase
-          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm'
+          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm text-ellipsis'
           onClick={() => {
             copyDiscord(params.value);
           }}>
