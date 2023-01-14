@@ -28,7 +28,13 @@ import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { v4 as uuidv4 } from 'uuid';
-import { factionColors } from 'utils/factions';
+// import { factionColors } from 'utils/factions';
+
+const factionColors = {
+  syndicate: 'bg-violet-500',
+  marauders: 'bg-green-600',
+  covenant: 'bg-yellow-500',
+};
 
 const weapons = [
   {

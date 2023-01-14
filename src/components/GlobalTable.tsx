@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
-import { Box, ButtonBase, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, ButtonBase, IconButton, Input, Tooltip, Typography, InputBase } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
@@ -9,6 +9,39 @@ import Footer from './Footer';
 import { supabase } from 'supabase';
 import PlayerModal from './PlayerModal';
 import { weaponsLabels } from 'utils/weapons';
+import SearchIcon from '@mui/icons-material/Search';
+import { alpha, styled } from '@mui/material/styles';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  width: '100%',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  },
+}));
 
 const copyDiscord = (username: string) => {
   toast.success('Copié dans le presse papier', {
@@ -32,6 +65,7 @@ export default function DataTable() {
   const [guildModalOpen, setGuildModalOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
+  const [inputText, setInputText] = useState('');
 
   const columns: GridColDef[] = [
     {
@@ -192,6 +226,11 @@ export default function DataTable() {
     fetchPlayers();
   }, []);
 
+  const inputHandler = (e) => {
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
+
   return (
     <>
       <GuildModal isOpen={guildModalOpen} handleClose={() => setGuildModalOpen(false)} />
@@ -204,7 +243,19 @@ export default function DataTable() {
 
       <div className='m-5' style={{ height: '76vh' }}>
         <div className='flex items-center mb-5 justify-between'>
-          <Typography className='uppercase font-black mr-4 text-xl'>War players</Typography>
+          <div className='flex items-center'>
+            <Typography className='uppercase font-black text-xl w-72'>War players</Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder='Chercher un joueur'
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={inputHandler}
+              />
+            </Search>
+          </div>
           <div>
             <ButtonBase
               onClick={() => setPlayerModalOpen(true)}
@@ -228,7 +279,13 @@ export default function DataTable() {
         <DataGrid
           disableSelectionOnClick
           className='bg-[#212121] mb-4'
-          rows={rows}
+          rows={rows.filter((row) => {
+            if (inputText === '') {
+              return row;
+            } else if (row.ig_username.toLowerCase().includes(inputText)) {
+              return row;
+            }
+          })}
           columns={columns}
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />

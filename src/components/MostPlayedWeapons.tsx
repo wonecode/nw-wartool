@@ -14,7 +14,12 @@ import { supabase } from 'supabase';
 import { weaponsLabels } from 'utils/weapons';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, LayoutPosition } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { factionColors } from 'utils/factions';
+
+const factionColors = {
+  syndicate: 'bg-violet-500',
+  marauders: 'bg-green-600',
+  covenant: 'bg-yellow-500',
+};
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -22,7 +27,7 @@ const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
-  const [selectedGuild, setSelectedGuild] = React.useState('Toutes les guildes');
+  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown Freedom');
 
   const pieFirstWeaponData = {
     labels: Object.keys(firstWeapons).map((weapon) => weaponsLabels[weapon].label),
@@ -162,12 +167,18 @@ const MostPlayedWeapons = () => {
             <MenuItem value='Toutes les guildes' className='italic'>
               Toutes les guildes
             </MenuItem>
-            {guilds.map((guild) => (
-              <MenuItem key={guild.guildName} value={guild.guildName} color={`${factionColors[guild.faction]}`}>
-                <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild.faction]}`} />
-                {guild.guildName}
-              </MenuItem>
-            ))}
+            {guilds.map(
+              (guild) => (
+                <MenuItem
+                  key={guild.guildName}
+                  value={guild.guildName}
+                  color={`${factionColors[guild.faction]}`}>
+                  <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild?.faction]}`} />
+                  {guild.guildName}
+                </MenuItem>
+              ),
+              console.log(factionColors[guilds[0]?.faction])
+            )}
           </Select>
         </FormControl>
       </Box>
