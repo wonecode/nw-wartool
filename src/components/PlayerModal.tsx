@@ -28,6 +28,7 @@ import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 // import { factionColors } from 'utils/factions';
 
 const factionColors = {
@@ -35,69 +36,6 @@ const factionColors = {
   marauders: 'bg-green-600',
   covenant: 'bg-yellow-500',
 };
-
-const weapons = [
-  {
-    label: 'Non renseigné',
-    value: 'none',
-  },
-  {
-    label: 'Hache double',
-    value: 'greataxe',
-  },
-  {
-    label: 'Épée longue',
-    value: 'greatsword',
-  },
-  {
-    label: "Marteau d'armes",
-    value: 'warhammer',
-  },
-  {
-    label: 'Lance',
-    value: 'spear',
-  },
-  {
-    label: 'Arc',
-    value: 'bow',
-  },
-  {
-    label: 'Bâton de feu',
-    value: 'firestaff',
-  },
-  {
-    label: 'Mousquet',
-    value: 'musket',
-  },
-  {
-    label: 'Hachette',
-    value: 'hatchet',
-  },
-  {
-    label: 'Bâton de vie',
-    value: 'lifestaff',
-  },
-  {
-    label: 'Gantelet de glace',
-    value: 'ice_gauntlet',
-  },
-  {
-    label: 'Gantelet du néant',
-    value: 'void_gauntlet',
-  },
-  {
-    label: 'Épée & bouclier',
-    value: 'sword_shield',
-  },
-  {
-    label: 'Rapière',
-    value: 'rapier',
-  },
-  {
-    label: 'Tromblon',
-    value: 'blunderbuss',
-  },
-];
 
 const PlayerModal = ({
   handleClose,
@@ -113,15 +51,80 @@ const PlayerModal = ({
   const [showThirdWeaponSelect, setShowThirdWeaponSelect] = React.useState(false);
   const [guilds, setGuilds] = React.useState([]);
 
+  const { t } = useTranslation(['global-table']);
+
+  const weapons = [
+    {
+      label: t('global-table:player-modal:weapons:not_specified'),
+      value: 'none',
+    },
+    {
+      label: t('global-table:player-modal:weapons:greataxe'),
+      value: 'greataxe',
+    },
+    {
+      label: t('global-table:player-modal:weapons:greatsword'),
+      value: 'greatsword',
+    },
+    {
+      label: t('global-table:player-modal:weapons:warhammer'),
+      value: 'warhammer',
+    },
+    {
+      label: t('global-table:player-modal:weapons:spear'),
+      value: 'spear',
+    },
+    {
+      label: t('global-table:player-modal:weapons:bow'),
+      value: 'bow',
+    },
+    {
+      label: t('global-table:player-modal:weapons:firestaff'),
+      value: 'firestaff',
+    },
+    {
+      label: t('global-table:player-modal:weapons:musket'),
+      value: 'musket',
+    },
+    {
+      label: t('global-table:player-modal:weapons:hatchet'),
+      value: 'hatchet',
+    },
+    {
+      label: t('global-table:player-modal:weapons:lifestaff'),
+      value: 'lifestaff',
+    },
+    {
+      label: t('global-table:player-modal:weapons:ice_gauntlet'),
+      value: 'ice_gauntlet',
+    },
+    {
+      label: t('global-table:player-modal:weapons:void_gauntlet'),
+      value: 'void_gauntlet',
+    },
+    {
+      label: t('global-table:player-modal:weapons:sword_and_shield'),
+      value: 'sword_shield',
+    },
+    {
+      label: t('global-table:player-modal:weapons:rapier'),
+      value: 'rapier',
+    },
+    {
+      label: t('global-table:player-modal:weapons:blunderbuss'),
+      value: 'blunderbuss',
+    },
+  ];
+
   const PlayerSchema = Yup.object().shape({
-    ig_username: Yup.string().required('Veuillez renseigner le pseudo IG'),
+    ig_username: Yup.string().required(t('global-table:player-modal:ig_username_error')),
     discord: Yup.string()
-      .matches(/^.{3,32}#[0-9]{4}$/, 'Veuillez renseigner un pseudo Discord valide (ex: John#1234)')
-      .required('Veuillez renseigner le pseudo Discord'),
+      .matches(/^.{3,32}#[0-9]{4}$/, t('global-table:player-modal:discord_bad_format'))
+      .required(t('global-table:player-modal:discord_error')),
     main_bis_class: Yup.string(),
     gearscore: Yup.number(),
-    first_weapon: Yup.string().required('Veuillez renseigner la première arme'),
-    second_weapon: Yup.string().required('Veuillez renseigner la seconde arme'),
+    first_weapon: Yup.string().required(t('global-table:player-modal:first_weapon_error')),
+    second_weapon: Yup.string().required(t('global-table:player-modal:second_weapon_error')),
     third_weapon: Yup.string(),
     stuff: Yup.string().required('Veuillez renseigner le type de stuff'),
     guild: Yup.string(),
@@ -242,19 +245,17 @@ const PlayerModal = ({
             icon='material-symbols:person-add-rounded'
             className='mr-3'
           />
-          Ajouter un joueur
+          {t('global-table:player-modal:title')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Afin d'ajouter un joueur à la database, veuillez remplir les champs suivants.
-          </DialogContentText>
+          <DialogContentText>{t('global-table:player-modal:subtitle')}</DialogContentText>
           <FormikProvider value={formik}>
             <Form autoComplete='off' noValidate onSubmit={handleSubmit} className='mt-5'>
               <TextField
                 autoFocus
                 margin='dense'
                 id='ig_username'
-                label='Pseudo IG'
+                label={t('global-table:player-modal:ig_username')}
                 type='string'
                 fullWidth
                 variant='filled'
@@ -279,7 +280,7 @@ const PlayerModal = ({
               />
               <div className='mb-4'>
                 <FormLabel id='main-bis-class-label' className='font-bold text-md'>
-                  Main/Bis classe
+                  {t('global-table:player-modal:main_bis_class')}
                 </FormLabel>
                 <RadioGroup
                   row
@@ -293,8 +294,13 @@ const PlayerModal = ({
                   <FormControlLabel value='bis' control={<Radio size='small' />} label='Bis' />
                 </RadioGroup>
                 <Typography className='text-xs text-gray-400 flex items-center mt-1'>
-                  <Icon icon='material-symbols:info-rounded' height={15} width={15} className='mr-1' />
-                  Indiquez si il s'agit de votre classe principale ou secondaire
+                  <Icon
+                    icon='material-symbols:info-rounded'
+                    height={15}
+                    width={15}
+                    className='mr-1'
+                  />
+                  {t('global-table:player-modal:main_bis_class_info')}
                 </Typography>
               </div>
               <FormLabel id='gearscore' className='font-bold text-md'>
@@ -313,7 +319,7 @@ const PlayerModal = ({
                 onChange={handleSliderChange}
               />
               <FormLabel id='radio-buttons-group-label' className='font-bold text-md'>
-                Armes
+                {t('global-table:player-modal:weapons_label')}
               </FormLabel>
               <FormControl
                 variant='filled'
@@ -324,7 +330,7 @@ const PlayerModal = ({
                 <InputLabel id='first-weapon-label'>
                   {errors.first_weapon && touched.first_weapon
                     ? errors.first_weapon
-                    : 'Première arme'}
+                    : t('global-table:player-modal:first_weapon')}
                 </InputLabel>
                 <Select
                   labelId='first-weapon-label'
@@ -347,7 +353,7 @@ const PlayerModal = ({
                 <InputLabel id='second-weapon-label'>
                   {errors.second_weapon && touched.second_weapon
                     ? errors.second_weapon
-                    : 'Deuxième arme'}
+                    : t('global-table:player-modal:second_weapon')}
                 </InputLabel>
                 <Select
                   labelId='second-weapon-label'
@@ -366,7 +372,9 @@ const PlayerModal = ({
                 fullWidth
                 size='small'
                 className={`mt-4 ${!showThirdWeaponSelect && 'hidden'} mb-6`}>
-                <InputLabel id='third-weapon-label'>Troisième arme</InputLabel>
+                <InputLabel id='third-weapon-label'>
+                  {t('global-table:player-modal:third_weapon')}
+                </InputLabel>
                 <Select
                   labelId='third-weapon-label'
                   id='third-weapon'
@@ -384,7 +392,9 @@ const PlayerModal = ({
                   className='p-1 rounded-sm'
                   onClick={() => setShowThirdWeaponSelect(true)}>
                   <AddCircleOutlineIcon className='mr-2' />
-                  <Typography className='text-sm'>Ajouter une troisième arme</Typography>
+                  <Typography className='text-sm'>
+                    {t('global-table:player-modal:add_third_weapon')}
+                  </Typography>
                 </ButtonBase>
               </div>
               <div>
@@ -399,19 +409,32 @@ const PlayerModal = ({
                   onChange={(event) => {
                     setFieldValue('stuff', event.currentTarget.value);
                   }}>
-                  <FormControlLabel value='light' control={<Radio size='small' />} label='Léger' />
-                  <FormControlLabel value='medium' control={<Radio size='small' />} label='Moyen' />
-                  <FormControlLabel value='heavy' control={<Radio size='small' />} label='Lourd' />
+                  <FormControlLabel
+                    value='light'
+                    control={<Radio size='small' />}
+                    label={t('global-table:player-modal:stuff:light')}
+                  />
+                  <FormControlLabel
+                    value='medium'
+                    control={<Radio size='small' />}
+                    label={t('global-table:player-modal:stuff:medium')}
+                  />
+                  <FormControlLabel
+                    value='heavy'
+                    control={<Radio size='small' />}
+                    label={t('global-table:player-modal:stuff:heavy')}
+                  />
                 </RadioGroup>
               </div>
               <div className='my-4'>
                 <FormLabel id='stuff-label' className='font-bold text-md'>
-                  Guilde
+                  {t('global-table:player-modal:guild')}
                 </FormLabel>
                 <Autocomplete
                   disablePortal
                   id='guild'
                   options={guilds}
+                  placeholder={t('global-table:player-modal:guild_placeholder')}
                   size='small'
                   fullWidth
                   onChange={(event, newValue) => setFieldValue('guild', newValue?.guildName)}
@@ -440,17 +463,17 @@ const PlayerModal = ({
                   <FormControlLabel
                     value='marauders'
                     control={<Radio size='small' />}
-                    label='Les Maraudeurs'
+                    label={t('global-table:faction:marauders')}
                   />
                   <FormControlLabel
                     value='syndicate'
                     control={<Radio size='small' />}
-                    label='Les Ombres'
+                    label={t('global-table:faction:syndicate')}
                   />
                   <FormControlLabel
                     value='covenant'
                     control={<Radio size='small' />}
-                    label='Les Engagés'
+                    label={t('global-table:faction:covenant')}
                   />
                 </RadioGroup>
               </div>
@@ -462,14 +485,14 @@ const PlayerModal = ({
             onClick={handleClose}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-red-300 text-black'>
             <Icon height={20} width={20} icon='mdi:close-thick' className='mr-3' />
-            Fermer
+            {t('global-table:player-modal:close')}
           </ButtonBase>
           <ButtonBase
             type='submit'
             onClick={() => handleSubmit()}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black'>
             <Icon height={20} width={20} icon='ic:outline-save-alt' className='mr-3' />
-            Enregistrer
+            {t('global-table:player-modal:save')}
           </ButtonBase>
         </DialogActions>
       </Dialog>

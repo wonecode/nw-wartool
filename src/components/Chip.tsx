@@ -12,7 +12,7 @@ const colorStatus = {
   bis: 'bg-gradient-to-r from-yellow-500  to-yellow-300',
 };
 
-const cleanLabel = {
+const frCleanLabel = {
   light: 'Léger',
   medium: 'Moyen',
   heavy: 'Lourd',
@@ -23,11 +23,22 @@ const cleanLabel = {
   bis: 'Bis',
 }
 
-const Chip = ({ label, status }) => {
+const enCleanLabel = {
+  light: 'Light',
+  medium: 'Medium',
+  heavy: 'Heavy',
+  syndicate: 'Syndicate',
+  marauders: 'Marauders',
+  covenant: 'Covenant',
+  main: 'Main',
+  bis: 'Bis',
+}
+
+const Chip = ({ label, status, locale }) => {
   return (
     <div className={`h-5 items-center px-3 rounded-xl ${colorStatus[status]}`}>
       <Typography className='text-[13px] font-semibold text-black leading-5'>
-        {cleanLabel[status]}
+        {locale === 'fr' ? frCleanLabel[status] : enCleanLabel[status]}
       </Typography>
     </div>
   );

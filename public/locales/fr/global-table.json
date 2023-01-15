@@ -1,0 +1,68 @@
+{
+  "find-player": "Chercher un joueur",
+  "add-player": "Ajouter un joueur",
+  "add-guild": "Ajouter une guilde",
+  "ig_username": "Pseudo IG",
+  "main_bis_class": "Main/Bis classe",
+  "first_weapon": "Première arme",
+  "second_weapon": "Deuxième arme",
+  "third_weapon": "Troisième arme",
+  "guild": "Guilde",
+  "player-modal": {
+    "title": "Ajouter un joueur",
+    "subtitle": "Afin d'ajouter un joueur à la database, veuillez remplir les champs suivants.",
+    "ig_username": "Pseudo IG",
+    "ig_username_error": "Veuillez renseigner le pseudo IG",
+    "discord_error": "Veuillez renseigner le pseudo Discord",
+    "discord_bad_format": "Veuillez renseigner un pseudo Discord valide (ex: John#1234)",
+    "main_bis_class": "Main/Bis classe",
+    "main_bis_class_info": "Indiquez si il s'agit de la classe principale ou secondaire du joueur",
+    "first_weapon": "Première arme",
+    "second_weapon": "Deuxième arme",
+    "third_weapon": "Troisième arme",
+    "first_weapon_error": "Veuillez renseigner la première arme",
+    "second_weapon_error": "Veuillez renseigner la deuxième arme",
+    "add_third_weapon": "Ajouter une troisième arme",
+    "weapons_label": "Armes",
+    "weapons": {
+      "not_specified": "Non renseigné",
+      "greataxe": "Hache double",
+      "greatsword": "Epée longue",
+      "warhammer": "Marteau d'armes",
+      "spear": "Lance",
+      "bow": "Arc",
+      "firestaff": "Bâton de feu",
+      "musket": "Mousquet",
+      "hatchet": "Hachette",
+      "lifestaff": "Bâton de vie",
+      "ice_gauntlet": "Gantelet de glace",
+      "void_gauntlet": "Gantelet du néant",
+      "sword_and_shield": "Epée et bouclier",
+      "rapier": "Rapière",
+      "blunderbuss": "Tromblon"
+    },
+    "stuff": {
+      "light": "Léger",
+      "medium": "Moyen",
+      "heavy": "Lourd"
+    },
+    "guild": "Guilde",
+    "guild_placeholder": "Tapez les premiers caractères du nom de la guilde",
+    "save": "Enregistrer",
+    "close": "Fermer"
+  },
+  "guild-modal": {
+    "title": "Ajouter une guilde",
+    "subtitle": "Afin d'ajouter une guilde à la database, veuillez remplir les champs suivants.",
+    "faction": "Faction",
+    "guild_name": "Nom de la guilde",
+    "guild_name_error": "Veuillez renseigner le nom de la guilde",
+    "save": "Enregistrer",
+    "close": "Fermer"
+  },
+  "faction": {
+    "syndicate": "Les Ombres",
+    "marauders": "Les Maraudeurs",
+    "covenant": "Les Engagés"
+  }
+}

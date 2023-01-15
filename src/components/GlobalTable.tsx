@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid, GridColDef, frFR } from '@mui/x-data-grid';
-import { Box, ButtonBase, IconButton, Input, Tooltip, Typography, InputBase } from '@mui/material';
+import { DataGrid, GridColDef, frFR, enUS } from '@mui/x-data-grid';
+import { Box, ButtonBase, Typography, InputBase } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
@@ -8,9 +8,11 @@ import GuildModal from './GuildModal';
 import Footer from './Footer';
 import { supabase } from 'supabase';
 import PlayerModal from './PlayerModal';
-import { weaponsLabels } from 'utils/weapons';
+import { frWeaponsLabels, enWeaponsLabels } from 'utils/weapons';
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -67,10 +69,13 @@ export default function DataTable() {
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
 
+  const { t } = useTranslation(['global-table']);
+  const router = useRouter();
+
   const columns: GridColDef[] = [
     {
       field: 'ig_username',
-      headerName: 'Pseudo IG',
+      headerName: t('global-table:ig_username'),
       width: 200,
       renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
       renderHeader: (params) => (
@@ -115,21 +120,36 @@ export default function DataTable() {
     },
     {
       field: 'main_bis_class',
-      headerName: 'Main/Bis classe',
+      headerName: t('global-table:main_bis_class'),
       width: 140,
-      renderCell: (params) => <Chip label={params.value} status={params.value} />,
+      renderCell: (params) => (
+        <Chip locale={router.locale} label={params.value} status={params.value} />
+      ),
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
     },
     {
       field: 'first_weapon',
-      headerName: 'Première arme',
+      headerName: t('global-table:first_weapon'),
       width: 180,
       renderCell: (params) => (
         <Box display='flex items-center'>
-          <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
-          <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
+          <Icon
+            icon={
+              router.locale === 'fr'
+                ? frWeaponsLabels[params.value].icon
+                : enWeaponsLabels[params.value].icon
+            }
+            width={18}
+            height={18}
+            className='mr-2'
+          />
+          <Typography className='text-sm'>
+            {router.locale === 'fr'
+              ? frWeaponsLabels[params.value].label
+              : enWeaponsLabels[params.value].label}
+          </Typography>
         </Box>
       ),
       renderHeader: (params) => (
@@ -138,12 +158,25 @@ export default function DataTable() {
     },
     {
       field: 'second_weapon',
-      headerName: 'Deuxième arme',
+      headerName: t('global-table:second_weapon'),
       width: 180,
       renderCell: (params) => (
         <Box display='flex items-center'>
-          <Icon icon={weaponsLabels[params.value].icon} width={18} height={18} className='mr-2' />
-          <Typography className='text-sm'>{weaponsLabels[params.value].label}</Typography>
+          <Icon
+            icon={
+              router.locale === 'fr'
+                ? frWeaponsLabels[params.value].icon
+                : enWeaponsLabels[params.value].icon
+            }
+            width={18}
+            height={18}
+            className='mr-2'
+          />
+          <Typography className='text-sm'>
+            {router.locale === 'fr'
+              ? frWeaponsLabels[params.value].label
+              : enWeaponsLabels[params.value].label}
+          </Typography>
         </Box>
       ),
       renderHeader: (params) => (
@@ -152,12 +185,25 @@ export default function DataTable() {
     },
     {
       field: 'third_weapon',
-      headerName: 'Troisième arme',
+      headerName: t('global-table:third_weapon'),
       width: 180,
       renderCell: (params) => (
         <Box display='flex items-center'>
-          <Icon icon={weaponsLabels[params.value]?.icon} width={18} height={18} className='mr-2' />
-          <Typography className='text-sm'>{weaponsLabels[params.value]?.label}</Typography>
+          <Icon
+            icon={
+              router.locale === 'fr'
+                ? frWeaponsLabels[params.value]?.icon
+                : enWeaponsLabels[params.value]?.icon
+            }
+            width={18}
+            height={18}
+            className='mr-2'
+          />
+          <Typography className='text-sm'>
+            {router.locale === 'fr'
+              ? frWeaponsLabels[params.value]?.label
+              : enWeaponsLabels[params.value]?.label}
+          </Typography>
         </Box>
       ),
       renderHeader: (params) => (
@@ -168,14 +214,16 @@ export default function DataTable() {
       field: 'stuff',
       headerName: 'Stuff',
       width: 140,
-      renderCell: (params) => <Chip status={params.value} label={params.value} />,
+      renderCell: (params) => (
+        <Chip locale={router.locale} status={params.value} label={params.value} />
+      ),
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
     },
     {
       field: 'guild',
-      headerName: 'Guilde',
+      headerName: t('global-table:guild'),
       width: 200,
       renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
       renderHeader: (params) => (
@@ -186,7 +234,9 @@ export default function DataTable() {
       field: 'faction',
       headerName: 'Faction',
       width: 150,
-      renderCell: (params) => <Chip status={params.value} label={params.value} />,
+      renderCell: (params) => (
+        <Chip locale={router.locale} status={params.value} label={params.value} />
+      ),
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
@@ -212,7 +262,10 @@ export default function DataTable() {
   ];
 
   const fetchPlayers = async () => {
-    const { data, error } = await supabase.from('players').select('*');
+    const { data, error } = await supabase
+      .from('players')
+      .select('*')
+      .order('ig_username', { ascending: true });
 
     if (error) {
       console.log(error);
@@ -250,7 +303,7 @@ export default function DataTable() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder='Chercher un joueur'
+                placeholder={t('global-table:find-player')}
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={inputHandler}
               />
@@ -266,13 +319,13 @@ export default function DataTable() {
                 icon='material-symbols:person-add-rounded'
                 className='mr-3'
               />
-              Ajouter un joueur
+              {t('global-table:add-player')}
             </ButtonBase>
             <ButtonBase
               onClick={() => setGuildModalOpen(true)}
               className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black'>
               <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
-              Ajouter une guilde
+              {t('global-table:add-guild')}
             </ButtonBase>
           </div>
         </div>
@@ -287,7 +340,11 @@ export default function DataTable() {
             }
           })}
           columns={columns}
-          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+          localeText={
+            router.locale === 'fr'
+              ? frFR.components.MuiDataGrid.defaultProps.localeText
+              : enUS.components.MuiDataGrid.defaultProps.localeText
+          }
         />
 
         <Footer />

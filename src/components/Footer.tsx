@@ -1,11 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation(['common']);
+
   return (
     <Box className='text-center mb-3'>
       <Typography className='text-sm'>
-        Développé par{' '}
+        {t('common:footer')}{' '}
         <a
           href='https://twitter.com/Wonezer'
           target='_blank'

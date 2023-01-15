@@ -20,6 +20,7 @@ import {
 import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
 import { factions } from 'utils/factions';
+import { useTranslation } from 'react-i18next';
 
 interface Guild {
   guildName: string;
@@ -27,8 +28,10 @@ interface Guild {
 }
 
 const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: boolean }) => {
+  const { t } = useTranslation(['global-table']);
+
   const GuildSchema = Yup.object().shape({
-    guildName: Yup.string().required('Le nom de la guilde est requis'),
+    guildName: Yup.string().required(t('global-table:guild-modal:guild_name_error')),
     faction: Yup.string().required('Le nom de la faction est requis'),
   });
 
@@ -99,11 +102,11 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
       <Dialog open={isOpen} onClose={handleClose} fullWidth>
         <DialogTitle className='flex items-center'>
           <Icon height={25} width={25} icon='mdi:people-group' className='mr-3' />
-          Ajouter une guilde
+          {t('global-table:guild-modal:title')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Afin d'ajouter une guilde à la database, veuillez remplir les champs suivants.
+            {t('global-table:guild-modal:subtitle')}
           </DialogContentText>
           <FormikProvider value={formik}>
             <Form autoComplete='off' noValidate onSubmit={handleSubmit} className='mt-5'>
@@ -121,24 +124,24 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
                 <FormControlLabel
                   value={factions.syndicate}
                   control={<Radio size='small' />}
-                  label='Les Ombres'
+                  label={t('global-table:faction:syndicate')}
                 />
                 <FormControlLabel
                   value={factions.marauders}
                   control={<Radio size='small' />}
-                  label='Les Maraudeurs'
+                  label={t('global-table:faction:marauders')}
                 />
                 <FormControlLabel
                   value={factions.covenant}
                   control={<Radio size='small' />}
-                  label='Les Engagés'
+                  label={t('global-table:faction:covenant')}
                 />
               </RadioGroup>
               <TextField
                 autoFocus
                 margin='dense'
                 id='guild-name'
-                label='Nom de la guilde'
+                label={t('global-table:guild-modal:guild_name')}
                 type='string'
                 className='mt-3'
                 fullWidth
@@ -156,14 +159,14 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
             onClick={handleClose}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-red-300 text-black'>
             <Icon height={20} width={20} icon='mdi:close-thick' className='mr-3' />
-            Fermer
+            {t('global-table:guild-modal:close')}
           </ButtonBase>
           <ButtonBase
             type='submit'
             onClick={() => handleSubmit()}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black'>
             <Icon height={20} width={20} icon='ic:outline-save-alt' className='mr-3' />
-            Enregistrer
+            {t('global-table:guild-modal:save')}
           </ButtonBase>
         </DialogActions>
       </Dialog>

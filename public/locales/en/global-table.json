@@ -1,0 +1,69 @@
+{
+  "find-player": "Find a player",
+  "add-player": "Add a player",
+  "add-guild": "Add a guild",
+  "ig_username": "IG username",
+  "main_bis_class": "Main/Bis class",
+  "first_weapon": "First weapon",
+  "second_weapon": "Second weapon",
+  "third_weapon": "Third weapon",
+  "guild": "Guild",
+  "player-modal": {
+    "title": "Add a player",
+    "subtitle": "To add a player to the database, please fill in the following fields.",
+    "ig_username": "IG username",
+    "ig_username_error": "Please fill in the IG username",
+    "discord_error": "Please fill in the Discord username",
+    "discord_bad_format": "Please enter a valid Discord nickname (ex: John#1234)",
+    "main_bis_class": "Main/Bis class",
+    "main_bis_class_info": "Indicate whether this is the player's primary or secondary class",
+    "first_weapon": "First weapon",
+    "second_weapon": "Second weapon",
+    "third_weapon": "Third weapon",
+    "first_weapon_error": "Please fill in the first weapon",
+    "second_weapon_error": "Please fill in the second weapon",
+    "add_third_weapon": "Add a third weapon",
+    "weapons_label": "Weapons",
+    "weapons": {
+      "not_specified": "Not specified",
+      "greataxe": "Greataxe",
+      "greatsword": "Greatsword",
+      "warhammer": "Warhammer",
+      "spear": "Spear",
+      "bow": "Bow",
+      "firestaff": "Firestaff",
+      "musket": "Musket",
+      "hatchet": "Hatchet",
+      "lifestaff": "Lifestaff",
+      "ice_gauntlet": "Ice gauntlet",
+      "void_gauntlet": "Void gauntlet",
+      "sword_and_shield": "Sword and shield",
+      "rapier": "Rapier",
+      "blunderbuss": "Blunderbuss"
+    },
+    "stuff": {
+      "light": "Light",
+      "medium": "Medium",
+      "heavy": "Heavy"
+    },
+    "guild": "Guild",
+    "guild_placeholder": "Type the first characters of the guild name",
+    "save": "Save",
+    "close": "Close"
+  },
+  "guild-modal": {
+    "title": "Add a guild",
+    "subtitle": "To add a guild to the database, please fill in the following fields.",
+    "guild_name": "Guild name",
+    "guild_name_error": "Please fill in the guild name",
+    "faction": "Faction",
+    "faction_error": "Please fill in the guild faction",
+    "save": "Save",
+    "close": "Close"
+  },
+  "faction": {
+    "syndicate": "Syndicate",
+    "marauders": "Marauders",
+    "covenant": "Covenant"
+  }
+}

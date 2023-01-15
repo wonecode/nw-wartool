@@ -9,9 +9,19 @@ import MapIcon from '@mui/icons-material/Map';
 import { ButtonBase, Chip, IconButton, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const router = useRouter();
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
+  const changeTo = router.locale === 'fr' ? 'en' : 'fr';
+
+  const { t } = useTranslation('common');
 
   return (
     <Box sx={{ flexGrow: 1 }} className='m-5'>
@@ -50,7 +60,7 @@ const Navbar = () => {
             </ButtonBase>
           </div>
 
-          <Tooltip title='Map intéractive'>
+          <Tooltip title={t('common:interactive_map')}>
             <a
               href='https://raidplan.io/plan/create?raid=nw.war'
               target='_blank'
@@ -67,6 +77,21 @@ const Navbar = () => {
               </IconButton>
             </a>
           </Tooltip>
+
+          <Link href={router.pathname} locale={changeTo}>
+            <Tooltip title={t('common:change-locale')}>
+              <IconButton>
+                <Image
+                  src={`/assets/${router.locale}.png`}
+                  alt='logo'
+                  width={20}
+                  className='object-cover'
+                  height={20}
+                  onClick={() => onToggleLanguageClick(changeTo)}
+                />
+              </IconButton>
+            </Tooltip>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>

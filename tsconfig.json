@@ -18,9 +18,17 @@
     "paths": {
       "@/components/*": ["src/components/*"],
       "@/public/*": ["public/*"],
-      "@/hooks/*": ["src/hooks/*"],
+      "@/hooks/*": ["src/hooks/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "src/mocks/chat.mock.ts"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.cjs",
+    "**/*.mjs"
+  ],
+  "exclude": ["**/node_modules", "**/.*/"]
 }
