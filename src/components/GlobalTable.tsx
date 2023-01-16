@@ -300,12 +300,13 @@ export default function DataTable() {
             <Typography className='uppercase font-black text-xl w-72'>War players</Typography>
             <Search>
               <SearchIconWrapper>
-                <SearchIcon />
+                <SearchIcon className='w-5' />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder={t('global-table:find-player')}
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={inputHandler}
+                className='text-sm'
               />
             </Search>
           </div>
