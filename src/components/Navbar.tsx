@@ -80,14 +80,13 @@ const Navbar = () => {
 
           <Link href={router.pathname} locale={changeTo}>
             <Tooltip title={t('common:change-locale')}>
-              <IconButton>
+              <IconButton onClick={() => onToggleLanguageClick(changeTo)}>
                 <Image
                   src={`/assets/${router.locale}.png`}
                   alt='logo'
                   width={20}
                   className='object-cover'
                   height={20}
-                  onClick={() => onToggleLanguageClick(changeTo)}
                 />
               </IconButton>
             </Tooltip>

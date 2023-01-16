@@ -103,13 +103,7 @@ const MostPlayedWeapons = () => {
     const fetchGuilds = async () => {
       const { data } = await supabase.from('guilds').select('*');
 
-      data.forEach(async (guild) => {
-        const { data } = await supabase.from('players').select('*').eq('guild', guild.guildName);
-
-        if (data.length > 0) {
-          setGuilds((prev) => [...prev, guild]);
-        }
-      });
+      setGuilds(data);
     };
 
     const fetchWeapons = async (data) => {
@@ -153,8 +147,8 @@ const MostPlayedWeapons = () => {
       }
     };
 
-    selectRequest();
     fetchGuilds();
+    selectRequest();
   }, [selectedGuild]);
 
   let firstWeaponsSortable = [];
