@@ -22,7 +22,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: '100%',
+  width: '270px',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -69,7 +69,7 @@ export default function DataTable() {
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
 
-  const { t } = useTranslation(['global-table']);
+  const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
 
   const columns: GridColDef[] = [
@@ -297,7 +297,9 @@ export default function DataTable() {
       <div className='m-5' style={{ height: '76vh' }}>
         <div className='flex items-center mb-5 justify-between'>
           <div className='flex items-center'>
-            <Typography className='uppercase font-black text-xl w-72'>War players</Typography>
+            <Typography className={`uppercase font-black text-xl mr-5`}>
+              {t('common:players-list')}
+            </Typography>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon className='w-5' />

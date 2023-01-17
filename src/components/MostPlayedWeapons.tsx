@@ -32,7 +32,7 @@ const MostPlayedWeapons = () => {
   const [selectedGuild, setSelectedGuild] = React.useState('BlackTown Freedom');
   const router = useRouter();
 
-  const { t } = useTranslation(['stats']);
+  const { t } = useTranslation(['common', 'stats']);
 
   const pieFirstWeaponData = {
     labels:
@@ -69,7 +69,7 @@ const MostPlayedWeapons = () => {
         : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].label),
     datasets: [
       {
-        label: 'Nombre de joueurs',
+        label: router.locale === 'fr' ? 'Nombre de joueurs' : 'Players number',
         data: Object.values(secondWeapons),
         backgroundColor:
           router.locale === 'fr'
@@ -174,7 +174,7 @@ const MostPlayedWeapons = () => {
     <>
       <Box className='flex justify-between items-center'>
         <Typography className='uppercase font-black mr-4 text-xl'>
-          Stats<span className='font-light'> • {t('stats:title')}</span>
+          {t('common:stats')}<span className='font-light'> • {t('stats:title')}</span>
         </Typography>
 
         <FormControl size='small' className={`w-[20%]`}>

@@ -5,16 +5,19 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   // Add custom props here
 };
 
 export default function Home(_props: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { t } = useTranslation(['common']);
+
   return (
     <Box>
       <Head>
-        <title>War Players | New World GuildTool</title>
+        <title>{t('common:players-list')} | New World GuildTool</title>
       </Head>
       <Navbar />
 

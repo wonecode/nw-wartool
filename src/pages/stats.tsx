@@ -6,14 +6,17 @@ import MostPlayedWeapons from '@/components/MostPlayedWeapons';
 import Footer from '@/components/Footer';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'react-i18next';
 
 type Props = {};
 
 const Stats = () => {
+  const { t } = useTranslation(['common']);
+
   return (
     <Box>
       <Head>
-        <title>Stats | New World GuildTool</title>
+        <title>{t('common:stats')} | New World GuildTool</title>
       </Head>
 
       <Navbar />

@@ -37,27 +37,20 @@ const Navbar = () => {
           <div className='flex mr-8'>
             <Link href='/' className='mr-4'>
               <Typography
-                className={`text-[13px] uppercase ${
-                  router.pathname === '/' ? 'text-yellow-400 font-black' : 'font-bold'
+                className={`text-[13px] uppercase font-bold ${
+                  router.pathname === '/' ? 'text-yellow-400' : ''
                 }`}>
-                War players
+                {t('common:players-list')}
               </Typography>
             </Link>
-            <Link href='/stats' className='mr-4'>
+            <Link href='/stats'>
               <Typography
-                className={`text-[13px] uppercase ${
-                  router.pathname === '/stats' ? 'text-yellow-400 font-black' : 'font-bold'
+                className={`text-[13px] uppercase font-bold ${
+                  router.pathname === '/stats' ? 'text-yellow-400' : ''
                 }`}>
-                Stats
+                {t('common:stats')}
               </Typography>
             </Link>
-            <ButtonBase disabled>
-              <Link href='/crafters'>
-                <Typography className='text-[13px] font-bold uppercase text-[#5b5b5b]'>
-                  Crafters
-                </Typography>
-              </Link>
-            </ButtonBase>
           </div>
 
           <Tooltip title={t('common:interactive_map')}>
