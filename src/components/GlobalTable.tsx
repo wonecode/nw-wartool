@@ -225,7 +225,10 @@ export default function DataTable() {
       field: 'guild',
       headerName: t('global-table:guild'),
       width: 200,
-      renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+      renderCell: (params) => {
+        if (params.value.name !== 'BlackTown Fr') console.log(params.value);
+        return <Typography className='text-sm'>{params.value.name}</Typography>;
+      },
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
@@ -264,13 +267,14 @@ export default function DataTable() {
   const fetchPlayers = async () => {
     const { data, error } = await supabase
       .from('players')
-      .select('*')
+      .select(
+        'id, ig_username, gearscore, main_bis_class, first_weapon, second_weapon, third_weapon, stuff, guild:guild_id(name), faction, discord'
+      )
       .order('ig_username', { ascending: true });
 
     if (error) {
       console.log(error);
     } else {
-      console.log(data);
       setRows(data);
     }
   };

@@ -50,6 +50,7 @@ const PlayerModal = ({
 }) => {
   const [showThirdWeaponSelect, setShowThirdWeaponSelect] = React.useState(false);
   const [guilds, setGuilds] = React.useState([]);
+  const [selectedGuild, setSelectedGuild] = React.useState({});
 
   const { t } = useTranslation(['global-table']);
 
@@ -127,7 +128,7 @@ const PlayerModal = ({
     second_weapon: Yup.string().required(t('global-table:player-modal:second_weapon_error')),
     third_weapon: Yup.string(),
     stuff: Yup.string().required('Veuillez renseigner le type de stuff'),
-    guild: Yup.string(),
+    guild_id: Yup.string(),
     faction: Yup.string().required('Veuillez renseigner la faction'),
   });
 
@@ -142,7 +143,7 @@ const PlayerModal = ({
       second_weapon: '',
       third_weapon: 'none',
       stuff: 'light',
-      guild: '',
+      guild_id: '',
       faction: 'marauders',
     },
     validationSchema: PlayerSchema,
@@ -193,7 +194,19 @@ const PlayerModal = ({
         },
       });
 
-      handleRows([...rows, values]);
+      handleRows([...rows, {
+        id: values.id,
+        ig_username: values.ig_username,
+        discord: values.discord,
+        main_bis_class: values.main_bis_class,
+        gearscore: values.gearscore,
+        guild: selectedGuild,
+        first_weapon: values.first_weapon,
+        second_weapon: values.second_weapon,
+        third_weapon: values.third_weapon,
+        stuff: values.stuff,
+        faction: values.faction,
+      }]);
 
       handleClose();
       formik.resetForm();
@@ -437,13 +450,16 @@ const PlayerModal = ({
                   placeholder={t('global-table:player-modal:guild_placeholder')}
                   size='small'
                   fullWidth
-                  onChange={(event, newValue) => setFieldValue('guild', newValue?.guildName)}
-                  getOptionLabel={(option) => option.guildName}
+                  onChange={(event, newValue) => {
+                    setFieldValue('guild_id', newValue?.id);
+                    setSelectedGuild(newValue);
+                  }}
+                  getOptionLabel={(option) => option.name}
                   renderInput={(params) => <TextField className='my-2 bg-[#525252]' {...params} />}
                   renderOption={(props, option) => (
                     <Box component='li' {...props}>
                       <div className={`${factionColors[option.faction]} rounded-xl w-3 h-3 mr-2`} />
-                      <Typography>{option.guildName}</Typography>
+                      <Typography>{option.name}</Typography>
                     </Box>
                   )}
                 />

@@ -23,7 +23,7 @@ import { factions } from 'utils/factions';
 import { useTranslation } from 'react-i18next';
 
 interface Guild {
-  guildName: string;
+  name: string;
   faction: string;
 }
 
@@ -31,14 +31,14 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
   const { t } = useTranslation(['global-table']);
 
   const GuildSchema = Yup.object().shape({
-    guildName: Yup.string().required(t('global-table:guild-modal:guild_name_error')),
+    name: Yup.string().required(t('global-table:guild-modal:guild_name_error')),
     faction: Yup.string().required('Le nom de la faction est requis'),
   });
 
   const formik = useFormik({
     initialValues: {
-      guildName: '',
-      faction: factions.syndicate,
+      name: '',
+      faction: 'marauders',
     },
     validationSchema: GuildSchema,
     onSubmit: async (values) => {
@@ -49,15 +49,15 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
   const { errors, touched, handleSubmit, getFieldProps, values, setFieldValue, setErrors } = formik;
 
   const addGuild = async (guild: Guild) => {
-    let guildName = guild.guildName.trim();
+    let name = guild.name.trim();
 
-    if (guildName.length > 0) {
+    if (name.length > 0) {
       const { error } = await supabase.from('guilds').insert({
-        guildName,
+        name,
         faction: guild.faction,
       });
       if (!error) {
-        toast.success(`La guilde ${guildName} a bien été ajoutée`, {
+        toast.success(`La guilde ${name} a bien été ajoutée`, {
           position: 'top-right',
           autoClose: 4000,
           hideProgressBar: false,
@@ -76,7 +76,7 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
         formik.resetForm();
       } else if (error.code === '23505') {
         setErrors({
-          guildName: 'Cette guilde est déjà enregistrée',
+          name: 'Cette guilde est déjà enregistrée',
         })
       } else {
         toast.error(`Une errreur est survenue lors de l'ajout de la guilde`, {
@@ -105,9 +105,7 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
           {t('global-table:guild-modal:title')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {t('global-table:guild-modal:subtitle')}
-          </DialogContentText>
+          <DialogContentText>{t('global-table:guild-modal:subtitle')}</DialogContentText>
           <FormikProvider value={formik}>
             <Form autoComplete='off' noValidate onSubmit={handleSubmit} className='mt-5'>
               <FormLabel id='radio-buttons-group-label' className='font-bold text-md'>
@@ -122,17 +120,17 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
                   setFieldValue('faction', event.currentTarget.value);
                 }}>
                 <FormControlLabel
-                  value={factions.syndicate}
-                  control={<Radio size='small' />}
-                  label={t('global-table:faction:syndicate')}
-                />
-                <FormControlLabel
-                  value={factions.marauders}
+                  value='marauders'
                   control={<Radio size='small' />}
                   label={t('global-table:faction:marauders')}
                 />
                 <FormControlLabel
-                  value={factions.covenant}
+                  value='syndicate'
+                  control={<Radio size='small' />}
+                  label={t('global-table:faction:syndicate')}
+                />
+                <FormControlLabel
+                  value='covenant'
                   control={<Radio size='small' />}
                   label={t('global-table:faction:covenant')}
                 />
@@ -147,9 +145,9 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
                 fullWidth
                 variant='filled'
                 size='small'
-                {...getFieldProps('guildName')}
-                error={Boolean(touched.guildName && errors.guildName)}
-                helperText={touched.guildName && errors.guildName}
+                {...getFieldProps('name')}
+                error={Boolean(touched.name && errors.name)}
+                helperText={touched.name && errors.name}
               />
             </Form>
           </FormikProvider>

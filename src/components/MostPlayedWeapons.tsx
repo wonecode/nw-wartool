@@ -29,7 +29,7 @@ const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
-  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown Freedom');
+  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown Fr');
   const router = useRouter();
 
   const { t } = useTranslation(['common', 'stats']);
@@ -101,7 +101,7 @@ const MostPlayedWeapons = () => {
 
   React.useEffect(() => {
     const fetchGuilds = async () => {
-      const { data } = await supabase.from('guilds').select('*');
+      const { data } = await supabase.from('guilds').select(`id, name, faction, players(*)`);
 
       setGuilds(data);
     };
@@ -137,9 +137,12 @@ const MostPlayedWeapons = () => {
 
     const selectRequest = async () => {
       if (selectedGuild !== 'Toutes les guildes' && selectedGuild !== 'All guilds') {
-        const { data } = await supabase.from('players').select('*').eq('guild', selectedGuild);
+        const { data } = await supabase
+          .from('guilds')
+          .select('*, players(*)')
+          .eq('name', selectedGuild);
 
-        fetchWeapons(data);
+        fetchWeapons(data[0]?.players);
       } else {
         const { data } = await supabase.from('players').select('*');
 
@@ -168,13 +171,12 @@ const MostPlayedWeapons = () => {
   const top3FirstWeapons = firstWeaponsSortable.slice(0, 3);
   const top3SecondWeapons = secondWeaponsSortable.slice(0, 3);
 
-  console.log(guilds);
-
   return (
     <>
       <Box className='flex justify-between items-center'>
         <Typography className='uppercase font-black mr-4 text-xl'>
-          {t('common:stats')}<span className='font-light'> • {t('stats:title')}</span>
+          {t('common:stats')}
+          <span className='font-light'> • {t('stats:title')}</span>
         </Typography>
 
         <FormControl size='small' className={`w-[20%]`}>
@@ -189,16 +191,16 @@ const MostPlayedWeapons = () => {
               {t('stats:all_guilds')}
             </MenuItem>
             {guilds.map(
-              (guild) => (
-                <MenuItem
-                  key={guild.guildName}
-                  value={guild.guildName}
-                  color={`${factionColors[guild.faction]}`}>
-                  <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild?.faction]}`} />
-                  {guild.guildName}
-                </MenuItem>
-              ),
-              console.log(factionColors[guilds[0]?.faction])
+              (guild) =>
+                guild.players.length > 0 && (
+                  <MenuItem
+                    key={guild.name}
+                    value={guild.name}
+                    color={`${factionColors[guild.faction]}`}>
+                    <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild.faction]}`} />
+                    {guild.name}
+                  </MenuItem>
+                )
             )}
           </Select>
         </FormControl>

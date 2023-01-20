@@ -30,9 +30,11 @@ const Navbar = () => {
           <Link href='/' className='mr-3'>
             <Image src='/NW-logo.svg' alt='logo' width={30} height={30} />
           </Link>
-          <Typography className='font-light' component='div' sx={{ flexGrow: 1 }}>
+          <Typography
+            component='div'
+            sx={{ flexGrow: 1 }}>
             New World GuildTool
-            <Chip label='BETA' className='text-xs ml-2 font-bold' size='small' />
+            <Chip label='BETA' className='text-xs ml-2 font-bold text-yellow-400' size='small' />
           </Typography>
           <div className='flex mr-8'>
             <Link href='/' className='mr-4'>
