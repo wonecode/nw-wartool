@@ -2,6 +2,10 @@
   "change-locale": "Switch en anglais",
   "players-list": "Liste des joueurs",
   "stats": "Statistiques",
+  "stats-sublinks": {
+    "weapons": "Armes",
+    "find-player": "Chercher un joueur"
+  },
   "interactive_map": "Map interactive",
   "footer": "Développé par"
 }

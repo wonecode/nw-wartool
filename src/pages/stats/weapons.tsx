@@ -10,13 +10,13 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {};
 
-const Stats = () => {
+const Weapons = () => {
   const { t } = useTranslation(['common']);
 
   return (
     <Box>
       <Head>
-        <title>{t('common:stats')} | New World GuildTool</title>
+        <title>{t('common:stats-sublinks:weapons')} | GuildTool</title>
       </Head>
 
       <Navbar />
@@ -30,7 +30,7 @@ const Stats = () => {
   );
 };
 
-export default Stats;
+export default Weapons;
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
   props: {

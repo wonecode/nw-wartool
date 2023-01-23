@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,10 +7,16 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MapIcon from '@mui/icons-material/Map';
-import { ButtonBase, Chip, IconButton, Tooltip } from '@mui/material';
+import { Chip, IconButton, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { Rowdies } from '@next/font/google';
+
+const rowdies = Rowdies({
+  subsets: ['latin'],
+  weight: '700',
+});
 
 const Navbar = () => {
   const router = useRouter();
@@ -25,16 +32,18 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }} className='m-5'>
-      <AppBar position='static' className='rounded-md'>
+      <AppBar position='static' className='rounded-md bg-transparent'>
         <Toolbar>
           <Link href='/' className='mr-3'>
             <Image src='/NW-logo.svg' alt='logo' width={30} height={30} />
           </Link>
           <Typography
             component='div'
-            sx={{ flexGrow: 1 }}>
-            New World GuildTool
-            <Chip label='BETA' className='text-xs ml-2 font-bold text-yellow-400' size='small' />
+            sx={{ flexGrow: 1 }}
+            className={`${rowdies.className} uppercase font-black flex items-center bg-gradient-to-r bg-clip-text  text-transparent  text-xl
+            from-yellow-500 via-amber-100 to-yellow-200`}>
+            GuildTool
+            <Chip label='BETA' className='text-[10px] ml-2 font-bold' size='small' />
           </Typography>
           <div className='flex mr-8'>
             <Link href='/' className='mr-4'>
@@ -45,14 +54,60 @@ const Navbar = () => {
                 {t('common:players-list')}
               </Typography>
             </Link>
-            <Link href='/stats'>
-              <Typography
-                className={`text-[13px] uppercase font-bold ${
-                  router.pathname === '/stats' ? 'text-yellow-400' : ''
-                }`}>
-                {t('common:stats')}
-              </Typography>
-            </Link>
+            <div className='group inline-block relative z-50'>
+              <Link href='/stats/find-player'>
+                <Typography
+                  className={`text-[13px] uppercase font-bold flex ${
+                    router.pathname.includes('/stats') ? 'text-yellow-400' : ''
+                  }`}>
+                  {t('common:stats')}
+                  <svg
+                    className='fill-current h-4 w-4 ml-1'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'>
+                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                  </svg>
+                </Typography>
+              </Link>
+              <ul className='absolute shadow-xl hidden text-gray-200 pt-4 group-hover:block w-80 right-0'>
+                <div className='p-2 bg-[#222222] rounded-md border-[#737373] border-[1px]'>
+                  <li className=''>
+                    <Link
+                      className='rounded-md hover:bg-[#3a3a3a] transition duration-300 ease-in-out py-3 px-4 whitespace-no-wrap flex items-center'
+                      href='/stats/weapons'>
+                      <Icon
+                        icon='ri:sword-line'
+                        className='mr-5 text-[#3498db]'
+                        height={25}
+                        width={25}
+                      />
+                      <div>
+                        <Typography className='text-xs uppercase font-bold'>Armes</Typography>
+                        <span className='text-[12.5px]'>Nombre d'armes par guilde</span>
+                      </div>
+                    </Link>
+                  </li>
+                  <li className=''>
+                    <Link
+                      className='rounded-md hover:bg-[#3a3a3a] duration-300 py-3 px-4 whitespace-no-wrap flex items-center'
+                      href='/stats/find-player'>
+                      <Icon
+                        icon='ic:outline-person-2'
+                        height={25}
+                        width={25}
+                        className='mr-5 text-[#2ecc71]'
+                      />
+                      <div>
+                        <Typography className='text-xs uppercase font-bold'>Joueurs</Typography>
+                        <span className='text-[12.5px] leading-[0px]'>
+                          Statistiques individuelles en guerre
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                </div>
+              </ul>
+            </div>
           </div>
 
           <Tooltip title={t('common:interactive_map')}>
