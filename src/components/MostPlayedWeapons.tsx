@@ -28,6 +28,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
+  const [classes, setClasses] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
   const [selectedGuild, setSelectedGuild] = React.useState('BlackTown');
   const router = useRouter();
@@ -131,8 +132,21 @@ const MostPlayedWeapons = () => {
         return acc;
       }, {});
 
+      const classes = data.reduce((acc, player) => {
+        const classe = player.class_type;
+
+        if (acc[classe]) {
+          acc[classe] += 1;
+        } else {
+          acc[classe] = 1;
+        }
+
+        return acc;
+      }, {});
+
       setfirstWeapons(firstWeapons);
       setsecondWeapons(secondWeapons);
+      setClasses(classes);
     };
 
     const selectRequest = async () => {
@@ -206,7 +220,30 @@ const MostPlayedWeapons = () => {
         </FormControl>
       </Box>
 
-      <Paper className='p-3 mt-5 rounded-md'>
+      <Paper className='p-3 mt-5 rounded-md text-center'>
+        <Typography className='uppercase font-bold text-yellow-400 my-2'>
+          Classes {router.locale === 'fr' ? 'jouées' : 'played'}
+        </Typography>
+        <Box className='flex items-center justify-center'>
+          {Object.keys(classes).map((classType, i) => (
+              <Box key={i} className='text-center mx-4'>
+                <Box className={`${classType === 'dps' ? 'text-red-500' : classType === 'heal' ? 'text-green-500' : 'text-blue-500'} flex items-center justify-center`}>
+                  <Typography className='font-black text-[40px] mt-0 text-white'>
+                    {classes[classType]}
+                  </Typography>
+                  <Icon icon={classType === 'dps' ? 'ph:sword-bold' : classType === 'heal' ? 'mdi:magic-staff' : 'fa-solid:shield-alt'} className='text-3xl ml-3' />
+                </Box>
+                <Box>
+                  <Typography className='text-sm font-light text-gray-400'>
+                    {classType === 'dps' ? 'DPS' : classType.slice(0, 1).toUpperCase() + classType.slice(1)}
+                  </Typography>
+                </Box>
+              </Box>
+          ))}
+        </Box>
+      </Paper>
+
+      <Paper className='p-3 mt-3 rounded-md'>
         <Box className='flex'>
           <Box className='w-full text-center'>
             <Typography className='uppercase font-bold text-yellow-400 my-2'>

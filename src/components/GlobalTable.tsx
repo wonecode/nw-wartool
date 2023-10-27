@@ -98,7 +98,7 @@ export default function DataTable() {
           return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
         } else if (gs <= 670) {
           return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
-        } else if (gs <= 685) {
+        } else if (gs < 690) {
           return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
         } else if (gs > 690) {
           return (

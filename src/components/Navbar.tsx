@@ -55,7 +55,7 @@ const Navbar = () => {
               </Typography>
             </Link>
             <div className='group inline-block relative z-50'>
-              <Link href='/stats/find-player'>
+              <Link href='/stats/weapons'>
                 <Typography
                   className={`text-[13px] uppercase font-bold flex ${
                     router.pathname.includes('/stats') ? 'text-yellow-400' : ''
@@ -82,28 +82,27 @@ const Navbar = () => {
                         width={25}
                       />
                       <div>
-                        <Typography className='text-xs uppercase font-bold'>Armes</Typography>
-                        <span className='text-[12.5px]'>Nombre d'armes par guilde</span>
+                        <Typography className='text-xs uppercase font-bold'>Armes & classes</Typography>
+                        <span className='text-[12.5px]'>Statistiques générales par guilde</span>
                       </div>
                     </Link>
                   </li>
                   <li className=''>
-                    <Link
-                      className='rounded-md hover:bg-[#3a3a3a] duration-300 py-3 px-4 whitespace-no-wrap flex items-center'
-                      href='/stats/find-player'>
+                    <button
+                      className='rounded-md text-gray-500 duration-300 py-3 px-4 whitespace-no-wrap flex items-center cursor-not-allowed'>
                       <Icon
                         icon='ic:outline-person-2'
                         height={25}
                         width={25}
-                        className='mr-5 text-[#2ecc71]'
+                        className='mr-5'
                       />
-                      <div>
+                      <div className='flex flex-col items-start gap-1'>
                         <Typography className='text-xs uppercase font-bold'>Joueurs</Typography>
-                        <span className='text-[12.5px] leading-[0px]'>
+                        <span className='text-[12.5px]'>
                           Statistiques individuelles en guerre
                         </span>
                       </div>
-                    </Link>
+                    </button>
                   </li>
                 </div>
               </ul>
