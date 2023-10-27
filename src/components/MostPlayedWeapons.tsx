@@ -66,20 +66,20 @@ const MostPlayedWeapons = () => {
   const pieSecondWeaponData = {
     labels:
       router.locale === 'fr'
-        ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].label)
-        : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].label),
+        ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].label)
+        : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].label),
     datasets: [
       {
         label: router.locale === 'fr' ? 'Nombre de joueurs' : 'Players number',
         data: Object.values(secondWeapons),
         backgroundColor:
           router.locale === 'fr'
-            ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].backgroundColor)
-            : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].backgroundColor),
+            ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].backgroundColor)
+            : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].backgroundColor),
         borderColor:
           router.locale === 'fr'
-            ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].borderColor)
-            : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].borderColor),
+            ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].borderColor)
+            : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].borderColor),
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -188,7 +188,7 @@ const MostPlayedWeapons = () => {
   return (
     <>
       <Box className='flex justify-between items-center'>
-        <Typography className='uppercase font-black mr-4 text-xl'>
+        <Typography className='uppercase font-black mr-4 text-2xl'>
           {t('common:stats')}
           <span className='font-light'> • {t('stats:title')}</span>
         </Typography>
@@ -227,7 +227,7 @@ const MostPlayedWeapons = () => {
         <Box className='flex items-center justify-center'>
           {Object.keys(classes).map((classType, i) => (
               <Box key={i} className='text-center mx-4'>
-                <Box className={`${classType === 'dps' ? 'text-red-500' : classType === 'heal' ? 'text-green-500' : 'text-blue-500'} flex items-center justify-center`}>
+                <Box className={`flex items-center justify-center`}>
                   <Typography className='font-black text-[40px] mt-0 text-white'>
                     {classes[classType]}
                   </Typography>

@@ -20,8 +20,8 @@ export const frWeaponsLabels = {
   spear: {
     label: 'Lance',
     icon: 'mdi:spear',
-    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
+    backgroundColor: 'rgba(207,255,0,0.2)',
+    borderColor: 'rgba(207,255,0,1)',
   },
   bow: {
     label: 'Arc',
@@ -86,8 +86,8 @@ export const frWeaponsLabels = {
   flail_shield: {
     label: 'Fléau & bouclier',
     icon: 'game-icons:flail',
-    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-    borderColor: 'rgba(255, 159, 64, 1)',
+    backgroundColor: 'rgba(169,255,59,0.2)',
+    borderColor: 'rgba(169,255,59,1)',
   }
 };
 
@@ -113,8 +113,8 @@ export const enWeaponsLabels = {
   spear: {
     label: 'Spear',
     icon: 'mdi:spear',
-    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
+    backgroundColor: 'rgba(207,255,0,0.2)',
+    borderColor: 'rgba(207,255,0,1)',
   },
   bow: {
     label: 'Bow',
@@ -179,7 +179,7 @@ export const enWeaponsLabels = {
   flail_shield: {
     label: 'Flail & shield',
     icon: 'game-icons:flail',
-    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-    borderColor: 'rgba(255, 159, 64, 1)',
+    backgroundColor: 'rgba(169,255,59,0.2)',
+    borderColor: 'rgba(169,255,59,1)',
   }
 };

@@ -68,9 +68,20 @@ export default function DataTable() {
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
+  const [fetchClicked, setFetchClicked] = useState(false);
 
   const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
+
+  const handleRefresh = () => {
+    setFetchClicked(true);
+
+    fetchPlayers();
+
+    setTimeout(() => {
+      setFetchClicked(false);
+    }, 5000);
+  }
 
   const columns: GridColDef[] = [
     {
@@ -303,7 +314,7 @@ export default function DataTable() {
       <div className='m-5' style={{ height: '76vh' }}>
         <div className='flex items-center mb-5 justify-between'>
           <div className='flex items-center'>
-            <Typography className={`uppercase font-black text-xl mr-5`}>
+            <Typography className={`uppercase font-black text-2xl mr-5`}>
               {t('common:players-list')}
             </Typography>
             <Search>
@@ -317,6 +328,22 @@ export default function DataTable() {
                 className='text-sm'
               />
             </Search>
+            <ButtonBase
+                disabled={fetchClicked}
+                onClick={() => handleRefresh()}
+                className='font-bold text-sm px-4 py-[7px] rounded-sm bg-[#353535] text-white ml-5 hover:bg-[#454545]'>
+              {fetchClicked ?
+                    <Icon
+                        height={20}
+                        width={20}
+                        icon='line-md:loading-loop' />
+                  :
+                  <Icon
+                  height={20}
+                  width={20}
+                  icon='ic:baseline-refresh'
+              />}
+            </ButtonBase>
           </div>
           <div>
             <ButtonBase
