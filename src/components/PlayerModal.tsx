@@ -48,7 +48,6 @@ const PlayerModal = ({
   rows: any;
   handleRows: (rows: any) => void;
 }) => {
-  const [showThirdWeaponSelect, setShowThirdWeaponSelect] = React.useState(false);
   const [guilds, setGuilds] = React.useState([]);
   const [selectedGuild, setSelectedGuild] = React.useState({});
 
@@ -115,18 +114,59 @@ const PlayerModal = ({
       label: t('global-table:player-modal:weapons:blunderbuss'),
       value: 'blunderbuss',
     },
+    {
+      label: t('global-table:player-modal:weapons:flail_and_shield'),
+      value: 'flail_shield',
+    }
+  ];
+
+  const heartRunes = [
+    {
+      label: t('global-table:player-modal:heartrunes:stoneform'),
+      value: 'stoneform',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:detonate'),
+      value: 'detonate',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:grasping_vines'),
+      value: 'grasping_vines',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:dark_ascent'),
+      value: 'dark_ascent',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:cannon_blast'),
+      value: 'cannon_blast',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:bile_bomb'),
+      value: 'bile_bomb',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:fire_storm'),
+      value: 'fire_storm',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:devourer'),
+      value: 'devourer',
+    },
+    {
+      label: t('global-table:player-modal:heartrunes:primal_fury'),
+      value: 'primal_fury',
+    },
   ];
 
   const PlayerSchema = Yup.object().shape({
     ig_username: Yup.string().required(t('global-table:player-modal:ig_username_error')),
-    discord: Yup.string()
-      .matches(/^.{3,32}#[0-9]{4}$/, t('global-table:player-modal:discord_bad_format'))
-      .required(t('global-table:player-modal:discord_error')),
-    main_bis_class: Yup.string(),
+    discord: Yup.string().required(t('global-table:player-modal:discord_error')),
+    class_type: Yup.string(),
     gearscore: Yup.number(),
     first_weapon: Yup.string().required(t('global-table:player-modal:first_weapon_error')),
     second_weapon: Yup.string().required(t('global-table:player-modal:second_weapon_error')),
-    third_weapon: Yup.string(),
+    heartrune: Yup.string(),
     stuff: Yup.string().required('Veuillez renseigner le type de stuff'),
     guild_id: Yup.string(),
     faction: Yup.string().required('Veuillez renseigner la faction'),
@@ -137,14 +177,14 @@ const PlayerModal = ({
       id: '',
       ig_username: '',
       discord: '',
-      main_bis_class: 'main',
-      gearscore: 525,
+      class_type: 'dps',
+      gearscore: 600,
       first_weapon: '',
       second_weapon: '',
-      third_weapon: 'none',
+      heartrune: '',
       stuff: 'light',
       guild_id: '',
-      faction: 'marauders',
+      faction: 'syndicate',
     },
     validationSchema: PlayerSchema,
     onSubmit: async (values) => {
@@ -154,20 +194,20 @@ const PlayerModal = ({
 
   const marks = [
     {
-      value: 540,
-      label: '540',
-    },
-    {
-      value: 580,
-      label: '580',
-    },
-    {
       value: 600,
       label: '600',
     },
     {
-      value: 615,
-      label: '615',
+      value: 650,
+      label: '650',
+    },
+    {
+      value: 675,
+      label: '675',
+    },
+    {
+      value: 700,
+      label: '700',
     },
   ];
 
@@ -198,12 +238,12 @@ const PlayerModal = ({
         id: values.id,
         ig_username: values.ig_username,
         discord: values.discord,
-        main_bis_class: values.main_bis_class,
+        class_type: values.class_type,
         gearscore: values.gearscore,
         guild: selectedGuild,
         first_weapon: values.first_weapon,
         second_weapon: values.second_weapon,
-        third_weapon: values.third_weapon,
+        heartrune: values.heartrune,
         stuff: values.stuff,
         faction: values.faction,
       }]);
@@ -292,29 +332,21 @@ const PlayerModal = ({
                 helperText={touched.discord && errors.discord}
               />
               <div className='mb-4'>
-                <FormLabel id='main-bis-class-label' className='font-bold text-md'>
-                  {t('global-table:player-modal:main_bis_class')}
+                <FormLabel id='class-type-label' className='font-bold text-md'>
+                  {t('global-table:player-modal:class_type')}
                 </FormLabel>
                 <RadioGroup
                   row
-                  aria-labelledby='main-bis-class-label'
-                  name='main-bis-class'
-                  value={values.main_bis_class}
+                  aria-labelledby='class-type-label'
+                  name='class-type'
+                  value={values.class_type}
                   onChange={(event) => {
-                    setFieldValue('main_bis_class', event.currentTarget.value);
+                    setFieldValue('class_type', event.currentTarget.value);
                   }}>
-                  <FormControlLabel value='main' control={<Radio size='small' />} label='Main' />
-                  <FormControlLabel value='bis' control={<Radio size='small' />} label='Bis' />
+                  <FormControlLabel value='dps' control={<Radio size='small' />} label='DPS' />
+                  <FormControlLabel value='heal' control={<Radio size='small' />} label='Heal' />
+                  <FormControlLabel value='bruiser' control={<Radio size='small' />} label='Bruiser' />
                 </RadioGroup>
-                <Typography className='text-xs text-gray-400 flex items-center mt-1'>
-                  <Icon
-                    icon='material-symbols:info-rounded'
-                    height={15}
-                    width={15}
-                    className='mr-1'
-                  />
-                  {t('global-table:player-modal:main_bis_class_info')}
-                </Typography>
               </div>
               <FormLabel id='gearscore' className='font-bold text-md'>
                 Gearscore
@@ -324,8 +356,8 @@ const PlayerModal = ({
                 id='gearscore'
                 defaultValue={525}
                 step={1}
-                min={525}
-                max={625}
+                min={600}
+                max={700}
                 marks={marks}
                 valueLabelDisplay='auto'
                 value={values.gearscore}
@@ -380,35 +412,30 @@ const PlayerModal = ({
                   ))}
                 </Select>
               </FormControl>
-              <FormControl
-                variant='filled'
-                fullWidth
-                size='small'
-                className={`mt-4 ${!showThirdWeaponSelect && 'hidden'} mb-6`}>
-                <InputLabel id='third-weapon-label'>
-                  {t('global-table:player-modal:third_weapon')}
-                </InputLabel>
-                <Select
-                  labelId='third-weapon-label'
-                  id='third-weapon'
-                  value={values.third_weapon}
-                  onChange={(e) => setFieldValue('third_weapon', e.target.value)}>
-                  {weapons.map((weapon) => (
-                    <MenuItem key={weapon.value} value={weapon.value}>
-                      {weapon.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <div className={`w-full my-2 text-center ${showThirdWeaponSelect && 'hidden'}`}>
-                <ButtonBase
-                  className='p-1 rounded-sm'
-                  onClick={() => setShowThirdWeaponSelect(true)}>
-                  <AddCircleOutlineIcon className='mr-2' />
-                  <Typography className='text-sm'>
-                    {t('global-table:player-modal:add_third_weapon')}
-                  </Typography>
-                </ButtonBase>
+              <div className='mt-5'>
+                <FormLabel id='heartrune-label' className='font-bold text-md'>
+                  {t('global-table:player-modal:heartrune')}
+                </FormLabel>
+                <FormControl
+                    variant='filled'
+                    fullWidth
+                    size='small'
+                    className={`mt-3 mb-6`}>
+                  <InputLabel id='heartrune-label'>
+                    {t('global-table:player-modal:heartrune')}
+                  </InputLabel>
+                  <Select
+                      labelId='heartrune-label'
+                      id='heartrune'
+                      value={values.heartrune}
+                      onChange={(e) => setFieldValue('heartrune', e.target.value)}>
+                    {heartRunes.map((heartrune) => (
+                        <MenuItem key={heartrune.value} value={heartrune.value}>
+                          {heartrune.label}
+                        </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
               <div>
                 <FormLabel id='stuff-label' className='font-bold text-md'>
@@ -477,14 +504,14 @@ const PlayerModal = ({
                     setFieldValue('faction', event.currentTarget.value);
                   }}>
                   <FormControlLabel
+                      value='syndicate'
+                      control={<Radio size='small' />}
+                      label={t('global-table:faction:syndicate')}
+                  />
+                  <FormControlLabel
                     value='marauders'
                     control={<Radio size='small' />}
                     label={t('global-table:faction:marauders')}
-                  />
-                  <FormControlLabel
-                    value='syndicate'
-                    control={<Radio size='small' />}
-                    label={t('global-table:faction:syndicate')}
                   />
                   <FormControlLabel
                     value='covenant'

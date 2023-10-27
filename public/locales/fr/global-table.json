@@ -3,10 +3,10 @@
   "add-player": "Ajouter un joueur",
   "add-guild": "Ajouter une guilde",
   "ig_username": "Pseudo IG",
-  "main_bis_class": "Main/Bis classe",
+  "class_type": "Type de classe",
   "first_weapon": "Première arme",
   "second_weapon": "Deuxième arme",
-  "third_weapon": "Troisième arme",
+  "heartrune": "Rune-cœur",
   "guild": "Guilde",
   "player-modal": {
     "title": "Ajouter un joueur",
@@ -15,14 +15,12 @@
     "ig_username_error": "Veuillez renseigner le pseudo IG",
     "discord_error": "Veuillez renseigner le pseudo Discord",
     "discord_bad_format": "Veuillez renseigner un pseudo Discord valide (ex: John#1234)",
-    "main_bis_class": "Main/Bis classe",
-    "main_bis_class_info": "Indiquez si il s'agit de la classe principale ou secondaire du joueur",
+    "class_type": "Type de classe",
     "first_weapon": "Première arme",
     "second_weapon": "Deuxième arme",
-    "third_weapon": "Troisième arme",
     "first_weapon_error": "Veuillez renseigner la première arme",
     "second_weapon_error": "Veuillez renseigner la deuxième arme",
-    "add_third_weapon": "Ajouter une troisième arme",
+    "heartrune": "Rune-cœur",
     "weapons_label": "Armes",
     "weapons": {
       "not_specified": "Non renseigné",
@@ -39,7 +37,19 @@
       "void_gauntlet": "Gantelet du néant",
       "sword_and_shield": "Epée et bouclier",
       "rapier": "Rapière",
-      "blunderbuss": "Tromblon"
+      "blunderbuss": "Tromblon",
+      "flail_and_shield": "Fléau et bouclier"
+    },
+    "heartrunes": {
+      "stoneform": "Forme rocheuse",
+      "detonate": "Détonation",
+      "grasping_vines": "Lianes accrocheuses",
+      "dark_ascent": "Sombre ascension",
+      "cannon_blast": "Canon",
+      "bile_bomb": "Bombe de bile",
+      "fire_storm": "Tempête de feu",
+      "devourer": "Dévoreur",
+      "primal_fury": "Fureur primale"
     },
     "stuff": {
       "light": "Léger",

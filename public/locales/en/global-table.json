@@ -3,10 +3,10 @@
   "add-player": "Add a player",
   "add-guild": "Add a guild",
   "ig_username": "IG username",
-  "main_bis_class": "Main/Bis class",
+  "class_type": "Class type",
   "first_weapon": "First weapon",
   "second_weapon": "Second weapon",
-  "third_weapon": "Third weapon",
+  "heartrune": "Heartrune",
   "guild": "Guild",
   "player-modal": {
     "title": "Add a player",
@@ -15,14 +15,12 @@
     "ig_username_error": "Please fill in the IG username",
     "discord_error": "Please fill in the Discord username",
     "discord_bad_format": "Please enter a valid Discord nickname (ex: John#1234)",
-    "main_bis_class": "Main/Bis class",
-    "main_bis_class_info": "Indicate whether this is the player's primary or secondary class",
+    "class_type": "Class type",
     "first_weapon": "First weapon",
     "second_weapon": "Second weapon",
-    "third_weapon": "Third weapon",
     "first_weapon_error": "Please fill in the first weapon",
     "second_weapon_error": "Please fill in the second weapon",
-    "add_third_weapon": "Add a third weapon",
+    "heartrune": "Heartrune",
     "weapons_label": "Weapons",
     "weapons": {
       "not_specified": "Not specified",
@@ -39,7 +37,19 @@
       "void_gauntlet": "Void gauntlet",
       "sword_and_shield": "Sword and shield",
       "rapier": "Rapier",
-      "blunderbuss": "Blunderbuss"
+      "blunderbuss": "Blunderbuss",
+      "flail_and_shield": "Flail and shield"
+    },
+    "heartrunes": {
+      "stoneform": "Stoneform",
+      "detonate": "Detonate",
+      "grasping_vines": "Grasping vines",
+      "dark_ascent": "Dark ascent",
+      "cannon_blast": "Cannon blast",
+      "bile_bomb": "Bile bomb",
+      "fire_storm": "Fire storm",
+      "devourer": "Devourer",
+      "primal_fury": "Primal fury"
     },
     "stuff": {
       "light": "Light",

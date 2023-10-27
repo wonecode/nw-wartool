@@ -8,8 +8,9 @@ const colorStatus = {
   syndicate: 'bg-gradient-to-r from-violet-400  to-violet-300',
   marauders: 'bg-gradient-to-r from-green-500  to-green-300',
   covenant: 'bg-gradient-to-r from-yellow-500  to-yellow-300',
-  main: 'bg-gradient-to-r from-green-500  to-green-300',
-  bis: 'bg-gradient-to-r from-yellow-500  to-yellow-300',
+  heal: 'bg-gradient-to-r from-green-500  to-green-300',
+  bruiser: 'bg-gradient-to-r from-yellow-500  to-yellow-300',
+  dps: 'bg-gradient-to-r from-red-500  to-red-400',
 };
 
 const frCleanLabel = {
@@ -19,8 +20,9 @@ const frCleanLabel = {
   syndicate: 'Les Ombres',
   marauders: 'Les Maraudeurs',
   covenant: 'Les Engagés',
-  main: 'Main',
-  bis: 'Bis',
+  dps: 'DPS',
+  bruiser: 'Bruiser',
+  heal: 'Heal',
 }
 
 const enCleanLabel = {
@@ -30,8 +32,9 @@ const enCleanLabel = {
   syndicate: 'Syndicate',
   marauders: 'Marauders',
   covenant: 'Covenant',
-  main: 'Main',
-  bis: 'Bis',
+  dps: 'DPS',
+  bruiser: 'Bruiser',
+  heal: 'Heal',
 }
 
 const Chip = ({ label, status, locale }) => {

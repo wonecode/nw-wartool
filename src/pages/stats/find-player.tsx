@@ -26,9 +26,8 @@ const FindPlayer = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const { data, error } = await supabase
       .from('players')
       .select(
-        'id, ig_username, gearscore, guild:guild_id(name, faction), main_bis_class, first_weapon'
+        'id, ig_username, gearscore, guild:guild_id(name, faction), class_type, first_weapon'
       )
-      .eq('main_bis_class', 'main')
       .order('ig_username', { ascending: true });
 
     if (error) {

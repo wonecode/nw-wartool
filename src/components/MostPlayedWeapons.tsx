@@ -29,7 +29,7 @@ const MostPlayedWeapons = () => {
   const [firstWeapons, setfirstWeapons] = React.useState([]);
   const [secondWeapons, setsecondWeapons] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
-  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown Fr');
+  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown');
   const router = useRouter();
 
   const { t } = useTranslation(['common', 'stats']);

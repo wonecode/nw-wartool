@@ -83,6 +83,12 @@ export const frWeaponsLabels = {
     backgroundColor: 'rgba(0, 103, 0, 0.2)',
     borderColor: 'rgba(0, 103, 0, 1)',
   },
+  flail_shield: {
+    label: 'Fléau & bouclier',
+    icon: 'game-icons:flail',
+    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+    borderColor: 'rgba(255, 159, 64, 1)',
+  }
 };
 
 export const enWeaponsLabels = {
@@ -170,4 +176,10 @@ export const enWeaponsLabels = {
     backgroundColor: 'rgba(0, 103, 0, 0.2)',
     borderColor: 'rgba(0, 103, 0, 1)',
   },
+  flail_shield: {
+    label: 'Flail & shield',
+    icon: 'game-icons:flail',
+    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+    borderColor: 'rgba(255, 159, 64, 1)',
+  }
 };

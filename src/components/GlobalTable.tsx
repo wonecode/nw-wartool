@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import {enHeartruneLabels, frHeartruneLabels} from "../../utils/heartrunes";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -40,7 +41,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   },
 }));
@@ -92,15 +92,15 @@ export default function DataTable() {
         const gs = params.value;
         let renderGS: JSX.Element;
 
-        if (gs <= 560) {
+        if (gs <= 640) {
           return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
-        } else if (gs <= 600) {
+        } else if (gs <= 655) {
           return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
-        } else if (gs <= 610) {
+        } else if (gs <= 670) {
           return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
-        } else if (gs <= 620) {
+        } else if (gs <= 685) {
           return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
-        } else if (gs === 625) {
+        } else if (gs > 690) {
           return (
             <Typography
               className='text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 
@@ -119,8 +119,8 @@ export default function DataTable() {
       ),
     },
     {
-      field: 'main_bis_class',
-      headerName: t('global-table:main_bis_class'),
+      field: 'class_type',
+      headerName: t('global-table:class_type'),
       width: 140,
       renderCell: (params) => (
         <Chip locale={router.locale} label={params.value} status={params.value} />
@@ -184,16 +184,16 @@ export default function DataTable() {
       ),
     },
     {
-      field: 'third_weapon',
-      headerName: t('global-table:third_weapon'),
+      field: 'heartrune',
+      headerName: t('global-table:heartrune'),
       width: 180,
       renderCell: (params) => (
         <Box display='flex items-center'>
           <Icon
             icon={
               router.locale === 'fr'
-                ? frWeaponsLabels[params.value]?.icon
-                : enWeaponsLabels[params.value]?.icon
+                ? frHeartruneLabels[params.value]?.icon
+                : enHeartruneLabels[params.value]?.icon
             }
             width={18}
             height={18}
@@ -201,8 +201,8 @@ export default function DataTable() {
           />
           <Typography className='text-sm'>
             {router.locale === 'fr'
-              ? frWeaponsLabels[params.value]?.label
-              : enWeaponsLabels[params.value]?.label}
+              ? frHeartruneLabels[params.value]?.label
+              : enHeartruneLabels[params.value]?.label}
           </Typography>
         </Box>
       ),
@@ -226,7 +226,9 @@ export default function DataTable() {
       headerName: t('global-table:guild'),
       width: 200,
       renderCell: (params) => {
-        if (params.value.name !== 'BlackTown Fr') console.log(params.value);
+        if (params.value === null) {
+          return <Typography className='text-sm'>-</Typography>;
+        }
         return <Typography className='text-sm'>{params.value.name}</Typography>;
       },
       renderHeader: (params) => (
@@ -268,7 +270,7 @@ export default function DataTable() {
     const { data, error } = await supabase
       .from('players')
       .select(
-        'id, ig_username, gearscore, main_bis_class, first_weapon, second_weapon, third_weapon, stuff, guild:guild_id(name), faction, discord'
+        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(name), faction, discord'
       )
       .order('ig_username', { ascending: true });
 
