@@ -346,6 +346,7 @@ const PlayerModal = ({
                   <FormControlLabel value='dps' control={<Radio size='small' />} label='DPS' />
                   <FormControlLabel value='heal' control={<Radio size='small' />} label='Heal' />
                   <FormControlLabel value='bruiser' control={<Radio size='small' />} label='Bruiser' />
+                  <FormControlLabel value='support' control={<Radio size='small' />} label='Support' />
                 </RadioGroup>
               </div>
               <FormLabel id='gearscore' className='font-bold text-md'>

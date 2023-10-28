@@ -141,7 +141,21 @@ const MostPlayedWeapons = () => {
           acc[classe] = 1;
         }
 
-        return acc;
+        const sortable = [];
+
+        for (const classe in acc) {
+          sortable.push([classe, acc[classe]]);
+        }
+
+        sortable.sort((a, b) => b[1] - a[1]);
+
+        const sortedClasses = sortable.reduce((acc, classe) => {
+          acc[classe[0]] = classe[1];
+
+          return acc;
+        }, {});
+
+        return sortedClasses;
       }, {});
 
       setfirstWeapons(firstWeapons);
@@ -220,28 +234,23 @@ const MostPlayedWeapons = () => {
         </FormControl>
       </Box>
 
-      <Paper className='p-3 mt-5 rounded-md text-center'>
-        <Typography className='uppercase font-bold text-yellow-400 my-2'>
-          Classes {router.locale === 'fr' ? 'jouées' : 'played'}
-        </Typography>
-        <Box className='flex items-center justify-center'>
+        <Box className='flex items-center gap-2 mt-4'>
           {Object.keys(classes).map((classType, i) => (
-              <Box key={i} className='text-center mx-4'>
+              <Box key={i} className={`text-center text-slate-900 rounded min-w-[200px] py-3 ${classType === 'dps' ? 'bg-gradient-to-r from-red-400 to-red-500' : classType === 'heal' ? 'bg-gradient-to-r from-green-400 to-green-500' : classType === 'support' ? 'bg-gradient-to-r from-blue-400 to-blue-500' : 'bg-gradient-to-r from-yellow-400 to-yellow-500'}`}>
                 <Box className={`flex items-center justify-center`}>
-                  <Typography className='font-black text-[40px] mt-0 text-white'>
+                  <Typography className='font-black text-[40px] mt-0 text-slate-900 leading-none'>
                     {classes[classType]}
                   </Typography>
-                  <Icon icon={classType === 'dps' ? 'ph:sword-bold' : classType === 'heal' ? 'mdi:magic-staff' : 'fa-solid:shield-alt'} className='text-3xl ml-3' />
+                  <Icon icon={classType === 'dps' ? 'ph:sword-bold' : classType === 'heal' ? 'mdi:magic-staff' : classType === 'support' ? 'fa-solid:shield-alt' : 'game-icons:thor-hammer'} className='text-3xl ml-3' />
                 </Box>
                 <Box>
-                  <Typography className='text-sm font-light text-gray-400'>
+                  <Typography className='text-slate-900 font-bold'>
                     {classType === 'dps' ? 'DPS' : classType.slice(0, 1).toUpperCase() + classType.slice(1)}
                   </Typography>
                 </Box>
               </Box>
           ))}
         </Box>
-      </Paper>
 
       <Paper className='p-3 mt-3 rounded-md'>
         <Box className='flex'>

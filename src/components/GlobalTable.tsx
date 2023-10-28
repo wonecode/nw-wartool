@@ -107,11 +107,11 @@ export default function DataTable() {
           return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
         } else if (gs <= 655) {
           return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
-        } else if (gs <= 670) {
+        } else if (gs <= 690) {
           return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
-        } else if (gs < 690) {
+        } else if (gs < 695) {
           return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
-        } else if (gs > 690) {
+        } else if (gs >= 695) {
           return (
             <Typography
               className='text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 

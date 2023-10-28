@@ -11,6 +11,7 @@ const colorStatus = {
   heal: 'bg-gradient-to-r from-green-500  to-green-300',
   bruiser: 'bg-gradient-to-r from-yellow-500  to-yellow-300',
   dps: 'bg-gradient-to-r from-red-500  to-red-400',
+  support: 'bg-gradient-to-r from-blue-400  to-blue-300',
 };
 
 const frCleanLabel = {
@@ -23,6 +24,7 @@ const frCleanLabel = {
   dps: 'DPS',
   bruiser: 'Bruiser',
   heal: 'Heal',
+  support: 'Support',
 }
 
 const enCleanLabel = {
@@ -35,6 +37,7 @@ const enCleanLabel = {
   dps: 'DPS',
   bruiser: 'Bruiser',
   heal: 'Heal',
+  support: 'Support',
 }
 
 const Chip = ({ label, status, locale }) => {
