@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridColDef, frFR, enUS } from '@mui/x-data-grid';
-import { Box, ButtonBase, Typography, InputBase } from '@mui/material';
+import { Box, ButtonBase, Typography, InputBase, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import {enHeartruneLabels, frHeartruneLabels} from "../../utils/heartrunes";
+import { enHeartruneLabels, frHeartruneLabels } from '../../utils/heartrunes';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -81,7 +81,7 @@ export default function DataTable() {
     setTimeout(() => {
       setFetchClicked(false);
     }, 5000);
-  }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -281,7 +281,7 @@ export default function DataTable() {
     const { data, error } = await supabase
       .from('players')
       .select(
-        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(name), faction, discord'
+        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(name), faction, discord',
       )
       .order('ig_username', { ascending: true });
 
@@ -328,22 +328,24 @@ export default function DataTable() {
                 className='text-sm'
               />
             </Search>
-            <ButtonBase
+            <Tooltip title='Rafraîchir'>
+              <ButtonBase
                 disabled={fetchClicked}
                 onClick={() => handleRefresh()}
-                className='font-bold text-sm px-4 py-[7px] rounded-sm bg-[#353535] text-white ml-5 hover:bg-[#454545]'>
-              {fetchClicked ?
-                    <Icon
-                        height={20}
-                        width={20}
-                        icon='line-md:loading-loop' />
-                  :
+                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] ${fetchClicked ? 'bg-[#353535]/70 text-green-500' : 'bg-[#353535] text-white'}`}>
+                {fetchClicked ? (
                   <Icon
-                  height={20}
-                  width={20}
-                  icon='ic:baseline-refresh'
-              />}
-            </ButtonBase>
+                    height={20}
+                    width={20}
+                    icon='material-symbols:check' />
+                ) : (
+                  <Icon
+                    height={20}
+                    width={20}
+                    icon='material-symbols:refresh' />
+                )}
+              </ButtonBase>
+            </Tooltip>
           </div>
           <div>
             <ButtonBase

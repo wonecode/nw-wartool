@@ -166,7 +166,7 @@ const PlayerModal = ({
     gearscore: Yup.number(),
     first_weapon: Yup.string().required(t('global-table:player-modal:first_weapon_error')),
     second_weapon: Yup.string().required(t('global-table:player-modal:second_weapon_error')),
-    heartrune: Yup.string(),
+    heartrune: Yup.string().required(t('global-table:player-modal:heartrune_error')),
     stuff: Yup.string().required('Veuillez renseigner le type de stuff'),
     guild_id: Yup.string(),
     faction: Yup.string().required('Veuillez renseigner la faction'),
@@ -421,9 +421,13 @@ const PlayerModal = ({
                     variant='filled'
                     fullWidth
                     size='small'
-                    className={`mt-3 mb-6`}>
+                    className={`mt-3 mb-6`}
+                    error={Boolean(errors.heartrune && touched.heartrune)}
+                >
                   <InputLabel id='heartrune-label'>
-                    {t('global-table:player-modal:heartrune')}
+                    {errors.heartrune && touched.heartrune
+                        ? errors.heartrune
+                        : t('global-table:player-modal:heartrune')}
                   </InputLabel>
                   <Select
                       labelId='heartrune-label'

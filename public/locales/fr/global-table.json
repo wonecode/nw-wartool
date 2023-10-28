@@ -21,6 +21,7 @@
     "first_weapon_error": "Veuillez renseigner la première arme",
     "second_weapon_error": "Veuillez renseigner la deuxième arme",
     "heartrune": "Rune-cœur",
+    "heartrune_error": "Veuillez renseigner la rune-cœur",
     "weapons_label": "Armes",
     "weapons": {
       "not_specified": "Non renseigné",

@@ -21,6 +21,7 @@
     "first_weapon_error": "Please fill in the first weapon",
     "second_weapon_error": "Please fill in the second weapon",
     "heartrune": "Heartrune",
+    "heartrune_error": "Please fill in the heartrune",
     "weapons_label": "Weapons",
     "weapons": {
       "not_specified": "Not specified",
