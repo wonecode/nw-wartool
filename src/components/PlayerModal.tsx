@@ -42,11 +42,13 @@ const PlayerModal = ({
   isOpen,
   rows,
   handleRows,
+  playerData
 }: {
   handleClose: () => void;
   isOpen: boolean;
   rows: any;
   handleRows: (rows: any) => void;
+  playerData?: any;
 }) => {
   const [guilds, setGuilds] = React.useState([]);
   const [selectedGuild, setSelectedGuild] = React.useState({});
@@ -272,6 +274,67 @@ const PlayerModal = ({
     }
   };
 
+  const editPlayer = async (values) => {
+    const { error } = await supabase.from('players').update(values).eq('id', playerData.id);
+
+    if (!error) {
+      toast.success(`Le joueur ${values.ig_username} a bien été modifié`, {
+        position: 'top-right',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+        style: {
+          fontFamily: 'Montserrat',
+          fontSize: '0.8rem',
+        },
+      });
+
+      const newRows = rows.map((row) => {
+        if (row.id === values.id) {
+          return {
+            id: values.id,
+            ig_username: values.ig_username,
+            discord: values.discord,
+            class_type: values.class_type,
+            gearscore: values.gearscore,
+            guild: selectedGuild,
+            first_weapon: values.first_weapon,
+            second_weapon: values.second_weapon,
+            heartrune: values.heartrune,
+            stuff: values.stuff,
+            faction: values.faction,
+          };
+        } else {
+          return row;
+        }
+      });
+
+      handleRows(newRows);
+
+      handleClose();
+      formik.resetForm();
+    } else {
+      toast.error(`Une errreur est survenue lors de la modification du joueur.`, {
+        position: 'top-right',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+        style: {
+          fontFamily: 'Montserrat',
+          fontSize: '0.8rem',
+        },
+      });
+    }
+  }
+
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setFieldValue('gearscore', newValue);
   };
@@ -286,7 +349,28 @@ const PlayerModal = ({
 
   React.useEffect(() => {
     fetchGuilds();
-  }, []);
+
+    if (playerData) {
+      setFieldValue('id', playerData.id);
+      setFieldValue('ig_username', playerData.ig_username);
+      setFieldValue('discord', playerData.discord);
+      setFieldValue('class_type', playerData.class_type);
+      setFieldValue('gearscore', playerData.gearscore);
+      setFieldValue('first_weapon', playerData.first_weapon);
+      setFieldValue('second_weapon', playerData.second_weapon);
+      setFieldValue('heartrune', playerData.heartrune);
+      setFieldValue('stuff', playerData.stuff);
+      setFieldValue('guild_id', playerData.guild.id);
+      setFieldValue('faction', playerData.faction);
+      setSelectedGuild(playerData.guild);
+    }
+  }, [playerData]);
+
+  React.useEffect(() => {
+    if (isOpen && !playerData) {
+      formik.resetForm();
+    }
+  }, [isOpen]);
 
   return (
     <div>
@@ -298,10 +382,12 @@ const PlayerModal = ({
             icon='material-symbols:person-add-rounded'
             className='mr-3'
           />
-          {t('global-table:player-modal:title')}
+          {playerData ? t('global-table:player-modal:edit_title') : t('global-table:player-modal:add_title')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{t('global-table:player-modal:subtitle')}</DialogContentText>
+          <DialogContentText>
+            {playerData ? t('global-table:player-modal:edit_subtitle') : t('global-table:player-modal:add_subtitle')}
+          </DialogContentText>
           <FormikProvider value={formik}>
             <Form autoComplete='off' noValidate onSubmit={handleSubmit} className='mt-5'>
               <TextField
@@ -314,8 +400,8 @@ const PlayerModal = ({
                 variant='filled'
                 size='small'
                 {...getFieldProps('ig_username')}
-                error={Boolean(touched.ig_username && errors.ig_username)}
-                helperText={touched.ig_username && errors.ig_username}
+                error={playerData ? false : Boolean(errors.ig_username)}
+                helperText={playerData ? false : errors.ig_username}
               />
               <TextField
                 autoFocus
@@ -328,8 +414,8 @@ const PlayerModal = ({
                 variant='filled'
                 size='small'
                 {...getFieldProps('discord')}
-                error={Boolean(touched.discord && errors.discord)}
-                helperText={touched.discord && errors.discord}
+                error={playerData ? false : Boolean(errors.discord)}
+                helperText={playerData ? false : errors.discord}
               />
               <div className='mb-4'>
                 <FormLabel id='class-type-label' className='font-bold text-md'>
@@ -482,6 +568,8 @@ const PlayerModal = ({
                   placeholder={t('global-table:player-modal:guild_placeholder')}
                   size='small'
                   fullWidth
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  defaultValue={playerData ? playerData.guild : null}
                   onChange={(event, newValue) => {
                     setFieldValue('guild_id', newValue?.id);
                     setSelectedGuild(newValue);
@@ -537,7 +625,7 @@ const PlayerModal = ({
           </ButtonBase>
           <ButtonBase
             type='submit'
-            onClick={() => handleSubmit()}
+            onClick={() => playerData ? editPlayer(values) : handleSubmit()}
             className='font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black'>
             <Icon height={20} width={20} icon='ic:outline-save-alt' className='mr-3' />
             {t('global-table:player-modal:save')}

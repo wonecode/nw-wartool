@@ -9,8 +9,10 @@
   "heartrune": "Rune-cœur",
   "guild": "Guilde",
   "player-modal": {
-    "title": "Ajouter un joueur",
-    "subtitle": "Afin d'ajouter un joueur à la database, veuillez remplir les champs suivants.",
+    "add_title": "Ajouter un joueur",
+    "add_subtitle": "Afin d'ajouter un joueur à la database, veuillez remplir les champs suivants.",
+    "edit_title": "Modifier un joueur",
+    "edit_subtitle": "Modifiez les champs que vous souhaitez mettre à jour.",
     "ig_username": "Pseudo IG",
     "ig_username_error": "Veuillez renseigner le pseudo IG",
     "discord_error": "Veuillez renseigner le pseudo Discord",

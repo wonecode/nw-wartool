@@ -15,6 +15,12 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { enHeartruneLabels, frHeartruneLabels } from '../../utils/heartrunes';
 
+const factionColors = {
+  syndicate: 'bg-violet-500',
+  marauders: 'bg-green-600',
+  covenant: 'bg-yellow-500',
+};
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -69,6 +75,7 @@ export default function DataTable() {
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
   const [fetchClicked, setFetchClicked] = useState(false);
+  const [selectedPlayerEdit, setSelectedPlayerEdit] = useState(null);
 
   const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
@@ -240,7 +247,12 @@ export default function DataTable() {
         if (params.value === null) {
           return <Typography className='text-sm'>-</Typography>;
         }
-        return <Typography className='text-sm'>{params.value.name}</Typography>;
+        return (
+          <div className='flex items-center gap-2'>
+            <div className={`rounded-full h-3 w-3 ${factionColors[params.value.faction]}`} />
+            <Typography className='text-sm'>{params.value.name}</Typography>
+          </div>
+        );
       },
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
@@ -275,13 +287,23 @@ export default function DataTable() {
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
     },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 130,
+      renderCell: (params) => (
+        <ButtonBase className='flex items-center cursor-pointer p-1 rounded' onClick={() => handleEditPlayer(params.row)}>
+          <Icon icon='iconamoon:edit' height={20} width={20} />
+        </ButtonBase>
+      ),
+    }
   ];
 
   const fetchPlayers = async () => {
     const { data, error } = await supabase
       .from('players')
       .select(
-        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(name), faction, discord',
+        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(id, created_at, name, faction), faction, discord',
       )
       .order('ig_username', { ascending: true });
 
@@ -301,14 +323,25 @@ export default function DataTable() {
     setInputText(lowerCase);
   };
 
+  const handleEditPlayer = (playerData: any) => {
+    setSelectedPlayerEdit(playerData);
+    setPlayerModalOpen(true);
+  };
+
+  const handleClosePlayerModal = () => {
+    setSelectedPlayerEdit(null);
+    setPlayerModalOpen(false);
+  };
+
   return (
     <>
       <GuildModal isOpen={guildModalOpen} handleClose={() => setGuildModalOpen(false)} />
       <PlayerModal
         isOpen={playerModalOpen}
-        handleClose={() => setPlayerModalOpen(false)}
+        handleClose={handleClosePlayerModal}
         rows={rows}
         handleRows={(values) => setRows(values)}
+        playerData={selectedPlayerEdit}
       />
 
       <div className='m-5' style={{ height: '76vh' }}>

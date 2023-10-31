@@ -9,8 +9,10 @@
   "heartrune": "Heartrune",
   "guild": "Guild",
   "player-modal": {
-    "title": "Add a player",
-    "subtitle": "To add a player to the database, please fill in the following fields.",
+    "add_title": "Add a player",
+    "add_subtitle": "To add a player to the database, please fill in the following fields.",
+    "edit_title": "Edit a player",
+    "edit_subtitle": "Edit the fields you want to change.",
     "ig_username": "IG username",
     "ig_username_error": "Please fill in the IG username",
     "discord_error": "Please fill in the Discord username",
