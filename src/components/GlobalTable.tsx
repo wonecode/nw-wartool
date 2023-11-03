@@ -76,6 +76,8 @@ export default function DataTable() {
   const [inputText, setInputText] = useState('');
   const [fetchClicked, setFetchClicked] = useState(false);
   const [selectedPlayerEdit, setSelectedPlayerEdit] = useState(null);
+  const [groupedRows, setGroupedRows] = useState(new Map());
+  const [allRowsWrapped, setAllRowsWrapped] = useState(true);
 
   const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
@@ -90,12 +92,30 @@ export default function DataTable() {
     }, 5000);
   };
 
+  const handleWrapAllRows = () => {
+    setAllRowsWrapped(!allRowsWrapped);
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'ig_username',
       headerName: t('global-table:ig_username'),
       width: 200,
-      renderCell: (params) => <Typography className='text-sm'>{params.value}</Typography>,
+      renderCell: (params) => {
+        const usernamesReccurence = rows.filter((row) => row.ig_username === params.value);
+        const firstIteration = usernamesReccurence.findIndex((row) => row.id === params.row.id) === 0;
+
+        return (
+          <div className='flex items-center gap-2'>
+          <Typography className={`text-sm ${usernamesReccurence.length > 1 && !firstIteration && 'text-white/70'}`}>{params.value}</Typography>
+          {usernamesReccurence.length > 1 && firstIteration && (
+            <div className='bg-white/20 text-xs rounded-full text-white h-5 w-5 flex items-center justify-center font-bold'>
+              {usernamesReccurence.length}
+            </div>
+          )}
+        </div>
+        )
+      },
       renderHeader: (params) => (
         <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
       ),
@@ -312,6 +332,42 @@ export default function DataTable() {
     } else {
       setRows(data);
     }
+
+    if (data) {
+      updateGroupedRows(data);
+    }
+  };
+
+  const updateGroupedRows = (playersData) => {
+    const grouped = new Map();
+    playersData.forEach(player => {
+      if (!grouped.has(player.ig_username)) {
+        grouped.set(player.ig_username, { data: [player], showDetails: false });
+      } else {
+        grouped.get(player.ig_username).data.push(player);
+      }
+    });
+    setGroupedRows(grouped);
+  };
+
+  const handleRowClick = (ig_username) => {
+    setGroupedRows(new Map(groupedRows).set(ig_username, {
+      ...groupedRows.get(ig_username),
+      showDetails: !groupedRows.get(ig_username).showDetails
+    }));
+  };
+
+  const renderRows = () => {
+    const rowsToRender = [];
+    groupedRows.forEach((value, key) => {
+      if (inputText === '' || key.toLowerCase().includes(inputText.toLowerCase())) {
+        rowsToRender.push(value.data[0]);
+        if (value.showDetails) {
+          value.data.slice(1).forEach(row => rowsToRender.push(row));
+        }
+      }
+    });
+    return rowsToRender;
   };
 
   useEffect(() => {
@@ -379,6 +435,24 @@ export default function DataTable() {
                 )}
               </ButtonBase>
             </Tooltip>
+            <Tooltip title={allRowsWrapped ? 'Déplier tous les joueurs' : 'Replier tous les joueurs'}>
+              <ButtonBase
+                disabled
+                onClick={() => handleWrapAllRows()}
+                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] bg-[#353535] text-white`}>
+                {allRowsWrapped ? (
+                  <Icon
+                    height={20}
+                    width={20}
+                    icon='fluent:text-wrap-16-filled' />
+                ) : (
+                  <Icon
+                    height={20}
+                    width={20}
+                    icon='fluent:text-wrap-off-16-filled' />
+                )}
+              </ButtonBase>
+            </Tooltip>
           </div>
           <div>
             <ButtonBase
@@ -402,14 +476,10 @@ export default function DataTable() {
         </div>
         <DataGrid
           disableSelectionOnClick
+          disableColumnSelector
           className='bg-[#212121] mb-4'
-          rows={rows.filter((row) => {
-            if (inputText === '') {
-              return row;
-            } else if (row.ig_username.toLowerCase().includes(inputText)) {
-              return row;
-            }
-          })}
+          rows={renderRows()}
+          onRowClick={(param) => handleRowClick(param.row.ig_username)}
           columns={columns}
           localeText={
             router.locale === 'fr'
