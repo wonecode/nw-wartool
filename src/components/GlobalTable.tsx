@@ -102,22 +102,36 @@ export default function DataTable() {
       headerName: t('global-table:ig_username'),
       width: 200,
       renderCell: (params) => {
-        const usernamesReccurence = rows.filter((row) => row.ig_username === params.value);
-        const firstIteration = usernamesReccurence.findIndex((row) => row.id === params.row.id) === 0;
+        const usernamesReccurence = rows.filter(
+          (row) => row.ig_username === params.value
+        );
+        const firstIteration =
+          usernamesReccurence.findIndex((row) => row.id === params.row.id) ===
+          0;
 
         return (
-          <div className='flex items-center gap-2'>
-          <Typography className={`text-sm ${usernamesReccurence.length > 1 && !firstIteration && 'text-white/70'}`}>{params.value}</Typography>
-          {usernamesReccurence.length > 1 && firstIteration && (
-            <div className='bg-white/20 text-xs rounded-full text-white h-5 w-5 flex items-center justify-center font-bold'>
-              {usernamesReccurence.length}
-            </div>
-          )}
-        </div>
-        )
+          <div className="flex items-center gap-2">
+            <Typography
+              className={`text-sm ${
+                usernamesReccurence.length > 1 &&
+                !firstIteration &&
+                'text-white/70'
+              }`}
+            >
+              {params.value}
+            </Typography>
+            {usernamesReccurence.length > 1 && firstIteration && (
+              <div className="bg-white/20 text-xs rounded-full text-white h-5 w-5 flex items-center justify-center font-bold">
+                {usernamesReccurence.length}
+              </div>
+            )}
+          </div>
+        );
       },
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -131,29 +145,52 @@ export default function DataTable() {
         let renderGS: JSX.Element;
 
         if (gs <= 640) {
-          return <Typography className='text-sm font-semibold text-pink-500'>{gs}</Typography>;
+          return (
+            <Typography className="text-sm font-semibold text-pink-500">
+              {gs}
+            </Typography>
+          );
         } else if (gs <= 655) {
-          return <Typography className='text-sm font-semibold text-green-500'>{gs}</Typography>;
+          return (
+            <Typography className="text-sm font-semibold text-green-500">
+              {gs}
+            </Typography>
+          );
         } else if (gs <= 690) {
-          return <Typography className='text-sm font-semibold text-purple-500'>{gs}</Typography>;
+          return (
+            <Typography className="text-sm font-semibold text-purple-500">
+              {gs}
+            </Typography>
+          );
         } else if (gs < 695) {
-          return <Typography className='text-sm font-semibold text-cyan-500'>{gs}</Typography>;
+          return (
+            <Typography className="text-sm font-semibold text-cyan-500">
+              {gs}
+            </Typography>
+          );
         } else if (gs >= 695) {
           return (
             <Typography
-              className='text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 
-            from-orange-500 via-amber-300 to-orange-500 animate-text'>
+              className="text-sm font-semibold bg-gradient-to-r bg-clip-text  text-transparent 
+            from-orange-500 via-amber-300 to-orange-500 animate-text"
+            >
               {gs}
             </Typography>
           );
         } else if (gs <= 625) {
-          return <Typography className='text-sm font-semibold text-red-500'>{gs}</Typography>;
+          return (
+            <Typography className="text-sm font-semibold text-red-500">
+              {gs}
+            </Typography>
+          );
         }
 
         return renderGS;
       },
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -161,10 +198,16 @@ export default function DataTable() {
       headerName: t('global-table:class_type'),
       width: 140,
       renderCell: (params) => (
-        <Chip locale={router.locale} label={params.value} status={params.value} />
+        <Chip
+          locale={router.locale}
+          label={params.value}
+          status={params.value}
+        />
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -172,7 +215,7 @@ export default function DataTable() {
       headerName: t('global-table:first_weapon'),
       width: 180,
       renderCell: (params) => (
-        <Box display='flex items-center'>
+        <Box display="flex items-center">
           <Icon
             icon={
               router.locale === 'fr'
@@ -181,9 +224,9 @@ export default function DataTable() {
             }
             width={18}
             height={18}
-            className='mr-2'
+            className="mr-2"
           />
-          <Typography className='text-sm'>
+          <Typography className="text-sm">
             {router.locale === 'fr'
               ? frWeaponsLabels[params.value].label
               : enWeaponsLabels[params.value].label}
@@ -191,7 +234,9 @@ export default function DataTable() {
         </Box>
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -199,7 +244,7 @@ export default function DataTable() {
       headerName: t('global-table:second_weapon'),
       width: 180,
       renderCell: (params) => (
-        <Box display='flex items-center'>
+        <Box display="flex items-center">
           <Icon
             icon={
               router.locale === 'fr'
@@ -208,9 +253,9 @@ export default function DataTable() {
             }
             width={18}
             height={18}
-            className='mr-2'
+            className="mr-2"
           />
-          <Typography className='text-sm'>
+          <Typography className="text-sm">
             {router.locale === 'fr'
               ? frWeaponsLabels[params.value].label
               : enWeaponsLabels[params.value].label}
@@ -218,7 +263,9 @@ export default function DataTable() {
         </Box>
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -226,7 +273,7 @@ export default function DataTable() {
       headerName: t('global-table:heartrune'),
       width: 180,
       renderCell: (params) => (
-        <Box display='flex items-center'>
+        <Box display="flex items-center">
           <Icon
             icon={
               router.locale === 'fr'
@@ -235,9 +282,9 @@ export default function DataTable() {
             }
             width={18}
             height={18}
-            className='mr-2'
+            className="mr-2"
           />
-          <Typography className='text-sm'>
+          <Typography className="text-sm">
             {router.locale === 'fr'
               ? frHeartruneLabels[params.value]?.label
               : enHeartruneLabels[params.value]?.label}
@@ -245,7 +292,9 @@ export default function DataTable() {
         </Box>
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -253,10 +302,16 @@ export default function DataTable() {
       headerName: 'Stuff',
       width: 140,
       renderCell: (params) => (
-        <Chip locale={router.locale} status={params.value} label={params.value} />
+        <Chip
+          locale={router.locale}
+          status={params.value}
+          label={params.value}
+        />
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -265,17 +320,23 @@ export default function DataTable() {
       width: 200,
       renderCell: (params) => {
         if (params.value === null) {
-          return <Typography className='text-sm'>-</Typography>;
+          return <Typography className="text-sm">-</Typography>;
         }
         return (
-          <div className='flex items-center gap-2'>
-            <div className={`rounded-full h-3 w-3 ${factionColors[params.value.faction]}`} />
-            <Typography className='text-sm'>{params.value.name}</Typography>
+          <div className="flex items-center gap-2">
+            <div
+              className={`rounded-full h-3 w-3 ${
+                factionColors[params.value.faction]
+              }`}
+            />
+            <Typography className="text-sm">{params.value.name}</Typography>
           </div>
         );
       },
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -283,10 +344,16 @@ export default function DataTable() {
       headerName: 'Faction',
       width: 150,
       renderCell: (params) => (
-        <Chip locale={router.locale} status={params.value} label={params.value} />
+        <Chip
+          locale={router.locale}
+          status={params.value}
+          label={params.value}
+        />
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -295,16 +362,24 @@ export default function DataTable() {
       width: 200,
       renderCell: (params) => (
         <ButtonBase
-          className='flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm text-ellipsis'
+          className="flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm text-ellipsis"
           onClick={() => {
             copyDiscord(params.value);
-          }}>
-          <Icon icon='ic:baseline-discord' className='mr-1' height={17} width={17} />
-          <Typography className='text-[11px]'>{params.value}</Typography>
+          }}
+        >
+          <Icon
+            icon="ic:baseline-discord"
+            className="mr-1"
+            height={17}
+            width={17}
+          />
+          <Typography className="text-[11px]">{params.value}</Typography>
         </ButtonBase>
       ),
       renderHeader: (params) => (
-        <Typography className='text-sm font-bold'>{params.colDef.headerName}</Typography>
+        <Typography className="text-sm font-bold">
+          {params.colDef.headerName}
+        </Typography>
       ),
     },
     {
@@ -312,18 +387,21 @@ export default function DataTable() {
       headerName: 'Actions',
       width: 130,
       renderCell: (params) => (
-        <ButtonBase className='flex items-center cursor-pointer p-1 rounded' onClick={() => handleEditPlayer(params.row)}>
-          <Icon icon='iconamoon:edit' height={20} width={20} />
+        <ButtonBase
+          className="flex items-center cursor-pointer p-1 rounded"
+          onClick={() => handleEditPlayer(params.row)}
+        >
+          <Icon icon="iconamoon:edit" height={20} width={20} />
         </ButtonBase>
       ),
-    }
+    },
   ];
 
   const fetchPlayers = async () => {
     const { data, error } = await supabase
       .from('players')
       .select(
-        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(id, created_at, name, faction), faction, discord',
+        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(id, created_at, name, faction), faction, discord'
       )
       .order('ig_username', { ascending: true });
 
@@ -340,7 +418,7 @@ export default function DataTable() {
 
   const updateGroupedRows = (playersData) => {
     const grouped = new Map();
-    playersData.forEach(player => {
+    playersData.forEach((player) => {
       if (!grouped.has(player.ig_username)) {
         grouped.set(player.ig_username, { data: [player], showDetails: false });
       } else {
@@ -351,19 +429,24 @@ export default function DataTable() {
   };
 
   const handleRowClick = (ig_username) => {
-    setGroupedRows(new Map(groupedRows).set(ig_username, {
-      ...groupedRows.get(ig_username),
-      showDetails: !groupedRows.get(ig_username).showDetails
-    }));
+    setGroupedRows(
+      new Map(groupedRows).set(ig_username, {
+        ...groupedRows.get(ig_username),
+        showDetails: !groupedRows.get(ig_username).showDetails,
+      })
+    );
   };
 
   const renderRows = () => {
     const rowsToRender = [];
     groupedRows.forEach((value, key) => {
-      if (inputText === '' || key.toLowerCase().includes(inputText.toLowerCase())) {
+      if (
+        inputText === '' ||
+        key.toLowerCase().includes(inputText.toLowerCase())
+      ) {
         rowsToRender.push(value.data[0]);
         if (value.showDetails) {
-          value.data.slice(1).forEach(row => rowsToRender.push(row));
+          value.data.slice(1).forEach((row) => rowsToRender.push(row));
         }
       }
     });
@@ -391,7 +474,10 @@ export default function DataTable() {
 
   return (
     <>
-      <GuildModal isOpen={guildModalOpen} handleClose={() => setGuildModalOpen(false)} />
+      <GuildModal
+        isOpen={guildModalOpen}
+        handleClose={() => setGuildModalOpen(false)}
+      />
       <PlayerModal
         isOpen={playerModalOpen}
         handleClose={handleClosePlayerModal}
@@ -400,56 +486,68 @@ export default function DataTable() {
         playerData={selectedPlayerEdit}
       />
 
-      <div className='m-5' style={{ height: '76vh' }}>
-        <div className='flex items-center mb-5 justify-between'>
-          <div className='flex items-center'>
+      <div className="m-5" style={{ height: '76vh' }}>
+        <div className="flex items-center mb-5 justify-between">
+          <div className="flex items-center">
             <Typography className={`uppercase font-black text-2xl mr-5`}>
               {t('common:players-list')}
             </Typography>
             <Search>
               <SearchIconWrapper>
-                <SearchIcon className='w-5' />
+                <SearchIcon className="w-5" />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder={t('global-table:find-player')}
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={inputHandler}
-                className='text-sm'
+                className="text-sm"
               />
             </Search>
-            <Tooltip title='Rafraîchir'>
+            <Tooltip title="Rafraîchir">
               <ButtonBase
                 disabled={fetchClicked}
                 onClick={() => handleRefresh()}
-                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] ${fetchClicked ? 'bg-[#353535]/70 text-green-500' : 'bg-[#353535] text-white'}`}>
+                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] ${
+                  fetchClicked
+                    ? 'bg-[#353535]/70 text-green-500'
+                    : 'bg-[#353535] text-white'
+                }`}
+              >
                 {fetchClicked ? (
-                  <Icon
-                    height={20}
-                    width={20}
-                    icon='material-symbols:check' />
+                  <Icon height={20} width={20} icon="material-symbols:check" />
                 ) : (
                   <Icon
                     height={20}
                     width={20}
-                    icon='material-symbols:refresh' />
+                    icon="material-symbols:refresh"
+                  />
                 )}
               </ButtonBase>
             </Tooltip>
-            <Tooltip title={allRowsWrapped ? 'Déplier tous les joueurs' : 'Replier tous les joueurs'}>
+            <Tooltip
+              title={
+                allRowsWrapped
+                  ? 'Déplier tous les joueurs'
+                  : 'Replier tous les joueurs'
+              }
+            >
               <ButtonBase
                 disabled
                 onClick={() => handleWrapAllRows()}
-                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] bg-[#353535] text-white`}>
+                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] bg-[#353535] text-white disabled:bg-[#353535]/60`}
+              >
                 {allRowsWrapped ? (
                   <Icon
                     height={20}
                     width={20}
-                    icon='fluent:text-wrap-16-filled' />
+                    icon="fluent:text-wrap-16-filled"
+                  />
                 ) : (
                   <Icon
                     height={20}
                     width={20}
-                    icon='fluent:text-wrap-off-16-filled' />
+                    icon="fluent:text-wrap-off-16-filled"
+                  />
                 )}
               </ButtonBase>
             </Tooltip>
@@ -457,19 +555,26 @@ export default function DataTable() {
           <div>
             <ButtonBase
               onClick={() => setPlayerModalOpen(true)}
-              className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mr-2'>
+              className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mr-2"
+            >
               <Icon
                 height={20}
                 width={20}
-                icon='material-symbols:person-add-rounded'
-                className='mr-3'
+                icon="material-symbols:person-add-rounded"
+                className="mr-3"
               />
               {t('global-table:add-player')}
             </ButtonBase>
             <ButtonBase
               onClick={() => setGuildModalOpen(true)}
-              className='font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black'>
-              <Icon height={20} width={20} icon='mdi:people-group' className='mr-3' />
+              className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black"
+            >
+              <Icon
+                height={20}
+                width={20}
+                icon="mdi:people-group"
+                className="mr-3"
+              />
               {t('global-table:add-guild')}
             </ButtonBase>
           </div>
@@ -477,7 +582,7 @@ export default function DataTable() {
         <DataGrid
           disableSelectionOnClick
           disableColumnSelector
-          className='bg-[#212121] mb-4'
+          className="bg-[#212121] mb-4"
           rows={renderRows()}
           onRowClick={(param) => handleRowClick(param.row.ig_username)}
           columns={columns}

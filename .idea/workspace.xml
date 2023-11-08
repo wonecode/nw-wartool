@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="461f30ca-bb16-4387-b452-28ce91663328" name="Changes" comment="update player feature">
-      <change afterPath="$PROJECT_DIR$/public/assets/logo.png" afterDir="false" />
+    <list default="true" id="461f30ca-bb16-4387-b452-28ce91663328" name="Changes" comment="group players feature">
+      <change afterPath="$PROJECT_DIR$/src/components/LoginModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/staff/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/GlobalTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/hello.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supabase.js" beforeDir="false" afterPath="$PROJECT_DIR$/supabase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +63,8 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\wonez\\WebstormProjects\\nw-wartool\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\wonez\\WebstormProjects\\nw-wartool\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -86,6 +93,10 @@
       <workItem from="1698656200443" duration="861000" />
       <workItem from="1698756483384" duration="8129000" />
       <workItem from="1698919717861" duration="4823000" />
+      <workItem from="1699030450631" duration="179000" />
+      <workItem from="1699096285052" duration="7513000" />
+      <workItem from="1699208969578" duration="4890000" />
+      <workItem from="1699264886697" duration="2611000" />
     </task>
     <task id="LOCAL-00001" summary="added classes counter">
       <option name="closed" value="true" />
@@ -127,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698765309247</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="group players feature">
+      <option name="closed" value="true" />
+      <created>1699030608515</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699030608515</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,6 +172,7 @@
     <MESSAGE value="added support class type" />
     <MESSAGE value="some minor updates" />
     <MESSAGE value="update player feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="update player feature" />
+    <MESSAGE value="group players feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="group players feature" />
   </component>
 </project>
