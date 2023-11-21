@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid, GridColDef, frFR, enUS } from '@mui/x-data-grid';
-import { Box, ButtonBase, Typography, InputBase, Tooltip } from '@mui/material';
+import { DataGrid, enUS, frFR, GridColDef } from '@mui/x-data-grid';
+import { Box, ButtonBase, InputBase, Tooltip, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { toast } from 'react-toastify';
 import Chip from './Chip';
-import GuildModal from './GuildModal';
 import Footer from './Footer';
 import { supabase } from 'supabase';
 import PlayerModal from './PlayerModal';
-import { frWeaponsLabels, enWeaponsLabels } from 'utils/weapons';
+import { enWeaponsLabels, frWeaponsLabels } from 'utils/weapons';
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { enHeartruneLabels, frHeartruneLabels } from '../../utils/heartrunes';
+import ManageBuildsModal from '@/components/ManageBuildsModal';
 
 const factionColors = {
   syndicate: 'bg-violet-500',
@@ -51,33 +51,39 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const copyDiscord = (username: string) => {
-  toast.success('Copié dans le presse papier', {
-    position: 'top-right',
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: 'colored',
-    style: {
-      fontFamily: 'Montserrat',
-      fontSize: '0.8rem',
-    },
-  });
-  navigator.clipboard.writeText(username);
+const copyDiscord = async (username: string) => {
+  try {
+    await navigator.clipboard.writeText(username);
+
+    toast.success('Copié dans le presse papier', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      style: {
+        fontFamily: 'Montserrat',
+        fontSize: '0.8rem',
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default function DataTable() {
-  const [guildModalOpen, setGuildModalOpen] = useState(false);
   const [playerModalOpen, setPlayerModalOpen] = useState(false);
+  const [buildsModalOpen, setBuildsModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
   const [fetchClicked, setFetchClicked] = useState(false);
   const [selectedPlayerEdit, setSelectedPlayerEdit] = useState(null);
-  const [groupedRows, setGroupedRows] = useState(new Map());
-  const [allRowsWrapped, setAllRowsWrapped] = useState(true);
+  const [uniquePlayersCount, setUniquePlayersCount] = useState(0);
+  const [user, setUser] = useState(null);
+  const [player, setPlayer] = useState(null);
 
   const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
@@ -92,39 +98,17 @@ export default function DataTable() {
     }, 5000);
   };
 
-  const handleWrapAllRows = () => {
-    setAllRowsWrapped(!allRowsWrapped);
-  };
-
   const columns: GridColDef[] = [
     {
       field: 'ig_username',
       headerName: t('global-table:ig_username'),
       width: 200,
       renderCell: (params) => {
-        const usernamesReccurence = rows.filter(
-          (row) => row.ig_username === params.value
-        );
-        const firstIteration =
-          usernamesReccurence.findIndex((row) => row.id === params.row.id) ===
-          0;
-
         return (
           <div className="flex items-center gap-2">
-            <Typography
-              className={`text-sm ${
-                usernamesReccurence.length > 1 &&
-                !firstIteration &&
-                'text-white/70'
-              }`}
-            >
-              {params.value}
+            <Typography className={`text-sm`}>
+              {params.row.player.ig_username}
             </Typography>
-            {usernamesReccurence.length > 1 && firstIteration && (
-              <div className="bg-white/20 text-xs rounded-full text-white h-5 w-5 flex items-center justify-center font-bold">
-                {usernamesReccurence.length}
-              </div>
-            )}
           </div>
         );
       },
@@ -319,37 +303,22 @@ export default function DataTable() {
       headerName: t('global-table:guild'),
       width: 200,
       renderCell: (params) => {
-        if (params.value === null) {
+        if (params.row.player.guild === null) {
           return <Typography className="text-sm">-</Typography>;
         }
         return (
           <div className="flex items-center gap-2">
             <div
               className={`rounded-full h-3 w-3 ${
-                factionColors[params.value.faction]
+                factionColors[params.row.player.guild.faction]
               }`}
             />
-            <Typography className="text-sm">{params.value.name}</Typography>
+            <Typography className="text-sm">
+              {params.row.player.guild.name}
+            </Typography>
           </div>
         );
       },
-      renderHeader: (params) => (
-        <Typography className="text-sm font-bold">
-          {params.colDef.headerName}
-        </Typography>
-      ),
-    },
-    {
-      field: 'faction',
-      headerName: 'Faction',
-      width: 150,
-      renderCell: (params) => (
-        <Chip
-          locale={router.locale}
-          status={params.value}
-          label={params.value}
-        />
-      ),
       renderHeader: (params) => (
         <Typography className="text-sm font-bold">
           {params.colDef.headerName}
@@ -362,9 +331,9 @@ export default function DataTable() {
       width: 200,
       renderCell: (params) => (
         <ButtonBase
-          className="flex items-center cursor-pointer bg-[#5865F2] py-1 px-2 rounded-sm text-ellipsis"
+          className="flex items-center cursor-pointer bg-[#5865F2]/70 hover:bg-[#5865F2]/90 py-1 px-2 rounded-full text-ellipsis"
           onClick={() => {
-            copyDiscord(params.value);
+            copyDiscord(params.row.player.discord);
           }}
         >
           <Icon
@@ -373,7 +342,9 @@ export default function DataTable() {
             height={17}
             width={17}
           />
-          <Typography className="text-[11px]">{params.value}</Typography>
+          <Typography className="text-[11px]">
+            {params.row.player.discord}
+          </Typography>
         </ButtonBase>
       ),
       renderHeader: (params) => (
@@ -399,66 +370,43 @@ export default function DataTable() {
 
   const fetchPlayers = async () => {
     const { data, error } = await supabase
-      .from('players')
+      .from('builds')
       .select(
-        'id, ig_username, gearscore, class_type, first_weapon, second_weapon, heartrune, stuff, guild:guild_id(id, created_at, name, faction), faction, discord'
-      )
-      .order('ig_username', { ascending: true });
+        'id, class_type, first_weapon, second_weapon, heartrune, stuff, player:player_id(id, ig_username, discord, guild:guild_id(id, name, faction)), gearscore'
+      );
 
     if (error) {
       console.log(error);
     } else {
-      setRows(data);
-    }
+      const sortedData = data.sort((a, b) => {
+        return a.player.ig_username
+          .toLowerCase()
+          .localeCompare(b.player.ig_username.toLowerCase());
+      });
 
-    if (data) {
-      updateGroupedRows(data);
-    }
-  };
+      setRows(sortedData);
 
-  const updateGroupedRows = (playersData) => {
-    const grouped = new Map();
-    playersData.forEach((player) => {
-      if (!grouped.has(player.ig_username)) {
-        grouped.set(player.ig_username, { data: [player], showDetails: false });
-      } else {
-        grouped.get(player.ig_username).data.push(player);
-      }
-    });
-    setGroupedRows(grouped);
-  };
+      let uniquePlayers = [];
 
-  const handleRowClick = (ig_username) => {
-    setGroupedRows(
-      new Map(groupedRows).set(ig_username, {
-        ...groupedRows.get(ig_username),
-        showDetails: !groupedRows.get(ig_username).showDetails,
-      })
-    );
-  };
+      sortedData.forEach((row) => {
+        const { ig_username } = row.player;
 
-  const renderRows = () => {
-    const rowsToRender = [];
-    groupedRows.forEach((value, key) => {
-      if (
-        inputText === '' ||
-        key.toLowerCase().includes(inputText.toLowerCase())
-      ) {
-        rowsToRender.push(value.data[0]);
-        if (value.showDetails) {
-          value.data.slice(1).forEach((row) => rowsToRender.push(row));
+        if (!uniquePlayers.includes(ig_username)) {
+          uniquePlayers.push(ig_username);
         }
-      }
-    });
-    return rowsToRender;
+      });
+
+      setUniquePlayersCount(uniquePlayers.length);
+    }
   };
 
   useEffect(() => {
     fetchPlayers();
+    getUser();
   }, []);
 
   const inputHandler = (e) => {
-    var lowerCase = e.target.value.toLowerCase();
+    const lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
   };
 
@@ -472,18 +420,36 @@ export default function DataTable() {
     setPlayerModalOpen(false);
   };
 
+  const getUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data: player } = await supabase
+      .from('players_duplicate')
+      .select('id, ig_username, discord, guild:guild_id(id, name, faction)')
+      .eq('auth_id', user.id);
+
+    setUser(user);
+    setPlayer(player[0]);
+  };
+
   return (
     <>
-      <GuildModal
-        isOpen={guildModalOpen}
-        handleClose={() => setGuildModalOpen(false)}
-      />
       <PlayerModal
         isOpen={playerModalOpen}
         handleClose={handleClosePlayerModal}
         rows={rows}
+        player={player}
         handleRows={(values) => setRows(values)}
         playerData={selectedPlayerEdit}
+      />
+
+      <ManageBuildsModal
+        handleClose={() => setBuildsModalOpen(false)}
+        isOpen={buildsModalOpen}
+        user={user}
+        handleAddPlayer={() => setPlayerModalOpen(true)}
       />
 
       <div className="m-5" style={{ height: '76vh' }}>
@@ -524,67 +490,45 @@ export default function DataTable() {
                 )}
               </ButtonBase>
             </Tooltip>
-            <Tooltip
-              title={
-                allRowsWrapped
-                  ? 'Déplier tous les joueurs'
-                  : 'Replier tous les joueurs'
-              }
-            >
+            <Typography className="text-sm font-medium flex items-center gap-2 ml-6">
+              <Icon icon={`mdi:account-multiple`} className="w-5 h-5" />
+              <div>
+                <span className="font-bold mr-1">{uniquePlayersCount}</span>
+                joueurs uniques
+              </div>
+            </Typography>
+          </div>
+
+          {user && (
+            <div>
               <ButtonBase
-                disabled
-                onClick={() => handleWrapAllRows()}
-                className={`font-bold text-sm px-4 py-[8px] rounded ml-2 hover:bg-[#454545] bg-[#353535] text-white disabled:bg-[#353535]/60`}
+                onClick={() => setBuildsModalOpen(true)}
+                className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black"
               >
-                {allRowsWrapped ? (
-                  <Icon
-                    height={20}
-                    width={20}
-                    icon="fluent:text-wrap-16-filled"
-                  />
-                ) : (
-                  <Icon
-                    height={20}
-                    width={20}
-                    icon="fluent:text-wrap-off-16-filled"
-                  />
-                )}
+                <Icon
+                  height={20}
+                  width={20}
+                  icon="charm:swords"
+                  className="mr-3"
+                />
+                {t('global-table:manage-builds')}
               </ButtonBase>
-            </Tooltip>
-          </div>
-          <div>
-            <ButtonBase
-              onClick={() => setPlayerModalOpen(true)}
-              className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black mr-2"
-            >
-              <Icon
-                height={20}
-                width={20}
-                icon="material-symbols:person-add-rounded"
-                className="mr-3"
-              />
-              {t('global-table:add-player')}
-            </ButtonBase>
-            <ButtonBase
-              onClick={() => setGuildModalOpen(true)}
-              className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black"
-            >
-              <Icon
-                height={20}
-                width={20}
-                icon="mdi:people-group"
-                className="mr-3"
-              />
-              {t('global-table:add-guild')}
-            </ButtonBase>
-          </div>
+            </div>
+          )}
         </div>
         <DataGrid
           disableSelectionOnClick
           disableColumnSelector
-          className="bg-[#212121] mb-4"
-          rows={renderRows()}
-          onRowClick={(param) => handleRowClick(param.row.ig_username)}
+          className="bg-[#212121] mb-4 border-none rounded-md"
+          rows={rows.filter((row) => {
+            if (inputText === '') {
+              return row;
+            } else if (
+              row.player.ig_username.toLowerCase().includes(inputText)
+            ) {
+              return row;
+            }
+          })}
           columns={columns}
           localeText={
             router.locale === 'fr'

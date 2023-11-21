@@ -5,13 +5,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { ButtonBase } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
-import { signIn } from 'next-auth/react';
 import { supabase } from '../../supabase';
 
 const LoginModal = ({ isOpen, handleClose }) => {
   const login = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'discord',
+      options: {
+        redirectTo:
+          process.env.NODE_ENV === 'production'
+            ? 'https://nw-wartool.vercel.app'
+            : 'http://192.168.1.11:3000',
+      },
     });
   };
 

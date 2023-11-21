@@ -253,13 +253,11 @@ const Navbar = () => {
                   </Menu>
                 </>
               ) : (
-                <Tooltip title="Connexion">
-                  <button onClick={() => setOpenLoginModal(true)}>
-                    <IconButton color="inherit">
-                      <Icon icon="tabler:login" width={22} height={22} />
-                    </IconButton>
-                  </button>
-                </Tooltip>
+                <ButtonBase onClick={() => setOpenLoginModal(true)}>
+                  <Typography className={`text-[13px] uppercase font-bold`}>
+                    Connexion
+                  </Typography>
+                </ButtonBase>
               )}
             </div>
           </Toolbar>

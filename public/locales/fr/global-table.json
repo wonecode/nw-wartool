@@ -1,7 +1,8 @@
 {
   "find-player": "Chercher un joueur",
-  "add-player": "Ajouter un joueur",
+  "manage-builds": "Gérer vos builds",
   "add-guild": "Ajouter une guilde",
+  "add-build": "Ajouter un build",
   "ig_username": "Pseudo IG",
   "class_type": "Type de classe",
   "first_weapon": "Première arme",
@@ -9,9 +10,9 @@
   "heartrune": "Rune-cœur",
   "guild": "Guilde",
   "player-modal": {
-    "add_title": "Ajouter un joueur",
-    "add_subtitle": "Afin d'ajouter un joueur à la database, veuillez remplir les champs suivants.",
-    "edit_title": "Modifier un joueur",
+    "add_title": "Ajouter un nouveau build",
+    "add_subtitle": "Afin d'ajouter un nouveau build à la database, veuillez remplir les champs suivants.",
+    "edit_title": "Modifier un build",
     "edit_subtitle": "Modifiez les champs que vous souhaitez mettre à jour.",
     "ig_username": "Pseudo IG",
     "ig_username_error": "Veuillez renseigner le pseudo IG",

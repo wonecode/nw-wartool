@@ -6,23 +6,20 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { appWithTranslation } from 'next-i18next';
 import { HydrationProvider, Client } from 'react-hydration-provider';
-import { SessionProvider } from "next-auth/react"
 
-function App({ Component, pageProps: { session, ...pageProps }, }) {
+function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <HydrationProvider>
       <Client>
-        <SessionProvider session={session}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-            <ToastContainer
-              style={{
-               fontFamily: 'Montserrat',
-             }}
-            />
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+          <ToastContainer
+            style={{
+              fontFamily: 'Montserrat',
+            }}
+          />
+        </ThemeProvider>
       </Client>
     </HydrationProvider>
   );
