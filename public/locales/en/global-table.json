@@ -1,6 +1,10 @@
 {
   "find-player": "Find a player",
   "manage-builds": "Manage your builds",
+  "manage-builds-description": "You can add, edit or delete your builds here",
+  "manage-user-information": "Manage your informations",
+  "manage-user-information-description": "You can edit your player informations here",
+  "unique-players": "unique players",
   "add-build": "Add a build",
   "add-guild": "Add a guild",
   "ig_username": "IG username",
@@ -8,7 +12,7 @@
   "first_weapon": "First weapon",
   "second_weapon": "Second weapon",
   "heartrune": "Heartrune",
-  "guild": "Guild",
+  "guild": "Company",
   "player-modal": {
     "add_title": "Add a new build",
     "add_subtitle": "To add a new build to the database, please fill in the following fields.",

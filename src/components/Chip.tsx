@@ -25,7 +25,7 @@ const frCleanLabel = {
   bruiser: 'Bruiser',
   heal: 'Heal',
   support: 'Support',
-}
+};
 
 const enCleanLabel = {
   light: 'Light',
@@ -38,12 +38,12 @@ const enCleanLabel = {
   bruiser: 'Bruiser',
   heal: 'Heal',
   support: 'Support',
-}
+};
 
 const Chip = ({ label, status, locale }) => {
   return (
     <div className={`h-5 items-center px-3 rounded-xl ${colorStatus[status]}`}>
-      <Typography className='text-[13px] font-semibold text-black leading-5'>
+      <Typography className="text-[13px] font-semibold text-black leading-5">
         {locale === 'fr' ? frCleanLabel[status] : enCleanLabel[status]}
       </Typography>
     </div>

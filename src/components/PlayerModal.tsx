@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -10,8 +9,6 @@ import { Icon } from '@iconify/react';
 import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
-  Autocomplete,
-  Box,
   ButtonBase,
   FormControl,
   FormControlLabel,
@@ -22,11 +19,9 @@ import {
   RadioGroup,
   Select,
   Slider,
-  Typography,
 } from '@mui/material';
 import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
@@ -35,15 +30,17 @@ const PlayerModal = ({
   isOpen,
   rows,
   handleRows,
-  playerData,
+  build,
   player,
+  handleNewEntry,
 }: {
   handleClose: () => void;
   isOpen: boolean;
-  rows: any;
-  handleRows: (rows: any) => void;
-  playerData?: any;
+  rows?: any;
+  handleRows?: (rows: any) => void;
+  build?: any;
   player?: any;
+  handleNewEntry?: (newEntry: any, update?: boolean) => void;
 }) => {
   const [guilds, setGuilds] = React.useState([]);
   const [selectedGuild, setSelectedGuild] = React.useState({});
@@ -215,13 +212,15 @@ const PlayerModal = ({
   const addPlayer = async (values) => {
     values.id = uuidv4();
 
+    console.log(player);
+
     const { error } = await supabase.from('builds').insert({
       ...values,
       player_id: player.id,
     });
 
     if (!error) {
-      toast.success(`Le joueur ${values.ig_username} a bien été ajouté`, {
+      toast.success(`Le build a bien été ajouté`, {
         position: 'top-right',
         autoClose: 4000,
         hideProgressBar: false,
@@ -248,16 +247,27 @@ const PlayerModal = ({
           stuff: values.stuff,
           player: {
             ig_username: player.ig_username,
-            guild: player.guild.name,
+            guild: player.guild,
             discord: player.discord,
+            avatar_url: player.avatar_url,
           },
         },
       ]);
 
+      handleNewEntry({
+        id: values.id,
+        class_type: values.class_type,
+        gearscore: values.gearscore,
+        first_weapon: values.first_weapon,
+        second_weapon: values.second_weapon,
+        heartrune: values.heartrune,
+        stuff: values.stuff,
+      });
+
       handleClose();
       formik.resetForm();
     } else {
-      toast.error(`Une errreur est survenue lors de l'ajout du joueur`, {
+      toast.error(`Une erreur est survenue lors de l'ajout du build`, {
         position: 'top-right',
         autoClose: 4000,
         hideProgressBar: false,
@@ -278,10 +288,10 @@ const PlayerModal = ({
     const { error } = await supabase
       .from('builds')
       .update(values)
-      .eq('id', playerData.id);
+      .eq('id', build.id);
 
     if (!error) {
-      toast.success(`Votre build a bien été modifié`, {
+      toast.success(`Le build a bien été modifié`, {
         position: 'top-right',
         autoClose: 4000,
         hideProgressBar: false,
@@ -301,6 +311,19 @@ const PlayerModal = ({
       );
 
       handleRows(updatedRows);
+
+      handleNewEntry(
+        {
+          id: values.id,
+          class_type: values.class_type,
+          gearscore: values.gearscore,
+          first_weapon: values.first_weapon,
+          second_weapon: values.second_weapon,
+          heartrune: values.heartrune,
+          stuff: values.stuff,
+        },
+        true
+      );
 
       handleClose();
       formik.resetForm();
@@ -340,19 +363,19 @@ const PlayerModal = ({
   React.useEffect(() => {
     fetchGuilds();
 
-    if (playerData) {
-      setFieldValue('id', playerData.id);
-      setFieldValue('class_type', playerData.class_type);
-      setFieldValue('gearscore', playerData.gearscore);
-      setFieldValue('first_weapon', playerData.first_weapon);
-      setFieldValue('second_weapon', playerData.second_weapon);
-      setFieldValue('heartrune', playerData.heartrune);
-      setFieldValue('stuff', playerData.stuff);
+    if (build) {
+      setFieldValue('id', build.id);
+      setFieldValue('class_type', build.class_type);
+      setFieldValue('gearscore', build.gearscore);
+      setFieldValue('first_weapon', build.first_weapon);
+      setFieldValue('second_weapon', build.second_weapon);
+      setFieldValue('heartrune', build.heartrune);
+      setFieldValue('stuff', build.stuff);
     }
-  }, [playerData]);
+  }, [build]);
 
   React.useEffect(() => {
-    if (isOpen && !playerData) {
+    if (isOpen && !build) {
       formik.resetForm();
     }
   }, [isOpen]);
@@ -362,13 +385,13 @@ const PlayerModal = ({
       <Dialog open={isOpen} onClose={handleClose} fullWidth>
         <DialogTitle className="flex items-center">
           <Icon height={25} width={25} icon="charm:swords" className="mr-3" />
-          {playerData
+          {build
             ? t('global-table:player-modal:edit_title')
             : t('global-table:player-modal:add_title')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {playerData
+            {build
               ? t('global-table:player-modal:edit_subtitle')
               : t('global-table:player-modal:add_subtitle')}
           </DialogContentText>
@@ -567,7 +590,7 @@ const PlayerModal = ({
           </ButtonBase>
           <ButtonBase
             type="submit"
-            onClick={() => (playerData ? editPlayer(values) : handleSubmit())}
+            onClick={() => (build ? editPlayer(values) : handleSubmit())}
             className="font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black"
           >
             <Icon

@@ -15,7 +15,7 @@ const LoginModal = ({ isOpen, handleClose }) => {
         redirectTo:
           process.env.NODE_ENV === 'production'
             ? 'https://nw-wartool.vercel.app'
-            : 'http://192.168.1.11:3000',
+            : 'http://localhost:3000',
       },
     });
   };

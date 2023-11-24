@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import Chip from './Chip';
 import Footer from './Footer';
 import { supabase } from 'supabase';
-import PlayerModal from './PlayerModal';
 import { enWeaponsLabels, frWeaponsLabels } from 'utils/weapons';
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
@@ -14,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { enHeartruneLabels, frHeartruneLabels } from '../../utils/heartrunes';
 import ManageBuildsModal from '@/components/ManageBuildsModal';
+import ManageUserSettings from '@/components/ManageUserSettings';
+import Image from 'next/image';
 
 const factionColors = {
   syndicate: 'bg-violet-500',
@@ -75,15 +76,14 @@ const copyDiscord = async (username: string) => {
 };
 
 export default function DataTable() {
-  const [playerModalOpen, setPlayerModalOpen] = useState(false);
   const [buildsModalOpen, setBuildsModalOpen] = useState(false);
+  const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
   const [inputText, setInputText] = useState('');
   const [fetchClicked, setFetchClicked] = useState(false);
-  const [selectedPlayerEdit, setSelectedPlayerEdit] = useState(null);
   const [uniquePlayersCount, setUniquePlayersCount] = useState(0);
   const [user, setUser] = useState(null);
-  const [player, setPlayer] = useState(null);
+  const [isPlayerRegistered, setIsPlayerRegistered] = useState(false);
 
   const { t } = useTranslation(['common', 'global-table']);
   const router = useRouter();
@@ -106,7 +106,16 @@ export default function DataTable() {
       renderCell: (params) => {
         return (
           <div className="flex items-center gap-2">
-            <Typography className={`text-sm`}>
+            {params.row.player.avatar_url && (
+              <Image
+                src={params.row.player.avatar_url}
+                alt="avatar"
+                width={22}
+                className="object-cover rounded-full"
+                height={22}
+              />
+            )}
+            <Typography className={`text-sm font-medium`}>
               {params.row.player.ig_username}
             </Typography>
           </div>
@@ -353,35 +362,27 @@ export default function DataTable() {
         </Typography>
       ),
     },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 130,
-      renderCell: (params) => (
-        <ButtonBase
-          className="flex items-center cursor-pointer p-1 rounded"
-          onClick={() => handleEditPlayer(params.row)}
-        >
-          <Icon icon="iconamoon:edit" height={20} width={20} />
-        </ButtonBase>
-      ),
-    },
   ];
 
   const fetchPlayers = async () => {
     const { data, error } = await supabase
       .from('builds')
       .select(
-        'id, class_type, first_weapon, second_weapon, heartrune, stuff, player:player_id(id, ig_username, discord, guild:guild_id(id, name, faction)), gearscore'
+        'id, class_type, first_weapon, second_weapon, heartrune, stuff, player:player_id(id, ig_username, discord, avatar_url, guild:guild_id(id, name, faction)), gearscore'
       );
 
     if (error) {
       console.log(error);
     } else {
       const sortedData = data.sort((a, b) => {
-        return a.player.ig_username
-          .toLowerCase()
-          .localeCompare(b.player.ig_username.toLowerCase());
+        // @ts-ignore
+        return (
+          // @ts-ignore
+          a.player.ig_username
+            .toLowerCase()
+            // @ts-ignore
+            .localeCompare(b.player.ig_username.toLowerCase())
+        );
       });
 
       setRows(sortedData);
@@ -389,6 +390,7 @@ export default function DataTable() {
       let uniquePlayers = [];
 
       sortedData.forEach((row) => {
+        // @ts-ignore
         const { ig_username } = row.player;
 
         if (!uniquePlayers.includes(ig_username)) {
@@ -403,21 +405,17 @@ export default function DataTable() {
   useEffect(() => {
     fetchPlayers();
     getUser();
-  }, []);
+  }, [isPlayerRegistered]);
+
+  useEffect(() => {
+    if (user) {
+      getPlayerRegistered();
+    }
+  }, [user]);
 
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
-  };
-
-  const handleEditPlayer = (playerData: any) => {
-    setSelectedPlayerEdit(playerData);
-    setPlayerModalOpen(true);
-  };
-
-  const handleClosePlayerModal = () => {
-    setSelectedPlayerEdit(null);
-    setPlayerModalOpen(false);
   };
 
   const getUser = async () => {
@@ -425,31 +423,37 @@ export default function DataTable() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const { data: player } = await supabase
+    setUser(user);
+  };
+
+  const getPlayerRegistered = async () => {
+    const { data } = await supabase
       .from('players_duplicate')
-      .select('id, ig_username, discord, guild:guild_id(id, name, faction)')
+      .select('id, ig_username, discord')
       .eq('auth_id', user.id);
 
-    setUser(user);
-    setPlayer(player[0]);
+    if (data.length > 0) {
+      setIsPlayerRegistered(true);
+    }
   };
 
   return (
     <>
-      <PlayerModal
-        isOpen={playerModalOpen}
-        handleClose={handleClosePlayerModal}
-        rows={rows}
-        player={player}
-        handleRows={(values) => setRows(values)}
-        playerData={selectedPlayerEdit}
-      />
-
       <ManageBuildsModal
         handleClose={() => setBuildsModalOpen(false)}
         isOpen={buildsModalOpen}
         user={user}
-        handleAddPlayer={() => setPlayerModalOpen(true)}
+        rows={rows}
+        handleRows={(values) => setRows(values)}
+      />
+
+      <ManageUserSettings
+        isOpen={userInfoModalOpen}
+        handleClose={() => setUserInfoModalOpen(false)}
+        user={user}
+        rows={rows}
+        handleRows={(values) => setRows(values)}
+        handlePlayerRegistered={() => setIsPlayerRegistered(true)}
       />
 
       <div className="m-5" style={{ height: '76vh' }}>
@@ -494,16 +498,29 @@ export default function DataTable() {
               <Icon icon={`mdi:account-multiple`} className="w-5 h-5" />
               <div>
                 <span className="font-bold mr-1">{uniquePlayersCount}</span>
-                joueurs uniques
+                {t('global-table:unique-players')}
               </div>
             </Typography>
           </div>
 
           {user && (
-            <div>
+            <div className="space-x-2">
               <ButtonBase
-                onClick={() => setBuildsModalOpen(true)}
+                onClick={() => setUserInfoModalOpen(true)}
                 className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black"
+              >
+                <Icon
+                  height={20}
+                  width={20}
+                  icon="iconamoon:settings"
+                  className="mr-3"
+                />
+                {t('global-table:manage-user-information')}
+              </ButtonBase>
+              <ButtonBase
+                disabled={!isPlayerRegistered}
+                onClick={() => setBuildsModalOpen(true)}
+                className="font-bold text-sm px-4 py-1 rounded-sm bg-slate-100 text-black disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Icon
                   height={20}

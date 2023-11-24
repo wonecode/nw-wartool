@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="461f30ca-bb16-4387-b452-28ce91663328" name="Changes" comment="group players feature">
-      <change afterPath="$PROJECT_DIR$/src/components/ManageBuildsModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ManageUserSettings.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/locales/en/global-table.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/locales/en/global-table.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/locales/fr/global-table.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/locales/fr/global-table.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Chip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Chip.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/GlobalTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/LoginModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ManageBuildsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ManageBuildsModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/PlayerModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PlayerModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +41,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -56,15 +60,15 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/Users/lochlainn/Documents/nw-wartool",
+    "last_opened_file_path": "/Users/lochlainn/Documents/Dev Perso/nw-wartool",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
-    "prettierjs.PrettierConfiguration.Package": "/Users/lochlainn/Documents/nw-wartool/node_modules/prettier",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "/Users/lochlainn/Documents/nw-wartool/node_modules/typescript/lib",
+    "prettierjs.PrettierConfiguration.Package": "/Users/lochlainn/Documents/Dev Perso/nw-wartool/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/lochlainn/Documents/Dev Perso/nw-wartool/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -98,6 +102,10 @@
       <workItem from="1699264886697" duration="2611000" />
       <workItem from="1699442296309" duration="111000" />
       <workItem from="1699442418165" duration="31056000" />
+      <workItem from="1700574538586" duration="715000" />
+      <workItem from="1700578368767" duration="306000" />
+      <workItem from="1700649606315" duration="2150000" />
+      <workItem from="1700654544386" duration="23858000" />
     </task>
     <task id="LOCAL-00001" summary="added classes counter">
       <option name="closed" value="true" />

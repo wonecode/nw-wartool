@@ -11,9 +11,9 @@ import {
   ButtonBase,
   Chip,
   IconButton,
-  Tooltip,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/router';
@@ -57,6 +57,7 @@ const Navbar = () => {
   const logOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    window.location.reload();
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -95,7 +96,7 @@ const Navbar = () => {
               >
                 GuildTool
                 <Chip
-                  label="BETA"
+                  label="v1.0"
                   className="text-[10px] ml-2 font-bold"
                   size="small"
                 />

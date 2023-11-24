@@ -1,6 +1,10 @@
 {
   "find-player": "Chercher un joueur",
-  "manage-builds": "Gérer vos builds",
+  "manage-builds": "Gérer tes builds",
+  "manage-builds-description": "Tu peux ajouter, modifier ou supprimer tes builds ici",
+  "manage-user-information": "Gérer tes informations",
+  "manage-user-information-description": "Tu peux modifier tes informations de joueur ici",
+  "unique-players": "joueurs uniques",
   "add-guild": "Ajouter une guilde",
   "add-build": "Ajouter un build",
   "ig_username": "Pseudo IG",
@@ -8,7 +12,7 @@
   "first_weapon": "Première arme",
   "second_weapon": "Deuxième arme",
   "heartrune": "Rune-cœur",
-  "guild": "Guilde",
+  "guild": "Compagnie",
   "player-modal": {
     "add_title": "Ajouter un nouveau build",
     "add_subtitle": "Afin d'ajouter un nouveau build à la database, veuillez remplir les champs suivants.",
