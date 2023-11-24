@@ -12,14 +12,12 @@ import * as Yup from 'yup';
 import {
   ButtonBase,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
 import { supabase } from '../../supabase';
 import { toast } from 'react-toastify';
-import { factions } from 'utils/factions';
 import { useTranslation } from 'react-i18next';
 
 interface Guild {
@@ -27,7 +25,13 @@ interface Guild {
   faction: string;
 }
 
-const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: boolean }) => {
+const GuildModal = ({
+  handleClose,
+  isOpen,
+}: {
+  handleClose: () => void;
+  isOpen: boolean;
+}) => {
   const { t } = useTranslation(['global-table']);
 
   const GuildSchema = Yup.object().shape({
@@ -46,7 +50,15 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
     },
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, values, setFieldValue, setErrors } = formik;
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    getFieldProps,
+    values,
+    setFieldValue,
+    setErrors,
+  } = formik;
 
   const addGuild = async (guild: Guild) => {
     let name = guild.name.trim();
@@ -77,7 +89,7 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
       } else if (error.code === '23505') {
         setErrors({
           name: 'Cette guilde est déjà enregistrée',
-        })
+        });
       } else {
         toast.error(`Une errreur est survenue lors de l'ajout de la guilde`, {
           position: 'top-right',
@@ -100,51 +112,67 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
   return (
     <div>
       <Dialog open={isOpen} onClose={handleClose} fullWidth>
-        <DialogTitle className='flex items-center'>
-          <Icon height={25} width={25} icon='mdi:people-group' className='mr-3' />
+        <DialogTitle className="flex items-center">
+          <Icon
+            height={25}
+            width={25}
+            icon="mdi:people-group"
+            className="mr-3"
+          />
           {t('global-table:guild-modal:title')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{t('global-table:guild-modal:subtitle')}</DialogContentText>
+          <DialogContentText>
+            {t('global-table:guild-modal:subtitle')}
+          </DialogContentText>
           <FormikProvider value={formik}>
-            <Form autoComplete='off' noValidate onSubmit={handleSubmit} className='mt-5'>
-              <FormLabel id='radio-buttons-group-label' className='font-bold text-md'>
+            <Form
+              autoComplete="off"
+              noValidate
+              onSubmit={handleSubmit}
+              className="mt-5"
+            >
+              <FormLabel
+                id="radio-buttons-group-label"
+                className="font-bold text-md"
+              >
                 Faction
               </FormLabel>
               <RadioGroup
                 row
-                aria-labelledby='radio-buttons-group-label'
+                aria-labelledby="radio-buttons-group-label"
                 name={'radio-group-factions'}
                 value={values.faction}
                 onChange={(event) => {
                   setFieldValue('faction', event.currentTarget.value);
-                }}>
+                }}
+              >
                 <FormControlLabel
-                  value='marauders'
-                  control={<Radio size='small' />}
+                  value="marauders"
+                  control={<Radio size="small" />}
                   label={t('global-table:faction:marauders')}
                 />
                 <FormControlLabel
-                  value='syndicate'
-                  control={<Radio size='small' />}
+                  value="syndicate"
+                  control={<Radio size="small" />}
                   label={t('global-table:faction:syndicate')}
                 />
                 <FormControlLabel
-                  value='covenant'
-                  control={<Radio size='small' />}
+                  value="covenant"
+                  control={<Radio size="small" />}
                   label={t('global-table:faction:covenant')}
                 />
               </RadioGroup>
               <TextField
                 autoFocus
-                margin='dense'
-                id='guild-name'
+                margin="dense"
+                id="guild-name"
                 label={t('global-table:guild-modal:guild_name')}
-                type='string'
-                className='mt-3'
+                type="string"
+                className="mt-3"
                 fullWidth
-                variant='filled'
-                size='small'
+                variant="filled"
+                size="small"
                 {...getFieldProps('name')}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
@@ -152,18 +180,30 @@ const GuildModal = ({ handleClose, isOpen }: { handleClose: () => void; isOpen: 
             </Form>
           </FormikProvider>
         </DialogContent>
-        <DialogActions className='m-4 mt-2'>
+        <DialogActions className="m-4 mt-2">
           <ButtonBase
             onClick={handleClose}
-            className='font-bold text-sm px-4 py-1 rounded-sm bg-red-300 text-black'>
-            <Icon height={20} width={20} icon='mdi:close-thick' className='mr-3' />
+            className="font-bold text-sm px-4 py-1 rounded-sm bg-red-300 text-black"
+          >
+            <Icon
+              height={20}
+              width={20}
+              icon="mdi:close-thick"
+              className="mr-3"
+            />
             {t('global-table:guild-modal:close')}
           </ButtonBase>
           <ButtonBase
-            type='submit'
+            type="submit"
             onClick={() => handleSubmit()}
-            className='font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black'>
-            <Icon height={20} width={20} icon='ic:outline-save-alt' className='mr-3' />
+            className="font-bold text-sm px-4 py-1 rounded-sm bg-green-300 text-black"
+          >
+            <Icon
+              height={20}
+              width={20}
+              icon="ic:outline-save-alt"
+              className="mr-3"
+            />
             {t('global-table:guild-modal:save')}
           </ButtonBase>
         </DialogActions>

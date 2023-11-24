@@ -136,7 +136,10 @@ const ManageBuildsModal = ({ isOpen, handleClose, user, rows, handleRows }) => {
 
           <div className="flex flex-col mt-5 gap-2 min-w-[600px]">
             {builds.map((build) => (
-              <div className="flex items-center justify-between bg-black/50 rounded p-3">
+              <div
+                key={build.id}
+                className="flex items-center justify-between bg-black/50 rounded p-3"
+              >
                 <div className="flex items-center gap-3">
                   <p className="font-medium text-yellow-500">
                     {build.gearscore}
