@@ -11,8 +11,14 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { supabase } from 'supabase';
-import { frWeaponsLabels, enWeaponsLabels } from 'utils/weapons';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, LayoutPosition } from 'chart.js';
+import { enWeaponsLabels, frWeaponsLabels } from 'utils/weapons';
+import {
+  ArcElement,
+  Chart as ChartJS,
+  LayoutPosition,
+  Legend,
+  Tooltip,
+} from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +36,8 @@ const MostPlayedWeapons = () => {
   const [secondWeapons, setsecondWeapons] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [guilds, setGuilds] = React.useState([]);
-  const [selectedGuild, setSelectedGuild] = React.useState('BlackTown');
+  const [selectedGuild, setSelectedGuild] =
+    React.useState('Toutes les guildes');
   const router = useRouter();
 
   const { t } = useTranslation(['common', 'stats']);
@@ -38,20 +45,32 @@ const MostPlayedWeapons = () => {
   const pieFirstWeaponData = {
     labels:
       router.locale === 'fr'
-        ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].label)
-        : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].label),
+        ? Object.keys(firstWeapons).map(
+            (weapon) => frWeaponsLabels[weapon].label
+          )
+        : Object.keys(firstWeapons).map(
+            (weapon) => enWeaponsLabels[weapon].label
+          ),
     datasets: [
       {
         label: router.locale === 'fr' ? 'Nombre de joueurs' : 'Players number',
         data: Object.values(firstWeapons),
         backgroundColor:
           router.locale === 'fr'
-            ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].backgroundColor)
-            : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].backgroundColor),
+            ? Object.keys(firstWeapons).map(
+                (weapon) => frWeaponsLabels[weapon].backgroundColor
+              )
+            : Object.keys(firstWeapons).map(
+                (weapon) => enWeaponsLabels[weapon].backgroundColor
+              ),
         borderColor:
           router.locale === 'fr'
-            ? Object.keys(firstWeapons).map((weapon) => frWeaponsLabels[weapon].borderColor)
-            : Object.keys(firstWeapons).map((weapon) => enWeaponsLabels[weapon].borderColor),
+            ? Object.keys(firstWeapons).map(
+                (weapon) => frWeaponsLabels[weapon].borderColor
+              )
+            : Object.keys(firstWeapons).map(
+                (weapon) => enWeaponsLabels[weapon].borderColor
+              ),
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -66,20 +85,32 @@ const MostPlayedWeapons = () => {
   const pieSecondWeaponData = {
     labels:
       router.locale === 'fr'
-        ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].label)
-        : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].label),
+        ? Object.keys(secondWeapons).map(
+            (weapon) => frWeaponsLabels[weapon].label
+          )
+        : Object.keys(secondWeapons).map(
+            (weapon) => enWeaponsLabels[weapon].label
+          ),
     datasets: [
       {
         label: router.locale === 'fr' ? 'Nombre de joueurs' : 'Players number',
         data: Object.values(secondWeapons),
         backgroundColor:
           router.locale === 'fr'
-            ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].backgroundColor)
-            : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].backgroundColor),
+            ? Object.keys(secondWeapons).map(
+                (weapon) => frWeaponsLabels[weapon].backgroundColor
+              )
+            : Object.keys(secondWeapons).map(
+                (weapon) => enWeaponsLabels[weapon].backgroundColor
+              ),
         borderColor:
           router.locale === 'fr'
-            ? Object.keys(secondWeapons).map((weapon) => frWeaponsLabels[weapon].borderColor)
-            : Object.keys(secondWeapons).map((weapon) => enWeaponsLabels[weapon].borderColor),
+            ? Object.keys(secondWeapons).map(
+                (weapon) => frWeaponsLabels[weapon].borderColor
+              )
+            : Object.keys(secondWeapons).map(
+                (weapon) => enWeaponsLabels[weapon].borderColor
+              ),
         borderWidth: 1,
         hoverOffset: 4,
       },
@@ -102,7 +133,9 @@ const MostPlayedWeapons = () => {
 
   React.useEffect(() => {
     const fetchGuilds = async () => {
-      const { data } = await supabase.from('guilds').select(`id, name, faction, players(*)`);
+      const { data } = await supabase
+        .from('guilds')
+        .select(`id, name, faction, players(*)`);
 
       setGuilds(data);
     };
@@ -164,7 +197,10 @@ const MostPlayedWeapons = () => {
     };
 
     const selectRequest = async () => {
-      if (selectedGuild !== 'Toutes les guildes' && selectedGuild !== 'All guilds') {
+      if (
+        selectedGuild !== 'Toutes les guildes' &&
+        selectedGuild !== 'All guilds'
+      ) {
         const { data } = await supabase
           .from('guilds')
           .select('*, players(*)')
@@ -172,7 +208,7 @@ const MostPlayedWeapons = () => {
 
         fetchWeapons(data[0]?.players);
       } else {
-        const { data } = await supabase.from('players').select('*');
+        const { data } = await supabase.from('builds').select('*');
 
         fetchWeapons(data);
       }
@@ -201,21 +237,22 @@ const MostPlayedWeapons = () => {
 
   return (
     <>
-      <Box className='flex justify-between items-center'>
-        <Typography className='uppercase font-black mr-4 text-2xl'>
+      <Box className="flex justify-between items-center">
+        <Typography className="uppercase font-black mr-4 text-2xl">
           {t('common:stats')}
-          <span className='font-light'> • {t('stats:title')}</span>
+          <span className="font-light"> • {t('stats:title')}</span>
         </Typography>
 
-        <FormControl size='small' className={`w-[20%]`}>
-          <InputLabel id='guild-label'>{t('stats:filter_by_guild')}</InputLabel>
+        <FormControl size="small" className={`w-[20%]`}>
+          <InputLabel id="guild-label">{t('stats:filter_by_guild')}</InputLabel>
           <Select
             label={t('stats:filter_by_guild')}
-            labelId='guild-label'
-            id='guild'
+            labelId="guild-label"
+            id="guild"
             value={selectedGuild}
-            onChange={(e) => setSelectedGuild(e.target.value)}>
-            <MenuItem value='Toutes les guildes' className='italic'>
+            onChange={(e) => setSelectedGuild(e.target.value)}
+          >
+            <MenuItem value="Toutes les guildes" className="italic">
               {t('stats:all_guilds')}
             </MenuItem>
             {guilds.map(
@@ -224,8 +261,13 @@ const MostPlayedWeapons = () => {
                   <MenuItem
                     key={guild.name}
                     value={guild.name}
-                    color={`${factionColors[guild.faction]}`}>
-                    <span className={`w-3 h-3 rounded-xl mr-2 ${factionColors[guild.faction]}`} />
+                    color={`${factionColors[guild.faction]}`}
+                  >
+                    <span
+                      className={`w-3 h-3 rounded-xl mr-2 ${
+                        factionColors[guild.faction]
+                      }`}
+                    />
                     {guild.name}
                   </MenuItem>
                 )
@@ -234,46 +276,72 @@ const MostPlayedWeapons = () => {
         </FormControl>
       </Box>
 
-        <Box className='flex items-center gap-2 mt-4'>
-          {Object.keys(classes).map((classType, i) => (
-              <Box key={i} className={`text-center text-slate-900 rounded min-w-[200px] py-3 ${classType === 'dps' ? 'bg-gradient-to-r from-red-400 to-red-500' : classType === 'heal' ? 'bg-gradient-to-r from-green-400 to-green-500' : classType === 'support' ? 'bg-gradient-to-r from-blue-400 to-blue-500' : 'bg-gradient-to-r from-yellow-400 to-yellow-500'}`}>
-                <Box className={`flex items-center justify-center`}>
-                  <Typography className='font-black text-[40px] mt-0 text-slate-900 leading-none'>
-                    {classes[classType]}
-                  </Typography>
-                  <Icon icon={classType === 'dps' ? 'ph:sword-bold' : classType === 'heal' ? 'mdi:magic-staff' : classType === 'support' ? 'fa-solid:shield-alt' : 'game-icons:thor-hammer'} className='text-3xl ml-3' />
-                </Box>
-                <Box>
-                  <Typography className='text-slate-900 font-bold'>
-                    {classType === 'dps' ? 'DPS' : classType.slice(0, 1).toUpperCase() + classType.slice(1)}
-                  </Typography>
-                </Box>
-              </Box>
-          ))}
-        </Box>
+      <Box className="flex items-center gap-2 mt-4">
+        {Object.keys(classes).map((classType, i) => (
+          <Box
+            key={i}
+            className={`text-center text-slate-900 rounded min-w-[200px] py-3 ${
+              classType === 'dps'
+                ? 'bg-gradient-to-r from-red-400 to-red-500'
+                : classType === 'heal'
+                ? 'bg-gradient-to-r from-green-400 to-green-500'
+                : classType === 'support'
+                ? 'bg-gradient-to-r from-blue-400 to-blue-500'
+                : 'bg-gradient-to-r from-yellow-400 to-yellow-500'
+            }`}
+          >
+            <Box className={`flex items-center justify-center`}>
+              <Typography className="font-black text-[40px] mt-0 text-slate-900 leading-none">
+                {classes[classType]}
+              </Typography>
+              <Icon
+                icon={
+                  classType === 'dps'
+                    ? 'ph:sword-bold'
+                    : classType === 'heal'
+                    ? 'mdi:magic-staff'
+                    : classType === 'support'
+                    ? 'fa-solid:shield-alt'
+                    : 'game-icons:thor-hammer'
+                }
+                className="text-3xl ml-3"
+              />
+            </Box>
+            <Box>
+              <Typography className="text-slate-900 font-bold">
+                {classType === 'dps'
+                  ? 'DPS'
+                  : classType.slice(0, 1).toUpperCase() + classType.slice(1)}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+      </Box>
 
-      <Paper className='p-3 mt-3 rounded-md'>
-        <Box className='flex'>
-          <Box className='w-full text-center'>
-            <Typography className='uppercase font-bold text-yellow-400 my-2'>
+      <Paper className="p-3 mt-3 rounded-md">
+        <Box className="flex">
+          <Box className="w-full text-center">
+            <Typography className="uppercase font-bold text-yellow-400 my-2">
               {t('stats:first_weapon')}
             </Typography>
-            <Box className='flex items-center justify-center'>
+            <Box className="flex items-center justify-center">
               {top3FirstWeapons.map((weapon) => (
-                <Box key={weapon[0]} className='text-center mx-4'>
-                  <Box className='flex items-center justify-center'>
-                    <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
+                <Box key={weapon[0]} className="text-center mx-4">
+                  <Box className="flex items-center justify-center">
+                    <Typography className="font-black text-[40px] mt-0">
+                      {weapon[1]}
+                    </Typography>
                     <Icon
                       icon={
                         router.locale === 'fr'
                           ? frWeaponsLabels[weapon[0]].icon
                           : enWeaponsLabels[weapon[0]].icon
                       }
-                      className='text-3xl ml-3'
+                      className="text-3xl ml-3"
                     />
                   </Box>
                   <Box>
-                    <Typography className='text-sm font-light text-gray-400'>
+                    <Typography className="text-sm font-light text-gray-400">
                       {router.locale === 'fr'
                         ? frWeaponsLabels[weapon[0]].label
                         : enWeaponsLabels[weapon[0]].label}
@@ -283,31 +351,37 @@ const MostPlayedWeapons = () => {
               ))}
             </Box>
 
-            <div className='w-1/2 mx-auto'>
-              <Pie data={pieFirstWeaponData} options={pieceOptions} lang={router.locale} />
+            <div className="w-1/2 mx-auto">
+              <Pie
+                data={pieFirstWeaponData}
+                options={pieceOptions}
+                lang={router.locale}
+              />
             </div>
           </Box>
-          <Divider orientation='vertical' flexItem />
-          <Box className='w-full text-center'>
-            <Typography className='uppercase font-bold text-yellow-400 my-2'>
+          <Divider orientation="vertical" flexItem />
+          <Box className="w-full text-center">
+            <Typography className="uppercase font-bold text-yellow-400 my-2">
               {t('stats:second_weapon')}
             </Typography>
-            <Box className='flex items-center justify-center'>
+            <Box className="flex items-center justify-center">
               {top3SecondWeapons.map((weapon) => (
-                <Box key={weapon[0]} className='text-center mx-4'>
-                  <Box className='flex items-center justify-center'>
-                    <Typography className='font-black text-[40px] mt-0'>{weapon[1]}</Typography>
+                <Box key={weapon[0]} className="text-center mx-4">
+                  <Box className="flex items-center justify-center">
+                    <Typography className="font-black text-[40px] mt-0">
+                      {weapon[1]}
+                    </Typography>
                     <Icon
                       icon={
                         router.locale === 'fr'
                           ? frWeaponsLabels[weapon[0]].icon
                           : enWeaponsLabels[weapon[0]].icon
                       }
-                      className='text-3xl ml-3'
+                      className="text-3xl ml-3"
                     />
                   </Box>
                   <Box>
-                    <Typography className='text-sm font-light text-gray-400'>
+                    <Typography className="text-sm font-light text-gray-400">
                       {router.locale === 'fr'
                         ? frWeaponsLabels[weapon[0]].label
                         : enWeaponsLabels[weapon[0]].label}
@@ -317,8 +391,12 @@ const MostPlayedWeapons = () => {
               ))}
             </Box>
 
-            <div className='w-1/2 mx-auto'>
-              <Pie data={pieSecondWeaponData} options={pieceOptions} lang={router.locale} />
+            <div className="w-1/2 mx-auto">
+              <Pie
+                data={pieSecondWeaponData}
+                options={pieceOptions}
+                lang={router.locale}
+              />
             </div>
           </Box>
         </Box>
